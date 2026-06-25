@@ -73,8 +73,9 @@ def main():
 
         real_path = os.path.realpath(file_path)
 
-        if not os.path.exists(dst):
-            os.symlink(real_path, dst)
+        if os.path.exists(dst):
+          os.remove(dst)
+        os.symlink(real_path, dst)
 
         print(f"Linked {real_path} -> {dst}")
 

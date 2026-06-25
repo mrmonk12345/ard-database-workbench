@@ -64,14 +64,10 @@ def main():
     if not rows:
         sys.exit("ERROR: no files found")
 
-    seen = set()
     count = 0
 
     for analysis_unit_id, fwd, rev in rows:
 
-        if analysis_unit_id in seen:
-            continue
-        seen.add(analysis_unit_id)
 
         fwd_src = os.path.join(args.files_dir, fwd)
         rev_src = os.path.join(args.files_dir, rev)
@@ -86,11 +82,17 @@ def main():
 
 
         # create symlinks
-        if not os.path.exists(fwd_dest):
-            os.symlink(fwd_src, fwd_dest)
 
-        if not os.path.exists(rev_dest):
-            os.symlink(rev_src, rev_dest)
+        if os.path.exists(fwd_dest):
+          os.remove(fwd_dest)
+        
+        os.symlink(fwd_src, fwd_dest)
+
+
+        if os.path.exists(rev_dest):
+          os.remove(rev_dest)
+        
+        os.symlink(rev_src, rev_dest)
 
         count += 1
 

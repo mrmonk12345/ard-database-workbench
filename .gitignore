@@ -6,3 +6,5 @@ raw_reads_projects/
 progress.log
 project_id_12.txt
 reminder.txt
+.env
+.nfs*

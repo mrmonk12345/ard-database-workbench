@@ -1,16 +1,20 @@
 #!/bin/bash
 
 # --- load environment variables ---
+#set -a
+#source /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/.env
+#set +a
+
 set -a
-source /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/.env
+source $PWD/.env
 set +a
 
-echo "WORKING_DIRECTORY=$WORKING_DIRECTORY"
+echo "WORKING_DIRECTORY=$WORKING_DIRECTORY_PATH"
 
 
 # --- parameters ---
-dataset_id=2
-pipeline_name="2"
+dataset_id=3
+pipeline_name="3"
 
 echo "dataset_id: $dataset_id"
 echo "pipeline_name: $pipeline_name"
