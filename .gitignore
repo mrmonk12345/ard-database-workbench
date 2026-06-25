@@ -1,0 +1,8 @@
+analysis_datasets/
+analysis_files/
+articles/
+pipeline_runs/
+raw_reads_projects/
+progress.log
+project_id_12.txt
+reminder.txt

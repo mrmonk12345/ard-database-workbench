@@ -1,0 +1,7 @@
+WORKING_DIRECTORY_PATH=/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/
+DATABASE_PATH=/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/final_ARD_projects_latest.db
+RAW_READS_PATH=/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/raw_reads_projects/
+ANALYSIS_FILES_PATH=/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/
+ANALYSIS_DATASETS_PATH=/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_datasets/
+PIPELINE_RUNS_PATH=/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/
+PYTHON_SCRIPTS_PATH=/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/scripts/python
