@@ -1,0 +1,11 @@
+name: database
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - mamba
+  - pandas
+  - pyqt6
+  - pyyaml
+prefix: /home/ARO.local/michaelr/.conda/envs/database

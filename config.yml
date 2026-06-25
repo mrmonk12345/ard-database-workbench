@@ -1,0 +1,8 @@
+paths:
+  working_directory: /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/
+  database: /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/final_ARD_projects_latest.db
+  raw_reads: /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/raw_reads_projects/
+  analysis_files: /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/analysis_files/
+  analysis_datasets: /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/analysis_datasets/
+  pipeline_runs: /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/pipeline_runs/
+  python_scripts: /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/scripts/python/
