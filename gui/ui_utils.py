@@ -71,30 +71,43 @@ def table_to_dicts(table):
 
     return data
 
+
 def create_matrix_table(
     rows_data,
     cols_data,
+    row_id_key,
     row_label_key,
-    col_label_key
+    col_id_key
 ):
     """
-    Create checkbox matrix table for many-to-many relationships.
+    Matrix table with:
+    sample_id | sample_label | amp_id columns
     """
 
-    table = QTableWidget(len(rows_data), len(cols_data) + 1)
+    # ✅ total columns:
+    # sample_id + sample_label + amplicons
+    table = QTableWidget(len(rows_data), len(cols_data) + 2)
 
-    # headers
-    headers = [""] + [str(col[col_label_key]) for col in cols_data]
+    # ✅ headers
+    headers = ["sample_id", "sample_label"] + [
+        str(col[col_id_key]) for col in cols_data
+    ]
     table.setHorizontalHeaderLabels(headers)
 
+    # ✅ fill rows
     for row_idx, row in enumerate(rows_data):
-        # left column (row label)
-        item = QTableWidgetItem(str(row[row_label_key]))
-        item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
-        table.setItem(row_idx, 0, item)
+        # sample_id column
+        id_item = QTableWidgetItem(str(row[row_id_key]))
+        id_item.setFlags(id_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+        table.setItem(row_idx, 0, id_item)
 
-        # checkbox cells
-        for col_idx, _ in enumerate(cols_data, start=1):
+        # sample_label column
+        label_item = QTableWidgetItem(str(row[row_label_key]))
+        label_item.setFlags(label_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+        table.setItem(row_idx, 1, label_item)
+
+        # checkbox columns
+        for col_idx, col in enumerate(cols_data, start=2):
             checkbox = QTableWidgetItem()
             checkbox.setFlags(
                 Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled
@@ -104,6 +117,7 @@ def create_matrix_table(
             table.setItem(row_idx, col_idx, checkbox)
 
     table.resizeColumnsToContents()
+
     return table
 
 def extract_matrix_selection(
