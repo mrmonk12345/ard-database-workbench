@@ -26,54 +26,54 @@ class ProjectAmpliconRunsWindow(QDialog):
         main_layout = QVBoxLayout()
         tabs = QTabWidget()
 
-        # ================================
-        # Sequencing Runs Tab
-        # ================================
-        seq = QWidget()
-        seq_layout = QVBoxLayout()
-
-        try:
-            all_runs = get_sequencing_runs()
-            project_runs = get_project_sequencing_runs(self.project_id)
-
-            # extract IDs
-            project_ids = set(project_runs["sequencing_run_id"].tolist())
-
-            seq_layout.addWidget(QLabel(f"Sequencing Runs ({len(all_runs)} rows)"))
-            seq_layout.addWidget(
-                create_table(all_runs, highlight_ids=project_ids, id_column="sequencing_run_id")
-            )
-
-        except Exception as e:
-            seq_layout.addWidget(QLabel(f"Error: {e}"))
-
-        seq.setLayout(seq_layout)
-
-        # ================================
-        # Amplicon Types Tab
-        # ================================
-        amp = QWidget()
-        amp_layout = QVBoxLayout()
-
-        try:
-            all_amp = get_amplicon_types()
-            project_amp = get_project_amplicon_types(self.project_id)
-
-            project_ids = set(project_amp["amplicon_type_id"].tolist())
-
-            amp_layout.addWidget(QLabel(f"Amplicon Types ({len(all_amp)} rows)"))
-            amp_layout.addWidget(
-                create_table(all_amp, highlight_ids=project_ids, id_column="amplicon_type_id")
-            )
-
-        except Exception as e:
-            amp_layout.addWidget(QLabel(f"Error: {e}"))
-
-        amp.setLayout(amp_layout)
-
         # Tabs
-        tabs.addTab(seq, "Sequencing Runs")
-        tabs.addTab(amp, "Amplicon Types")
+        tabs.addTab(
+            self._create_table_tab(
+                title="Sequencing Runs",
+                get_all_fn=get_sequencing_runs,
+                get_project_fn=get_project_sequencing_runs,
+                id_column="sequencing_run_id"
+            ),
+            "Sequencing Runs"
+        )
+
+        tabs.addTab(
+            self._create_table_tab(
+                title="Amplicon Types",
+                get_all_fn=get_amplicon_types,
+                get_project_fn=get_project_amplicon_types,
+                id_column="amplicon_type_id"
+            ),
+            "Amplicon Types"
+        )
 
         main_layout.addWidget(tabs)
         self.setLayout(main_layout)
+
+    # =====================
+    # Tab builder
+    # =====================
+
+    def _create_table_tab(self, title, get_all_fn, get_project_fn, id_column):
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+
+        try:
+            all_data = get_all_fn()
+            project_data = get_project_fn(self.project_id)
+
+            project_ids = set(project_data[id_column].tolist())
+
+            layout.addWidget(QLabel(f"{title} ({len(all_data)} rows)"))
+            layout.addWidget(
+                create_table(
+                    all_data,
+                    highlight_ids=project_ids,
+                    id_column=id_column
+                )
+            )
+
+        except Exception as e:
+            layout.addWidget(QLabel(f"Error: {e}"))
+
+        return tab

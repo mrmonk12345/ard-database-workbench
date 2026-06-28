@@ -10,6 +10,9 @@ from gui.project_sequencing_outputs_window import ProjectSequencingOutputsWindow
 from gui.project_libraries_window import ProjectLibrariesWindow
 from gui.project_analysis_units_window import ProjectAnalysisUnitsWindow
 
+from gui.project_samples_add_window import ProjectSamplesAddWindow
+from gui.project_libraries_add_window import ProjectLibrariesAddWindow
+
 from scripts.python.project_get_data import (
     get_project_sequencing_runs_count,
     get_project_amplicon_types_count,
@@ -19,9 +22,11 @@ from scripts.python.project_get_data import (
     get_project_analysis_units_count
 )
 
+
 class ProjectDataWindow(QDialog):
     def __init__(self, parent=None, project_id=None):
         super().__init__(parent)
+
         self.project_id = project_id
 
         self.setWindowTitle(f"Project Data - {self.project_id}")
@@ -29,54 +34,89 @@ class ProjectDataWindow(QDialog):
 
         layout = QVBoxLayout()
 
-        # ✅ TOP SIDE-BY-SIDE
+        # Load counts once
+        self.counts = self._load_counts()
+
+        # --- Top section ---
         top = QHBoxLayout()
-        top.addWidget(self.display_box("Sequencing Runs", str(get_project_sequencing_runs_count(self.project_id))))
-        top.addWidget(self.display_box("Amplicon Types", str(get_project_amplicon_types_count(self.project_id))))
+        top.addWidget(self._create_display_box("Sequencing Runs", self.counts["runs"]))
+        top.addWidget(self._create_display_box("Amplicon Types", self.counts["amplicon"]))
         layout.addLayout(top)
 
-        # ✅ ONE BUTTON FOR BOTH
+        # Combined button
         btn = QPushButton("View Sequencing Runs & Amplicon Types")
         btn.clicked.connect(self.open_runs_amplicon)
         layout.addWidget(btn)
 
-        # ✅ BELOW (individual)
-        layout.addWidget(self.box("Samples", str(get_project_samples_count(self.project_id)), ProjectSamplesWindow))
-        layout.addWidget(self.box("Sequencing Outputs", str(get_project_sequencing_outputs_count(self.project_id)), ProjectSequencingOutputsWindow))
-        layout.addWidget(self.box("Libraries", str(get_project_libraries_count(self.project_id)), ProjectLibrariesWindow))
-        layout.addWidget(self.box("Analysis Units", str(get_project_analysis_units_count(self.project_id)), ProjectAnalysisUnitsWindow))
+        # --- Remaining sections ---
+        layout.addWidget(self._create_action_box("Samples", self.counts["samples"], ProjectSamplesWindow, ProjectSamplesAddWindow))
+        layout.addWidget(self._create_action_box("Sequencing Outputs", self.counts["outputs"], ProjectSequencingOutputsWindow, None))
+        layout.addWidget(self._create_action_box("Libraries", self.counts["libraries"], ProjectLibrariesWindow, ProjectLibrariesAddWindow))
+        layout.addWidget(self._create_action_box("Analysis Units", self.counts["analysis_units"], ProjectAnalysisUnitsWindow, None))
 
         self.setLayout(layout)
 
-    def display_box(self, title, count):
-        box = QGroupBox(title)
-        l = QVBoxLayout()
+    # =====================
+    # Data
+    # =====================
 
-        lbl = QLabel(count)
+    def _load_counts(self):
+        return {
+            "runs": get_project_sequencing_runs_count(self.project_id),
+            "amplicon": get_project_amplicon_types_count(self.project_id),
+            "samples": get_project_samples_count(self.project_id),
+            "outputs": get_project_sequencing_outputs_count(self.project_id),
+            "libraries": get_project_libraries_count(self.project_id),
+            "analysis_units": get_project_analysis_units_count(self.project_id),
+        }
+
+    # =====================
+    # UI helpers
+    # =====================
+
+    def _create_count_label(self, count):
+        lbl = QLabel(str(count))
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         lbl.setStyleSheet("font-size: 24px; font-weight: bold;")
+        return lbl
 
-        l.addWidget(lbl)
-        box.setLayout(l)
+    def _create_display_box(self, title, count):
+        box = QGroupBox(title)
+        layout = QVBoxLayout()
+
+        layout.addWidget(self._create_count_label(count))
+        box.setLayout(layout)
 
         return box
 
-    def box(self, title, count, window_class):
+    def _create_action_box(self, title, count, view_cls, add_cls):
         box = QGroupBox(title)
-        l = QVBoxLayout()
+        layout = QVBoxLayout()
 
-        lbl = QLabel(count)
-        lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        lbl.setStyleSheet("font-size: 24px; font-weight: bold;")
+        layout.addWidget(self._create_count_label(count))
 
-        btn = QPushButton(f"Open {title}")
-        btn.clicked.connect(lambda: self.open_window(window_class))
+        # Button row
+        btn_layout = QHBoxLayout()
 
-        l.addWidget(lbl)
-        l.addWidget(btn)
-        box.setLayout(l)
+        # ✅ View button
+        view_btn = QPushButton(f"View {title}")
+        view_btn.clicked.connect(lambda _, cls=view_cls: self.open_window(cls))
+
+        # ✅ Add button
+        add_btn = QPushButton(f"Add {title}")
+        add_btn.clicked.connect(lambda _, cls=add_cls: self.open_window(cls))
+
+        btn_layout.addWidget(view_btn)
+        btn_layout.addWidget(add_btn)
+
+        layout.addLayout(btn_layout)
+        box.setLayout(layout)
 
         return box
+
+    # =====================
+    # Actions
+    # =====================
 
     def open_runs_amplicon(self):
         self.window = ProjectAmpliconRunsWindow(self, project_id=self.project_id)

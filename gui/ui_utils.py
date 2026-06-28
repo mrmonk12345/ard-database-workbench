@@ -32,3 +32,40 @@ def create_table(df, highlight_ids=None, id_column="id"):
     table.setSortingEnabled(True)
 
     return table
+
+def create_fillable_table(columns, rows=5):
+    table = QTableWidget(rows, len(columns))
+    table.setHorizontalHeaderLabels(columns)
+
+    # Fill cells with empty items so user can click immediately
+    for row in range(rows):
+        for col in range(len(columns)):
+            table.setItem(row, col, QTableWidgetItem(""))
+
+    return table
+
+def table_to_dicts(table):
+    """Convert QTableWidget to list of dicts (skip empty rows)."""
+    data = []
+
+    for row in range(table.rowCount()):
+        row_data = {}
+        is_empty = True
+
+        for col in range(table.columnCount()):
+            header_item = table.horizontalHeaderItem(col)
+            header = header_item.text() if header_item else f"col_{col}"
+
+            item = table.item(row, col)
+            value = item.text().strip() if item and item.text() else None
+
+            if value:
+                is_empty = False
+
+            row_data[header] = value
+
+        # ✅ skip completely empty rows
+        if not is_empty:
+            data.append(row_data)
+
+    return data
