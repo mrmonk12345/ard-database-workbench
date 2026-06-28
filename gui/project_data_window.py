@@ -49,9 +49,9 @@ class ProjectDataWindow(QDialog):
         layout.addWidget(btn)
 
         # --- Remaining sections ---
-        layout.addWidget(self._create_action_box("Samples", self.counts["samples"], ProjectSamplesWindow, ProjectSamplesAddWindow))
+        layout.addWidget(self._create_action_box("Samples", self.counts["samples"], ProjectSamplesWindow, None))
         layout.addWidget(self._create_action_box("Sequencing Outputs", self.counts["outputs"], ProjectSequencingOutputsWindow, None))
-        layout.addWidget(self._create_action_box("Libraries", self.counts["libraries"], ProjectLibrariesWindow, ProjectLibrariesAddWindow))
+        layout.addWidget(self._create_action_box("Libraries", self.counts["libraries"], ProjectLibrariesWindow, None))
         layout.addWidget(self._create_action_box("Analysis Units", self.counts["analysis_units"], ProjectAnalysisUnitsWindow, None))
 
         self.setLayout(layout)
@@ -102,12 +102,14 @@ class ProjectDataWindow(QDialog):
         view_btn = QPushButton(f"View {title}")
         view_btn.clicked.connect(lambda _, cls=view_cls: self.open_window(cls))
 
+        
         # ✅ Add button
         add_btn = QPushButton(f"Add {title}")
         add_btn.clicked.connect(lambda _, cls=add_cls: self.open_window(cls))
 
         btn_layout.addWidget(view_btn)
-        btn_layout.addWidget(add_btn)
+        if add_cls:
+            btn_layout.addWidget(add_btn)
 
         layout.addLayout(btn_layout)
         box.setLayout(layout)
