@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import (
 )
 
 from gui.project_data_window import ProjectDataWindow
-from scripts.python.db_get_data import get_projects
-
+from scripts.python.db_get_data import get_project_ids
+            
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -36,7 +36,7 @@ class MainWindow(QWidget):
         self.project_selector = QComboBox()
 
         # Get DataFrame
-        df = get_projects()
+        df = get_project_ids()
 
         if not df.empty:
             # Add items with ID stored as userData
