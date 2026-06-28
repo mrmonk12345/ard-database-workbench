@@ -15,7 +15,7 @@ class ProjectSamplesWindow(QDialog):
 
         try:
             samples = get_project_samples(self.project_id)
-
+            
             layout.addWidget(QLabel(f"Samples table ({len(samples)} rows)"))
             table = create_table(samples)
             layout.addWidget(table)

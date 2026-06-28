@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
 from PyQt6.QtGui import QColor, QFont
+from PyQt6.QtCore import Qt
 
 def create_table(df, highlight_ids=None, id_column="id"):
     table = QTableWidget()
@@ -32,3 +33,119 @@ def create_table(df, highlight_ids=None, id_column="id"):
     table.setSortingEnabled(True)
 
     return table
+
+def create_fillable_table(columns, rows=5):
+    table = QTableWidget(rows, len(columns))
+    table.setHorizontalHeaderLabels(columns)
+
+    # Fill cells with empty items so user can click immediately
+    for row in range(rows):
+        for col in range(len(columns)):
+            table.setItem(row, col, QTableWidgetItem(""))
+
+    return table
+
+def table_to_dicts(table):
+    """Convert QTableWidget to list of dicts (skip empty rows)."""
+    data = []
+
+    for row in range(table.rowCount()):
+        row_data = {}
+        is_empty = True
+
+        for col in range(table.columnCount()):
+            header_item = table.horizontalHeaderItem(col)
+            header = header_item.text() if header_item else f"col_{col}"
+
+            item = table.item(row, col)
+            value = item.text().strip() if item and item.text() else None
+
+            if value:
+                is_empty = False
+
+            row_data[header] = value
+
+        # ✅ skip completely empty rows
+        if not is_empty:
+            data.append(row_data)
+
+    return data
+
+
+def create_matrix_table(
+    rows_data,
+    cols_data,
+    row_id_key,
+    row_label_key,
+    col_id_key
+):
+    """
+    Matrix table with:
+    sample_id | sample_label | amp_id columns
+    """
+
+    # ✅ total columns:
+    # sample_id + sample_label + amplicons
+    table = QTableWidget(len(rows_data), len(cols_data) + 2)
+
+    # ✅ headers
+    headers = ["sample_id", "sample_label"] + [
+        str(col[col_id_key]) for col in cols_data
+    ]
+    table.setHorizontalHeaderLabels(headers)
+
+    # ✅ fill rows
+    for row_idx, row in enumerate(rows_data):
+        # sample_id column
+        id_item = QTableWidgetItem(str(row[row_id_key]))
+        id_item.setFlags(id_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+        table.setItem(row_idx, 0, id_item)
+
+        # sample_label column
+        label_item = QTableWidgetItem(str(row[row_label_key]))
+        label_item.setFlags(label_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+        table.setItem(row_idx, 1, label_item)
+
+        # checkbox columns
+        for col_idx, col in enumerate(cols_data, start=2):
+            checkbox = QTableWidgetItem()
+            checkbox.setFlags(
+                Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled
+            )
+            checkbox.setCheckState(Qt.CheckState.Unchecked)
+
+            table.setItem(row_idx, col_idx, checkbox)
+
+    table.resizeColumnsToContents()
+
+    return table
+
+def extract_matrix_selection(
+    table,
+    rows_data,
+    cols_data,
+    row_id_key,
+    col_id_key
+):
+    """
+    Extract selected relationships from matrix table.
+    """
+
+    result = []
+
+    for row_idx, row in enumerate(rows_data):
+        selected = []
+
+        for col_idx, col in enumerate(cols_data, start=1):
+            item = table.item(row_idx, col_idx)
+
+            if item and item.checkState() == Qt.CheckState.Checked:
+                selected.append(col[col_id_key])
+
+        if selected:
+            result.append({
+                row_id_key: row[row_id_key],
+                f"{col_id_key}s": selected   # e.g. amplicon_type_ids
+            })
+
+    return result
