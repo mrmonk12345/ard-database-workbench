@@ -64,7 +64,7 @@ class ProjectAmpliconRunsWindow(QDialog):
 
             project_ids = set(project_data[id_column].tolist())
 
-            layout.addWidget(QLabel(f"{title} ({len(all_data)} rows)"))
+            layout.addWidget(QLabel(f"{title} ({len(project_data)} rows). rows are highlighted."))
             layout.addWidget(
                 create_table(
                     all_data,
