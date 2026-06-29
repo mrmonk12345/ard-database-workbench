@@ -9,3 +9,4 @@ project_id_12.txt
 reminder.txt
 .env
 .nfs*
+.db
