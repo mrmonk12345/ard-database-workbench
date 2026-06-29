@@ -3,6 +3,7 @@ analysis_files/
 articles/
 pipeline_runs/
 raw_reads_projects/
+__pycache__/
 progress.log
 project_id_12.txt
 reminder.txt

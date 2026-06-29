@@ -169,7 +169,7 @@ class ProjectDataWindow(QDialog):
             project_id=self.project_id,
             table_name="Samples",
             get_data_func=get_project_samples,
-            output_filename="samples.tsv"
+            output_filename=f"project_{self.project_id}_samples.tsv"
         )
         self.window.show()
 
@@ -179,7 +179,7 @@ class ProjectDataWindow(QDialog):
             project_id=self.project_id,
             table_name="Sequencing Outputs",
             get_data_func=get_project_sequencing_outputs,
-            output_filename="sequencing_outputs.tsv"
+            output_filename=f"project_{self.project_id}_sequencing_outputs.tsv"
         )
         self.window.show()
 
@@ -189,7 +189,7 @@ class ProjectDataWindow(QDialog):
             project_id=self.project_id,
             table_name="Libraries",
             get_data_func=get_project_libraries,
-            output_filename="libraries.tsv"
+            output_filename=f"project_{self.project_id}_libraries.tsv"
         )
         self.window.show()
 
@@ -199,7 +199,7 @@ class ProjectDataWindow(QDialog):
             project_id=self.project_id,
             table_name="Analysis Units",
             get_data_func=get_project_analysis_units,
-            output_filename="analysis_units.tsv"
+            output_filename=f"project_{self.project_id}_analysis_units.tsv"
         )
         self.window.show()
 
@@ -213,7 +213,7 @@ class ProjectDataWindow(QDialog):
             project_id=self.project_id,
             table_name="samples",
             pk_column="sample_id",
-            output_filename="samples.tsv"
+            output_filename=f"project_{self.project_id}_samples_to_add.tsv"
         )
         self.window.show()
     
@@ -223,7 +223,7 @@ class ProjectDataWindow(QDialog):
             project_id=self.project_id,
             table_name="sequencing_outputs",
             pk_column="sequencing_output_id",
-            output_filename="sequencing_outputs.tsv"
+            output_filename=f"project_{self.project_id}_sequencing_outputs_to_add.tsv"
         )
         self.window.show()
 
@@ -241,7 +241,7 @@ class ProjectDataWindow(QDialog):
             row_id_key="sample_id",
             row_label_key="sample_label",
             col_id_key="amplicon_type_id",
-            output_filename="libraries.tsv"
+            output_filename=f"project_{self.project_id}_libraries_to_add.tsv"
         )
         self.window.show()
     
@@ -260,7 +260,7 @@ class ProjectDataWindow(QDialog):
             row_id_key="library_id",
             row_label_key="library_label",
             col_id_key="sequencing_run_id",
-            output_filename="analysis_units.tsv"
+            output_filename=f"project_{self.project_id}_analysis_units_to_add.tsv"
         )
         self.window.show()
 
