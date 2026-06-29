@@ -11,7 +11,10 @@ from gui.project_libraries_window import ProjectLibrariesWindow
 from gui.project_analysis_units_window import ProjectAnalysisUnitsWindow
 
 from gui.project_samples_add_window import ProjectSamplesAddWindow
+from gui.project_samples_add_window_new import ProjectSamplesAddWindowNew
+
 from gui.project_libraries_add_window import ProjectLibrariesAddWindow
+from gui.project_libraries_add_window_new import ProjectLibrariesAddWindowNew
 
 from scripts.python.project_get_data import (
     get_project_sequencing_runs_count,
@@ -49,9 +52,9 @@ class ProjectDataWindow(QDialog):
         layout.addWidget(btn)
 
         # --- Remaining sections ---
-        layout.addWidget(self._create_action_box("Samples", self.counts["samples"], ProjectSamplesWindow, None))
+        layout.addWidget(self._create_action_box("Samples", self.counts["samples"], ProjectSamplesWindow, ProjectSamplesAddWindowNew))
         layout.addWidget(self._create_action_box("Sequencing Outputs", self.counts["outputs"], ProjectSequencingOutputsWindow, None))
-        layout.addWidget(self._create_action_box("Libraries", self.counts["libraries"], ProjectLibrariesWindow, None))
+        layout.addWidget(self._create_action_box("Libraries", self.counts["libraries"], ProjectLibrariesWindow, ProjectLibrariesAddWindowNew))
         layout.addWidget(self._create_action_box("Analysis Units", self.counts["analysis_units"], ProjectAnalysisUnitsWindow, None))
 
         self.setLayout(layout)
