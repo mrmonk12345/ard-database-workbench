@@ -129,23 +129,19 @@ def extract_matrix_selection(
 ):
     """
     Extract selected relationships from matrix table.
+    Returns flat list of row/column combinations.
     """
 
     result = []
 
     for row_idx, row in enumerate(rows_data):
-        selected = []
-
-        for col_idx, col in enumerate(cols_data, start=1):
+        for col_idx, col in enumerate(cols_data, start=2):  # ⚠️ start=2 (important)
             item = table.item(row_idx, col_idx)
 
             if item and item.checkState() == Qt.CheckState.Checked:
-                selected.append(col[col_id_key])
-
-        if selected:
-            result.append({
-                row_id_key: row[row_id_key],
-                f"{col_id_key}s": selected   # e.g. amplicon_type_ids
-            })
+                result.append({
+                    row_id_key: row[row_id_key],
+                    col_id_key: col[col_id_key]
+                })
 
     return result
