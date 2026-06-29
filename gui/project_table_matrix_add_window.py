@@ -44,7 +44,7 @@ class ProjectTableMatrixAddWindow(QDialog):
         self.output_filename = output_filename
 
         self.setWindowTitle("Matrix Add (TSV Export)")
-        self.resize(1000, 650)
+        self.resize(500, 400)
 
         main_layout = QVBoxLayout()
 
@@ -61,6 +61,10 @@ class ProjectTableMatrixAddWindow(QDialog):
             "3. Run:\n"
             "   input_table.sh --input file.tsv"
         ))
+
+        # Table title
+        title = QLabel(f"<b>{self.row_id_key} × {self.col_id_key}</b>")
+        layout.addWidget(title)
 
         # ✅ Matrix table
         self.table = create_matrix_table(

@@ -15,7 +15,8 @@ from scripts.python.project_get_data import (
     get_project_amplicon_types,
     get_project_sequencing_outputs,
     get_project_libraries,
-    get_project_analysis_units
+    get_project_analysis_units,
+    get_project_sequencing_runs
 )
 
 from scripts.python.project_get_data import (
@@ -115,7 +116,7 @@ class ProjectDataWindow(QDialog):
             title="Sequencing Outputs",
             count=self.counts["outputs"],
             view_func=self.open_outputs_view,
-            add_func=None
+            add_func=self.open_sequencing_outputs_add
         )
 
     def _libraries_box(self):
@@ -131,7 +132,7 @@ class ProjectDataWindow(QDialog):
             title="Analysis Units",
             count=self.counts["analysis_units"],
             view_func=self.open_analysis_units_view,
-            add_func=None
+            add_func=self.open_analysis_units_add
         )
 
     def _create_action_box(self, title, count, view_func, add_func):
@@ -215,6 +216,16 @@ class ProjectDataWindow(QDialog):
             output_filename="samples.tsv"
         )
         self.window.show()
+    
+    def open_sequencing_outputs_add(self):
+        self.window = ProjectTableSimpleAddWindow(
+            self,
+            project_id=self.project_id,
+            table_name="sequencing_outputs",
+            pk_column="sequencing_output_id",
+            output_filename="sequencing_outputs.tsv"
+        )
+        self.window.show()
 
     def open_libraries_add(self):
         samples = get_project_samples(self.project_id).to_dict("records")
@@ -231,6 +242,25 @@ class ProjectDataWindow(QDialog):
             row_label_key="sample_label",
             col_id_key="amplicon_type_id",
             output_filename="libraries.tsv"
+        )
+        self.window.show()
+    
+    def open_analysis_units_add(self):
+        libraries = get_project_libraries(self.project_id).to_dict("records")
+        print("Libraries:", libraries)
+        sequencing_runs = get_project_sequencing_runs(self.project_id).to_dict("records")
+        print("Sequencing Runs:", sequencing_runs)
+        self.window = ProjectTableMatrixAddWindow(
+            self,
+            project_id=self.project_id,
+            table_name="analysis_units",
+            pk_column="analysis_unit_id",
+            rows_data=libraries,
+            cols_data=sequencing_runs,
+            row_id_key="library_id",
+            row_label_key="library_label",
+            col_id_key="sequencing_run_id",
+            output_filename="analysis_units.tsv"
         )
         self.window.show()
 
