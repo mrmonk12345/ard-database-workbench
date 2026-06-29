@@ -7,6 +7,6 @@ __pycache__/
 progress.log
 project_id_12.txt
 reminder.txt
-.env
-.nfs*
-.db
+*.env
+*.nfs*
+*.db
