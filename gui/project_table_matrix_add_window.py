@@ -8,6 +8,7 @@ from PyQt6.QtCore import Qt
 
 from gui.ui_utils import create_matrix_table, extract_matrix_selection
 
+from scripts.python.db_get_columns import get_table_columns
 
 class ProjectTableMatrixAddWindow(QDialog):
     """
@@ -21,6 +22,8 @@ class ProjectTableMatrixAddWindow(QDialog):
         self,
         parent=None,
         project_id=None,
+        table_name=None,
+        pk_column=None,
         rows_data=None,
         cols_data=None,
         row_id_key="id",
@@ -31,6 +34,8 @@ class ProjectTableMatrixAddWindow(QDialog):
         super().__init__(parent)
 
         self.project_id = project_id
+        self.table_name = table_name
+        self.pk_column = pk_column
         self.rows_data = rows_data or []
         self.cols_data = cols_data or []
         self.row_id_key = row_id_key
@@ -98,8 +103,9 @@ class ProjectTableMatrixAddWindow(QDialog):
             print("No selections")
             return
 
-        # ✅ Define output columns dynamically
-        columns = ["project_id", self.row_id_key, self.col_id_key]
+        # columns, remove PK only
+        columns = get_table_columns(self.table_name)
+        columns = [c for c in columns if c != self.pk_column]
 
         # ✅ Ask save location
         file_path, _ = QFileDialog.getSaveFileName(
@@ -118,11 +124,19 @@ class ProjectTableMatrixAddWindow(QDialog):
             writer.writeheader()
 
             for row in data:
-                writer.writerow({
-                    "project_id": self.project_id,
-                    self.row_id_key: row[self.row_id_key],
-                    self.col_id_key: row[self.col_id_key]
-                })
+                row_dict = {col: "" for col in columns}  # ✅ initialize all columns
+
+                # ✅ fill required fields
+                if "project_id" in columns:
+                    row_dict["project_id"] = self.project_id
+
+                if self.row_id_key in columns:
+                    row_dict[self.row_id_key] = row[self.row_id_key]
+
+                if self.col_id_key in columns:
+                    row_dict[self.col_id_key] = row[self.col_id_key]
+
+                writer.writerow(row_dict)
 
         print(f"TSV saved to {file_path}")
 
