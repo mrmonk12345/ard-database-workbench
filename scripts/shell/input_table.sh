@@ -1,0 +1,1 @@
+python -m scripts.python.input_table  --table samples --file project_1_samples_to_add.tsv --verbose --no-commit
