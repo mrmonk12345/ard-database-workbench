@@ -80,33 +80,32 @@ def create_matrix_table(
     col_id_key
 ):
     """
-    Matrix table with:
-    sample_id | sample_label | amp_id columns
+    Generic matrix table:
+
+    row_id | row_label | column IDs...
     """
 
-    # ✅ total columns:
-    # sample_id + sample_label + amplicons
     table = QTableWidget(len(rows_data), len(cols_data) + 2)
 
-    # ✅ headers
-    headers = ["sample_id", "sample_label"] + [
+    # ✅ headers (dynamic, no hardcoding)
+    headers = [row_id_key, row_label_key] + [
         str(col[col_id_key]) for col in cols_data
     ]
     table.setHorizontalHeaderLabels(headers)
 
     # ✅ fill rows
     for row_idx, row in enumerate(rows_data):
-        # sample_id column
-        id_item = QTableWidgetItem(str(row[row_id_key]))
+        # ID column
+        id_item = QTableWidgetItem(str(row.get(row_id_key, "")))
         id_item.setFlags(id_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
         table.setItem(row_idx, 0, id_item)
 
-        # sample_label column
-        label_item = QTableWidgetItem(str(row[row_label_key]))
+        # Label column
+        label_item = QTableWidgetItem(str(row.get(row_label_key, "")))
         label_item.setFlags(label_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
         table.setItem(row_idx, 1, label_item)
 
-        # checkbox columns
+        # Checkbox columns
         for col_idx, col in enumerate(cols_data, start=2):
             checkbox = QTableWidgetItem()
             checkbox.setFlags(
