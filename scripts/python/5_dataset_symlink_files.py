@@ -69,16 +69,16 @@ def main():
     for analysis_unit_id, fwd, rev in rows:
 
 
-        fwd_src = os.path.join(args.files_dir, fwd)
-        rev_src = os.path.join(args.files_dir, rev)
+        fwd_src = os.path.realpath(os.path.join(args.files_dir, fwd))
+        rev_src = os.path.realpath(os.path.join(args.files_dir, rev))
 
         if not os.path.exists(fwd_src):
             sys.exit(f"ERROR: missing file: {fwd_src}")
         if not os.path.exists(rev_src):
             sys.exit(f"ERROR: missing file: {rev_src}")
 
-        fwd_dest = os.path.join(outdir, fwd)
-        rev_dest = os.path.join(outdir, rev)
+        fwd_dest = os.path.realpath(os.path.join(outdir, fwd))
+        rev_dest = os.path.realpath(os.path.join(outdir, rev))
 
 
         # create symlinks

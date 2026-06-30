@@ -69,7 +69,7 @@ def main():
     os.makedirs(dst_dir, exist_ok=True)
 
     for file_path in glob.glob(src_pattern):
-        dst = os.path.join(dst_dir, os.path.basename(file_path))
+        dst = os.path.realpath(os.path.join(dst_dir, os.path.basename(file_path)))
 
         real_path = os.path.realpath(file_path)
 
