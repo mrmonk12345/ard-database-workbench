@@ -247,9 +247,7 @@ class ProjectDataWindow(QDialog):
     
     def open_analysis_units_add(self):
         libraries = get_project_libraries(self.project_id).to_dict("records")
-        print("Libraries:", libraries)
         sequencing_runs = get_project_sequencing_runs(self.project_id).to_dict("records")
-        print("Sequencing Runs:", sequencing_runs)
         self.window = ProjectTableMatrixAddWindow(
             self,
             project_id=self.project_id,
