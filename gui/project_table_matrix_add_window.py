@@ -2,7 +2,7 @@ import csv
 
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLabel, QPushButton,
-    QWidget, QSplitter, QFileDialog
+    QWidget, QSplitter, QFileDialog, QTableWidgetItem
 )
 from PyQt6.QtCore import Qt
 
@@ -74,7 +74,9 @@ class ProjectTableMatrixAddWindow(QDialog):
             row_label_key=self.row_label_key,
             col_id_key=self.col_id_key
         )
-
+        
+        self.table.horizontalHeader().sectionClicked.connect(self.toggle_column)
+        
         layout.addWidget(self.table)
 
         # ✅ Button
@@ -91,6 +93,37 @@ class ProjectTableMatrixAddWindow(QDialog):
         main_layout.addWidget(splitter)
         self.setLayout(main_layout)
 
+        
+    def toggle_column(self, col_index):
+      """
+      Toggle all checkboxes in a column.
+      If at least one is unchecked → check all
+      Otherwise → uncheck all
+      """
+      
+      if col_index < 2:
+          return  # skip first 2 columns
+
+  
+      table = self.table
+      row_count = table.rowCount()
+  
+      # Detect if we should check or uncheck
+      should_check = False
+      for row in range(row_count):
+          item = table.item(row, col_index)
+          if item and item.checkState() != Qt.CheckState.Checked:
+              should_check = True
+              break
+  
+      # Apply state
+      new_state = Qt.CheckState.Checked if should_check else Qt.CheckState.Unchecked
+  
+      for row in range(row_count):
+          item = table.item(row, col_index)
+          if item:
+              item.setCheckState(new_state)
+              
     # ======================
     # TSV EXPORT
     # ======================
