@@ -136,3 +136,47 @@ def get_project_analysis_units_count(project_id):
     WHERE s.project_id = ?
     """
     return run_query(query, params=(project_id,)).iloc[0]['count']
+
+def get_project_analysis_datasets(project_id):
+    query = f"""
+    SELECT ad.*
+    FROM analysis_datasets ad
+    JOIN sequencing_runs sr
+      ON ad.sequencing_run_id = sr.sequencing_run_id
+    WHERE sr.project_id = ?
+    """
+    return run_query(query, params=(project_id,))
+
+def get_project_analysis_datasets_count(project_id):
+    query = f"""
+    SELECT COUNT(*) as count
+    FROM analysis_datasets ad
+    JOIN sequencing_runs sr
+      ON ad.sequencing_run_id = sr.sequencing_run_id
+    WHERE sr.project_id = ?
+    """
+    return run_query(query, params=(project_id,)).iloc[0]['count']
+
+def get_project_analysis_dataset_inputs(project_id):
+    query = f"""
+    SELECT adi.*
+    FROM analysis_dataset_inputs adi
+    JOIN analysis_datasets ad
+      ON adi.analysis_dataset_id = ad.analysis_dataset_id
+    JOIN sequencing_runs sr
+      ON ad.sequencing_run_id = sr.sequencing_run_id
+    WHERE sr.project_id = ?
+    """
+    return run_query(query, params=(project_id,))
+
+def get_project_analysis_dataset_inputs_count(project_id):
+    query = f"""
+    SELECT COUNT(*) as count
+    FROM analysis_dataset_inputs adi
+    JOIN analysis_datasets ad
+      ON adi.analysis_dataset_id = ad.analysis_dataset_id
+    JOIN sequencing_runs sr
+      ON ad.sequencing_run_id = sr.sequencing_run_id
+    WHERE sr.project_id = ?
+    """
+    return run_query(query, params=(project_id,)).iloc[0]['count']

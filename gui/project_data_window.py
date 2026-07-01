@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout,
-    QPushButton, QLabel, QGroupBox
+    QPushButton, QLabel, QGroupBox, QScrollArea, QWidget
 )
 from PyQt6.QtCore import Qt
 
@@ -16,7 +16,9 @@ from scripts.python.project_get_data import (
     get_project_sequencing_outputs,
     get_project_libraries,
     get_project_analysis_units,
-    get_project_sequencing_runs
+    get_project_sequencing_runs,
+    get_project_analysis_datasets,
+    get_project_analysis_dataset_inputs
 )
 
 from scripts.python.project_get_data import (
@@ -25,7 +27,9 @@ from scripts.python.project_get_data import (
     get_project_samples_count,
     get_project_sequencing_outputs_count,
     get_project_libraries_count,
-    get_project_analysis_units_count
+    get_project_analysis_units_count,
+    get_project_analysis_datasets_count,
+    get_project_analysis_dataset_inputs_count
 )
 
 
@@ -38,7 +42,18 @@ class ProjectDataWindow(QDialog):
         self.setWindowTitle(f"Project Data - {self.project_id}")
         self.resize(500, 700)
 
-        layout = QVBoxLayout()
+        
+        # Main layout for dialog
+        main_layout = QVBoxLayout(self)
+
+        # Scroll area
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+
+        # Inner widget (this holds your existing layout)
+        content = QWidget()
+        layout = QVBoxLayout(content)
+
 
         # =====================
         # Load counts
@@ -65,8 +80,10 @@ class ProjectDataWindow(QDialog):
         layout.addWidget(self._outputs_box())
         layout.addWidget(self._libraries_box())
         layout.addWidget(self._analysis_units_box())
-
-        self.setLayout(layout)
+        layout.addWidget(self._analysis_datasets_box())
+        layout.addWidget(self._analysis_dataset_inputs_box())
+        scroll.setWidget(content)
+        main_layout.addWidget(scroll)
 
     # =====================
     # Data
@@ -80,6 +97,8 @@ class ProjectDataWindow(QDialog):
             "outputs": get_project_sequencing_outputs_count(self.project_id),
             "libraries": get_project_libraries_count(self.project_id),
             "analysis_units": get_project_analysis_units_count(self.project_id),
+            "analysis_datasets": get_project_analysis_datasets_count(self.project_id),
+            "analysis_dataset_inputs": get_project_analysis_dataset_inputs_count(self.project_id),
         }
 
     # =====================
@@ -133,6 +152,22 @@ class ProjectDataWindow(QDialog):
             count=self.counts["analysis_units"],
             view_func=self.open_analysis_units_view,
             add_func=self.open_analysis_units_add
+        )
+    
+    def _analysis_datasets_box(self):
+        return self._create_action_box(
+            title="Analysis Datasets",
+            count=self.counts["analysis_datasets"],
+            view_func=self.open_analysis_datasets_view,
+            add_func=None  # No add function for this section
+        )
+
+    def _analysis_dataset_inputs_box(self):
+        return self._create_action_box(
+            title="Analysis Dataset Inputs",
+            count=self.counts["analysis_dataset_inputs"],
+            view_func=self.open_analysis_dataset_inputs_view,
+            add_func=None  # No add function for this section
         )
 
     def _create_action_box(self, title, count, view_func, add_func):
@@ -200,6 +235,26 @@ class ProjectDataWindow(QDialog):
             table_name="Analysis Units",
             get_data_func=get_project_analysis_units,
             output_filename=f"project_{self.project_id}_analysis_units.tsv"
+        )
+        self.window.show()
+    
+    def open_analysis_datasets_view(self):
+        self.window = ProjectTableViewWindow(
+            self,
+            project_id=self.project_id,
+            table_name="Analysis Datasets",
+            get_data_func=get_project_analysis_datasets,
+            output_filename=f"project_{self.project_id}_analysis_datasets.tsv"
+        )
+        self.window.show()
+
+    def open_analysis_dataset_inputs_view(self):
+        self.window = ProjectTableViewWindow(
+            self,
+            project_id=self.project_id,
+            table_name="Analysis Dataset Inputs",
+            get_data_func=get_project_analysis_dataset_inputs,
+            output_filename=f"project_{self.project_id}_analysis_dataset_inputs.tsv"
         )
         self.window.show()
 
