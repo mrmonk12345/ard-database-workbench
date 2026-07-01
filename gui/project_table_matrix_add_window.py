@@ -10,6 +10,8 @@ from gui.ui_utils import create_matrix_table, extract_matrix_selection
 
 from scripts.python.db_get_columns import get_table_columns
 
+from gui.tsv_expoorter import TSVExporter
+
 class ProjectTableMatrixAddWindow(QDialog):
     """
     Generic matrix-based TSV generator.
@@ -140,41 +142,30 @@ class ProjectTableMatrixAddWindow(QDialog):
             print("No selections")
             return
 
-        # columns, remove PK only
+        # ✅ columns, remove PK only
         columns = get_table_columns(self.table_name)
         columns = [c for c in columns if c != self.pk_column]
 
-        # ✅ Ask save location
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "Save TSV",
-            self.output_filename,
-            "TSV Files (*.tsv)"
-        )
+        # ✅ prepare cleaned data
+        cleaned_data = []
+        for row in data:
+            row_dict = {col: "" for col in columns}
 
-        if not file_path:
-            return
+            if "project_id" in columns:
+                row_dict["project_id"] = self.project_id
 
-        # ✅ Write TSV
-        with open(file_path, "w", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=columns, delimiter="\t")
-            writer.writeheader()
+            if self.row_id_key in columns:
+                row_dict[self.row_id_key] = row[self.row_id_key]
 
-            for row in data:
-                row_dict = {col: "" for col in columns}  # ✅ initialize all columns
+            if self.col_id_key in columns:
+                row_dict[self.col_id_key] = row[self.col_id_key]
 
-                # ✅ fill required fields
-                if "project_id" in columns:
-                    row_dict["project_id"] = self.project_id
+            cleaned_data.append(row_dict)
 
-                if self.row_id_key in columns:
-                    row_dict[self.row_id_key] = row[self.row_id_key]
+        # ✅ use exporter
+        exporter = TSVExporter(self)
+        file_path = exporter.save(cleaned_data, columns, self.output_filename)
 
-                if self.col_id_key in columns:
-                    row_dict[self.col_id_key] = row[self.col_id_key]
-
-                writer.writerow(row_dict)
-
-        print(f"TSV saved to {file_path}")
-
-        self.accept()
+        # ✅ only close dialog if saved
+        if file_path:
+            self.accept()

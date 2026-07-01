@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
 )
 
 from gui.ui_utils import create_table
+from gui.tsv_expoorter import TSVExporter
 
 
 class ProjectTableViewWindow(QDialog):
@@ -59,19 +60,9 @@ class ProjectTableViewWindow(QDialog):
             print("No data to export")
             return
 
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "Save TSV",
-            self.output_filename,
-            "TSV Files (*.tsv)"
-        )
+        exporter = TSVExporter(self)
+        file_path = exporter.save(self.data, self.columns, self.output_filename)
 
-        if not file_path:
-            return
-
-        with open(file_path, "w", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=self.columns, delimiter="\t")
-            writer.writeheader()
-            writer.writerows(self.data)
-
-        print(f"TSV saved to {file_path}")
+        # ✅ only close if save succeeded (optional)
+        if file_path:
+            self.accept()

@@ -7,6 +7,8 @@ from PyQt6.QtWidgets import (
 
 from scripts.python.db_get_columns import get_table_columns
 
+from gui.tsv_expoorter import TSVExporter
+
 
 class ProjectTableSimpleAddWindow(QDialog):
     def __init__(
@@ -57,27 +59,20 @@ class ProjectTableSimpleAddWindow(QDialog):
         # ✅ remove PK only
         columns = [c for c in columns if c != self.pk_column]
 
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "Save TSV",
-            self.output_filename,
-            "TSV Files (*.tsv)"
-        )
+        # ✅ prepare data
+        data = []
+        for _ in range(self.row_count.value()):
+            row = {col: "" for col in columns}
 
-        if not file_path:
-            return
+            if "project_id" in columns:   # ✅ fix (not "in row")
+                row["project_id"] = self.project_id
 
-        with open(file_path, "w", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=columns, delimiter="\t")
-            writer.writeheader()
+            data.append(row)
 
-            for _ in range(self.row_count.value()):
-                row = {col: "" for col in columns}
+        # ✅ use exporter
+        exporter = TSVExporter(self)
+        file_path = exporter.save(data, columns, self.output_filename)
 
-                if "project_id" in row:
-                    row["project_id"] = self.project_id
-
-                writer.writerow(row)
-
-        print(f"Saved: {file_path}")
-        self.accept()
+        # ✅ close dialog ONLY if save succeeded
+        if file_path:
+            self.accept()
