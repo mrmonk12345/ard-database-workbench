@@ -77,8 +77,8 @@ def main():
         if not os.path.exists(rev_src):
             sys.exit(f"ERROR: missing file: {rev_src}")
 
-        fwd_dest = os.path.realpath(os.path.join(outdir, fwd))
-        rev_dest = os.path.realpath(os.path.join(outdir, rev))
+        fwd_dest = os.path.abspath(os.path.join(outdir, fwd))
+        rev_dest = os.path.abspath(os.path.join(outdir, rev))
 
 
         # create symlinks
