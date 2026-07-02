@@ -1,4 +1,4 @@
 python -m scripts.python.input_table \
---table sequencing_outputs \
- --file input_staging/project_14_sequencing_outputs_to_add.tsv \
---verbose #--no-commit
+--table samples \
+ --file input_staging/project_14_samples_to_add_new.tsv \
+--verbose --no-commit

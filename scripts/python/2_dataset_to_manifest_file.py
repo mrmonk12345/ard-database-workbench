@@ -38,7 +38,7 @@ def write_tsv(path, header, rows):
 def make_absolute(path, base_dir):
     if os.path.isabs(path):
         return path
-    return os.path.join(base_dir, path)
+    return os.path.abspath(os.path.join(base_dir, path))
 
 
 def main():
