@@ -21,7 +21,7 @@ VALUES (?, ?)
 """
 
 
-def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH):
+def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
     """
     Inserts base inputs only if the dataset currently has no inputs.
 
@@ -55,18 +55,24 @@ def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH):
                 (dataset_id, au_id)
                 for au_id in expected_au_ids
             ]
-
-            conn.executemany(
-                INSERT_INPUT_SQL,
-                rows_to_insert
-            )
-
-            conn.commit()
-
-            print(
-                f"Dataset {dataset_id} had no inputs. "
-                f"Inserted {len(rows_to_insert)} base inputs."
-            )
+        
+            if no_commit:
+                print(
+                    f"DRY RUN: Dataset {dataset_id} had no inputs. "
+                    f"Would insert {len(rows_to_insert)} base inputs."
+                )
+            else:
+                conn.executemany(
+                    INSERT_INPUT_SQL,
+                    rows_to_insert
+                )
+                conn.commit()
+        
+                print(
+                    f"Dataset {dataset_id} had no inputs. "
+                    f"Inserted {len(rows_to_insert)} base inputs."
+                )
+        
             return
 
         # Dataset already has inputs
@@ -110,10 +116,17 @@ if __name__ == "__main__":
         default=DATABASE_PATH,
         help="Path to SQLite database"
     )
+    
+    parser.add_argument(
+    "--no-commit",
+    action="store_true",
+    help="Dry run only. Do not commit any database changes."
+    )
 
     args = parser.parse_args()
 
     sync_dataset_inputs(
         dataset_id=args.dataset_id,
-        db_path=args.db
+        db_path=args.db,
+        no_commit = args.no_commit
     )
