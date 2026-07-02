@@ -26,18 +26,11 @@ JOIN libraries l
 JOIN sequencing_outputs so
     ON au.sequencing_run_id = so.sequencing_run_id
     AND l.sample_id = so.sample_id
-JOIN sequencing_outputs_amplicon_types soat
-   ON so.sequencing_output_id = soat.sequencing_output_id 
-   AND soat.amplicon_type_id = l.amplicon_type_id
 WHERE adi.analysis_dataset_id = ?
   AND so.fastq1 IS NOT NULL
   AND so.fastq2 IS NOT NULL
-  AND so.sequencing_output_id IN (
-      SELECT sequencing_output_id
-      FROM sequencing_outputs_amplicon_types
-      GROUP BY sequencing_output_id
-      HAVING COUNT(*) = 1
-);
+  AND so.sequencing_run_id IS NOT NULL
+  AND so.amplicon_type_id IS NOT NULL;
 """
 GET_PROJECT_ID_SQL = """
 SELECT sr.project_id
