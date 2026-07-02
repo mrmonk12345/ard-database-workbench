@@ -6,7 +6,7 @@ from config import DATABASE_PATH
 # --- SQL QUERIES ---
 
 SELECT_AU_IDS_FOR_DATASET_SQL = """
-SELECT au.au_id
+SELECT au.analysis_unit_id
 FROM analysis_datasets ad
 JOIN analysis_units au
     ON ad.sequencing_run_id = au.sequencing_run_id
@@ -39,5 +39,5 @@ def create_dataset_inputs(db_path=DATABASE_PATH, dataset_id=None):
 
 
 # Example usage
-df = create_dataset_inputs("your_database.db", 1)
-print(df.head())
+#df = create_dataset_inputs("your_database.db", 1)
+#print(df.head())
