@@ -8,26 +8,25 @@ from config import DATABASE_PATH
 
 SELECT_EXISTING_INPUTS_SQL = """
 SELECT analysis_unit_id
-FROM analysis_dataset_inputs
+FROM analysis_units
 WHERE analysis_dataset_id = ?
 """
 
-INSERT_INPUT_SQL = """
-INSERT INTO analysis_dataset_inputs (
-    analysis_dataset_id,
-    analysis_unit_id
-)
-VALUES (?, ?)
+UPDATE_INPUT_SQL = """
+UPDATE analysis_units
+SET analysis_dataset_id = ?
+WHERE analysis_unit_id = ?
 """
 
 
 def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
     """
-    Inserts base inputs only if the dataset currently has no inputs.
-
-    If inputs already exist:
-      - Prints OK if all base inputs exist.
-      - Prints a warning if some base inputs are missing.
+    Assigns base analysis units to a dataset if the dataset
+    currently contains no analysis units.
+    
+    If analysis units already exist:
+      - Prints OK if all base analysis units are assigned.
+      - Prints a warning if some expected analysis units are missing.
       - Does NOT modify the dataset.
     """
 
@@ -63,7 +62,7 @@ def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
                 )
             else:
                 conn.executemany(
-                    INSERT_INPUT_SQL,
+                    UPDATE_INPUT_SQL,
                     rows_to_insert
                 )
                 conn.commit()
