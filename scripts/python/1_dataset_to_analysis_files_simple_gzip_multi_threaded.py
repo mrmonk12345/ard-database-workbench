@@ -18,15 +18,15 @@ SELECT
     so.sequencing_output_id,
     so.fastq1,
     so.fastq2
-FROM analysis_dataset_inputs adi
+FROM analysis_datasets ad
 JOIN analysis_units au
-    ON adi.analysis_unit_id = au.analysis_unit_id
+    ON ad.analysis_dataset_id = au.analysis_dataset_id
 JOIN libraries l
     ON l.library_id = au.library_id
 JOIN sequencing_outputs so
     ON au.sequencing_run_id = so.sequencing_run_id
     AND l.sample_id = so.sample_id
-WHERE adi.analysis_dataset_id = ?
+WHERE au.analysis_dataset_id = ?
   AND so.fastq1 IS NOT NULL
   AND so.fastq2 IS NOT NULL
   AND so.sequencing_run_id IS NOT NULL
