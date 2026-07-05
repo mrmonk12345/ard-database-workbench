@@ -161,12 +161,10 @@ def get_project_analysis_dataset_inputs(project_id):
     query = """
     SELECT
       au.analysis_dataset_id, 
-      au.*
+      au.analysis_unit_id
     FROM analysis_units au
-    JOIN analysis_datasets ad
-      ON au.analysis_dataset_id = ad.analysis_dataset_id
     JOIN sequencing_runs sr
-      ON ad.sequencing_run_id = sr.sequencing_run_id
+      ON au.sequencing_run_id = sr.sequencing_run_id
     WHERE sr.project_id = ?
     """
     return run_query(query, params=(project_id,))
@@ -175,10 +173,8 @@ def get_project_analysis_dataset_inputs_count(project_id):
     query = """
     SELECT COUNT(*) AS count
     FROM analysis_units au
-    JOIN analysis_datasets ad
-      ON au.analysis_dataset_id = ad.analysis_dataset_id
     JOIN sequencing_runs sr
-      ON ad.sequencing_run_id = sr.sequencing_run_id
+      ON au.sequencing_run_id = sr.sequencing_run_id
     WHERE sr.project_id = ?
     """
     return run_query(query, params=(project_id,)).iloc[0]['count']
