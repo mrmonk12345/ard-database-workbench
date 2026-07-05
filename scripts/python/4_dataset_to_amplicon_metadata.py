@@ -10,14 +10,14 @@ DEFAULT_OUTPUT_BASE = "/home/ARO.local/michaelr/Projects/db_fixing_libraries/ana
 SQL = """
 SELECT DISTINCT
     at.*
-FROM analysis_dataset_inputs adi
+FROM analysis_datasets ad
 JOIN analysis_units au
-    ON adi.analysis_unit_id = au.analysis_unit_id
+    ON ad.analysis_dataset_id = au.analysis_dataset_id
 JOIN libraries l
   ON au.library_id = l.library_id
 JOIN amplicon_types at
     ON l.amplicon_type_id = at.amplicon_type_id
-WHERE adi.analysis_dataset_id = ?
+WHERE au.analysis_dataset_id = ?
 """
 
 

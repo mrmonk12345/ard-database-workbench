@@ -43,7 +43,13 @@ def load_tsv(args):
                 continue
             try:
                 before_changes = conn.total_changes
-                cursor.execute(query, list(row.values()))
+                
+                true_values = [
+                    None if v is None or str(v).strip() == "" else v
+                    for v in row.values()
+                ]
+
+                cursor.execute(query, true_values)
 
                 if not args.no_commit:
                     conn.commit()
