@@ -1,0 +1,1 @@
+python -c "from scripts.python.labels import refresh_all_labels; refresh_all_labels()"
