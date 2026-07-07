@@ -294,7 +294,7 @@ class ProjectDataWindow(QDialog):
             rows_data=samples,
             cols_data=amplicons,
             row_id_key="sample_id",
-            row_label_key="sample_label",
+            row_label_key="label",
             col_id_key="amplicon_type_id",
             output_filename=f"project_{self.project_id}_libraries_to_add.tsv"
         )
@@ -311,7 +311,7 @@ class ProjectDataWindow(QDialog):
             rows_data=libraries,
             cols_data=sequencing_runs,
             row_id_key="library_id",
-            row_label_key="library_label",
+            row_label_key="label",
             col_id_key="sequencing_run_id",
             output_filename=f"project_{self.project_id}_analysis_units_to_add.tsv"
         )
