@@ -53,12 +53,12 @@ def update_labels(table_name, id_column, label_column, df):
     conn.close()
 
 def refresh_all_labels():
-    update_labels(
-        "samples",
-        "sample_id",
-        "label",
-        make_samples_labels().rename(columns={"sample_label": "label"})
-    )
+#    update_labels(
+#        "samples",
+#        "sample_id",
+#        "label",
+#        make_samples_labels().rename(columns={"sample_label": "label"})
+#    )
 
     update_labels(
         "libraries",
