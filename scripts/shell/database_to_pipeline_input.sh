@@ -1,1 +1,1 @@
-python -m scripts.python.database_to_pipeline_input --dataset-id 7 --pipeline-name 'dataset_7'
+python -m scripts.python.database_to_pipeline_input --dataset-id 15 --pipeline-name 'dataset_15'

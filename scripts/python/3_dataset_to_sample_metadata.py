@@ -13,7 +13,10 @@ SELECT
     s.sample_id,
     s.project_id,
     s.treatment_id,
-    t.name AS treatment_name
+    t.name AS treatment_name,
+    au.label,
+    s.label,
+    s.time_since_planting
 FROM analysis_datasets ad
 JOIN analysis_units au
     ON ad.analysis_dataset_id = au.analysis_dataset_id
@@ -73,7 +76,7 @@ def main():
     if not sample_rows:
         sys.exit("ERROR: no sample metadata found")
 
-    sample_header = ["sample_name", "sample_id", "project_id", "treatment_id", "treatment_name"]
+    sample_header = ["sample_name", "sample_id", "project_id", "treatment_id", "treatment_name", "analysis_unit_label", "sample_label",                      "time_since_planting"]
 
     sample_path = os.path.join(outdir, "sample_metadata.tsv")
     write_tsv(sample_path, sample_header, sample_rows)

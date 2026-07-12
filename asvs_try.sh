@@ -1,0 +1,1 @@
+python -m scripts.python.asvs_fasta_to_db

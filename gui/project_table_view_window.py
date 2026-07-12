@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLabel, QPushButton, QFileDialog
 )
 
-from gui.ui_utils import create_table
+from gui.ui_utils import create_table, create_copyable_table
 from gui.tsv_expoorter import TSVExporter
 
 
@@ -39,7 +39,7 @@ class ProjectTableViewWindow(QDialog):
             layout.addWidget(QLabel(f"{self.table_name} ({len(self.data)} rows)"))
 
             # ✅ table view
-            table = create_table(df)
+            table = create_copyable_table(df)
             layout.addWidget(table)
 
             # ✅ download button
