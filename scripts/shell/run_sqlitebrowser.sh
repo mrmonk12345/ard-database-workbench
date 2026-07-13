@@ -1,0 +1,1 @@
+python  -m scripts.python.run_sqlitebrowser
