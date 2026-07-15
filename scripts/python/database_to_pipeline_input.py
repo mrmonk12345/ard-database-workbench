@@ -32,6 +32,7 @@ print(f"pipeline_name: {pipeline_name}")
 
 # --- paths ---
 pipeline_dir = Path(PIPELINE_RUNS_PATH) / pipeline_name
+# maybe change to this: pipeline_dir = Path(ANALYSIS_DATASETS_PATH) / str(dataset_id) / "pipeline_runs" / pipeline_name
 example_pipeline_dir = Path(PIPELINE_RUNS_PATH) / "example_pipeline"
 
 

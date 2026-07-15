@@ -18,7 +18,8 @@ from scripts.python.project_get_data import (
     get_project_analysis_units,
     get_project_sequencing_runs,
     get_project_analysis_datasets,
-    get_project_analysis_dataset_inputs
+    get_project_analysis_dataset_inputs,
+    get_project_pipeline_runs
 )
 
 from scripts.python.project_get_data import (
@@ -29,7 +30,8 @@ from scripts.python.project_get_data import (
     get_project_libraries_count,
     get_project_analysis_units_count,
     get_project_analysis_datasets_count,
-    get_project_analysis_dataset_inputs_count
+    get_project_analysis_dataset_inputs_count,
+    get_project_pipeline_runs_count
 )
 
 
@@ -82,6 +84,7 @@ class ProjectDataWindow(QDialog):
         layout.addWidget(self._analysis_units_box())
         layout.addWidget(self._analysis_datasets_box())
         layout.addWidget(self._analysis_dataset_inputs_box())
+        layout.addWidget(self._pipeline_runs_box())
         scroll.setWidget(content)
         main_layout.addWidget(scroll)
 
@@ -99,6 +102,7 @@ class ProjectDataWindow(QDialog):
             "analysis_units": get_project_analysis_units_count(self.project_id),
             "analysis_datasets": get_project_analysis_datasets_count(self.project_id),
             "analysis_dataset_inputs": get_project_analysis_dataset_inputs_count(self.project_id),
+            "pipeline_runs": get_project_pipeline_runs_count(self.project_id)
         }
 
     # =====================
@@ -167,6 +171,13 @@ class ProjectDataWindow(QDialog):
             title="Analysis Dataset Inputs",
             count=self.counts["analysis_dataset_inputs"],
             view_func=self.open_analysis_dataset_inputs_view,
+            add_func=None  # No add function for this section
+        )
+    def _pipeline_runs_box(self):
+        return self._create_action_box(
+            title="Pipeline Runs",
+            count=self.counts["pipeline_runs"],
+            view_func=self.open_pipeline_runs_view,
             add_func=None  # No add function for this section
         )
 
@@ -255,6 +266,16 @@ class ProjectDataWindow(QDialog):
             table_name="Analysis Dataset Inputs",
             get_data_func=get_project_analysis_dataset_inputs,
             output_filename=f"project_{self.project_id}_analysis_dataset_inputs.tsv"
+        )
+        self.window.show()
+    
+    def open_pipeline_runs_view(self):
+        self.window = ProjectTableViewWindow(
+            self,
+            project_id=self.project_id,
+            table_name="Pipeline Runs",
+            get_data_func=get_project_pipeline_runs,
+            output_filename=f"project_{self.project_id}_pipeline_runs.tsv"
         )
         self.window.show()
 
