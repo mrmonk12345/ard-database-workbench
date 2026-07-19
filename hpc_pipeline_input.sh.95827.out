@@ -1,0 +1,90 @@
+
+##################################################
+                                                 #
+Your current storage usage is [33m4[0m % out of [33m1946G[0m  #
+                                                 #
+##################################################
+
+sending incremental file list
+./
+LICENSE.md
+README.md
+fastqc.sh
+hpc.sh
+mail
+multiqc.sh
+snakemake_qiime.sh
+config/
+config/config.yaml
+config/some_sheet.tsv
+data/
+data/16s_classifier.qza
+data/16s_file_metadata_template.tsv
+data/16s_sample_metadata_file.tsv
+data/ITS_classifier.qza
+data/ITS_file_metadata_template.tsv
+data/ITS_sample_metadata_file.tsv
+data/create_16s_file_metadata_from_template.sh
+data/create_ITS_file_metadata_from_template.sh
+data/readme_classifer
+data/unite_ver10_dynamic_04.04.2024-Q2-2024.2.qza
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/VERSION
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/checksums.md5
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/metadata.yaml
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/data/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/data/sklearn_pipeline.pkl
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/data/sklearn_pipeline.tar
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/data/sklearn_version.json
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/VERSION
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/citations.bib
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/metadata.yaml
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/action/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/action/action.yaml
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/a3ada7fd-367f-4ab5-9fb5-0b3bc2e0f4d4/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/a3ada7fd-367f-4ab5-9fb5-0b3bc2e0f4d4/VERSION
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/a3ada7fd-367f-4ab5-9fb5-0b3bc2e0f4d4/citations.bib
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/a3ada7fd-367f-4ab5-9fb5-0b3bc2e0f4d4/metadata.yaml
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/a3ada7fd-367f-4ab5-9fb5-0b3bc2e0f4d4/action/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/a3ada7fd-367f-4ab5-9fb5-0b3bc2e0f4d4/action/action.yaml
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/f77cf9f2-2925-4c89-852b-00182516ddad/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/f77cf9f2-2925-4c89-852b-00182516ddad/VERSION
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/f77cf9f2-2925-4c89-852b-00182516ddad/citations.bib
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/f77cf9f2-2925-4c89-852b-00182516ddad/metadata.yaml
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/f77cf9f2-2925-4c89-852b-00182516ddad/action/
+data/4a60326e-86c0-49ef-85fc-5b0ca770b178/provenance/artifacts/f77cf9f2-2925-4c89-852b-00182516ddad/action/action.yaml
+data/samples/
+data/samples/16s/
+data/samples/16s/.gitkeep
+data/samples/ITS/
+data/samples/ITS/.gitkeep
+resources/
+resources/.gitkeep
+workflow/
+workflow/Snakefile
+workflow/envs/
+workflow/envs/tool1.yaml
+workflow/envs/tool2.yaml
+workflow/notebooks/
+workflow/notebooks/notebook1.py.ipynb
+workflow/notebooks/notebook2.r.ipynb
+workflow/report/
+workflow/report/plot1.rst
+workflow/report/plot2.rst
+workflow/rules/
+workflow/rules/module1.smk
+workflow/rules/module2.smk
+workflow/scripts/
+workflow/scripts/combine_ancom_res.py
+workflow/scripts/create_venn_table.py
+workflow/scripts/extract_qiime_qz_v_a.py
+workflow/scripts/script.R
+workflow/scripts/script1.py
+
+sent 8,900,374,376 bytes  received 1,153 bytes  209,420,600.68 bytes/sec
+total size is 8,898,197,260  speedup is 1.00
+dataset_id: 8
+pipeline_name: dataset_8
+Running: python scripts/python/1_dataset_to_analysis_files_simple_gzip_multi_threaded.py --dataset-id 8 --db ./final_ARD_projects_latest.db --fastq-dir ./raw_reads_projects/ --outdir ./analysis_files/

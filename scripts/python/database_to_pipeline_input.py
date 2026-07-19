@@ -11,6 +11,7 @@ from config import (
     PYTHON_SCRIPTS_PATH,
 )
 
+from scripts.python.create_pipeline_run import create_pipeline_run
 
 # --- parameters ---
 
@@ -18,33 +19,15 @@ from config import (
 parser = argparse.ArgumentParser(description="Run pipeline")
 
 parser.add_argument("--dataset-id", type=int, required=True, help="Dataset ID")
-parser.add_argument("--pipeline-name", required=True, help="Pipeline name")
 
 args = parser.parse_args()
 
 dataset_id = args.dataset_id
-pipeline_name = args.pipeline_name
 
 
 print(f"dataset_id: {dataset_id}")
-print(f"pipeline_name: {pipeline_name}")
 
 
-# --- paths ---
-pipeline_dir = Path(PIPELINE_RUNS_PATH) / pipeline_name
-# maybe change to this: pipeline_dir = Path(ANALYSIS_DATASETS_PATH) / str(dataset_id) / "pipeline_runs" / pipeline_name
-example_pipeline_dir = Path(PIPELINE_RUNS_PATH) / "example_pipeline"
-
-
-# --- create pipeline run directory ---
-pipeline_dir.mkdir(parents=True, exist_ok=True)
-
-
-# --- copy template pipeline ---
-subprocess.run(
-    ["rsync", "-av", f"{example_pipeline_dir}/", str(pipeline_dir)],
-    check=True,
-)
 
 
 # --- helper to run steps ---
@@ -109,12 +92,34 @@ run_step(
     ],
 )
 
+
+pipeline_run_id = create_pipeline_run(
+    DATABASE_PATH,
+    dataset_id
+)
+
+# --- paths ---
+pipeline_dir = Path(ANALYSIS_DATASETS_PATH) / str(dataset_id) / "pipeline_runs" / str(pipeline_run_id)
+example_pipeline_dir = Path(PIPELINE_RUNS_PATH) / "example_pipeline"
+
+
+# --- create pipeline run directory ---
+pipeline_dir.mkdir(parents=True, exist_ok=True)
+
+
+# --- copy template pipeline ---
+subprocess.run(
+    ["rsync", "-av", f"{example_pipeline_dir}/", str(pipeline_dir)],
+    check=True,
+)
+
+
 # Step 6
 run_step(
     "6_dataset_directory_to_pipeline_run_directory.py",
     [
         "--dataset-id", str(dataset_id),
-        "--pipeline-name", pipeline_name,
+        "--pipeline-name", str(pipeline_run_id),
         "--dataset-dir-base", str(ANALYSIS_DATASETS_PATH),
         "--pipeline-dir-base", str(PIPELINE_RUNS_PATH),
     ],
