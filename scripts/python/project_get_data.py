@@ -137,6 +137,34 @@ def get_project_analysis_units_count(project_id):
     """
     return run_query(query, params=(project_id,)).iloc[0]['count']
 
+def get_project_analysis_unit_files(project_id):
+    query = f"""
+    SELECT auf.*
+    FROM analysis_unit_files auf
+    JOIN analysis_units au
+      ON auf.analysis_unit_id = au.analysis_unit_id
+    JOIN libraries l
+      ON au.library_id = l.library_id
+    JOIN samples s
+      ON l.sample_id = s.sample_id
+    WHERE s.project_id = ?    
+    """
+    return run_query(query, params=(project_id,))
+
+def get_project_analysis_unit_files_count(project_id):
+    query = f"""
+    SELECT COUNT(*) as count
+    FROM analysis_unit_files auf
+    JOIN analysis_units au
+      ON auf.analysis_unit_id = au.analysis_unit_id
+    JOIN libraries l
+      ON au.library_id = l.library_id
+    JOIN samples s
+      ON l.sample_id = s.sample_id
+    WHERE s.project_id = ?    
+    """
+    return run_query(query, params=(project_id,)).iloc[0]['count']
+    
 def get_project_analysis_datasets(project_id):
     query = f"""
     SELECT ad.*
