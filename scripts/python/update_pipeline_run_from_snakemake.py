@@ -9,6 +9,7 @@ from pathlib import Path
 
 from config import ANALYSIS_DATASETS_PATH
 from config import DATABASE_PATH
+from config import PIPELINE_RUNS_PATH
 
 
 parser = argparse.ArgumentParser(
@@ -90,9 +91,7 @@ if row is None:
 dataset_id = row[0]
 
 config_path = (
-    Path(ANALYSIS_DATASETS_PATH)
-    / str(dataset_id)
-    / "pipeline_runs"
+    Path(PIPELINE_RUNS_PATH)
     / str(args.pipeline_run_id)
     / "snakemake_qiime.sh"
 )

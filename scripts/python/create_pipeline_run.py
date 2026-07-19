@@ -1,4 +1,5 @@
 import sqlite3
+from pathlib import Path
 
 
 def create_pipeline_run(db_path, dataset_id):
@@ -12,10 +13,11 @@ def create_pipeline_run(db_path, dataset_id):
         )
         VALUES (?)
         """,
-        (dataset_id,),
+        (dataset_id,)
     )
 
     pipeline_run_id = cur.lastrowid
+
 
     conn.commit()
     conn.close()

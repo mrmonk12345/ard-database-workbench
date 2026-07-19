@@ -99,13 +99,24 @@ pipeline_run_id = create_pipeline_run(
 )
 
 # --- paths ---
-pipeline_dir = Path(ANALYSIS_DATASETS_PATH) / str(dataset_id) / "pipeline_runs" / str(pipeline_run_id)
+pipeline_dir = Path(PIPELINE_RUNS_PATH) / str(pipeline_run_id)
+symlink_pipeline_dir = Path(ANALYSIS_DATASETS_PATH) / str(dataset_id) / "pipeline_runs" / str(pipeline_run_id)
 example_pipeline_dir = Path(PIPELINE_RUNS_PATH) / "example_pipeline"
 
 
 # --- create pipeline run directory ---
 pipeline_dir.mkdir(parents=True, exist_ok=True)
+symlink_pipeline_dir.parent.mkdir(parents=True, exist_ok=True)
 
+
+# create symlink 
+
+if not symlink_pipeline_dir.exists():
+    symlink_pipeline_dir.symlink_to(
+        pipeline_dir.resolve(),
+        target_is_directory=True,
+    )
+    
 
 # --- copy template pipeline ---
 subprocess.run(
