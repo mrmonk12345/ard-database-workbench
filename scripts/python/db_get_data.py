@@ -43,3 +43,10 @@ def get_sequencing_runs():
     FROM sequencing_runs
     """
     return run_query(query)
+    
+def get_treatments():
+    query = """
+    SELECT *
+    FROM treatments
+    """
+    return run_query(query)
