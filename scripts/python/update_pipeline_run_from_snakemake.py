@@ -20,8 +20,10 @@ parser.add_argument(
     "--pipeline-run-id",
     type=int,
     required=True,
-    help="pipeline_runs.id"
+    help="pipeline_runs.pipeline_run_id"
 )
+
+
 
 parser.add_argument(
     "--db",

@@ -2,18 +2,19 @@ import sqlite3
 from pathlib import Path
 
 
-def create_pipeline_run(db_path, dataset_id):
+def create_pipeline_run(db_path, dataset_id, pipeline_definition_id=1):
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
 
     cur.execute(
         """
         INSERT INTO pipeline_runs (
-            analysis_dataset_id
+            analysis_dataset_id,
+            pipeline_definition_id
         )
-        VALUES (?)
+        VALUES (?, ?)
         """,
-        (dataset_id,)
+        (dataset_id, pipeline_definition_id)
     )
 
     pipeline_run_id = cur.lastrowid
