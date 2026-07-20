@@ -3,8 +3,10 @@ from PyQt6.QtWidgets import (
     QTextEdit, QTabWidget, QLabel, QComboBox
 )
 
+import pandas as pd
+
 from gui.project_data_window import ProjectDataWindow
-from scripts.python.db_get_data import get_project_ids
+from scripts.python.db_get_data import get_projects
 
 
 class MainWindow(QWidget):
@@ -39,14 +41,22 @@ class MainWindow(QWidget):
         layout = QVBoxLayout(widget)
 
         self.project_selector = QComboBox()
-
-        # Load project IDs
-        df = get_project_ids()
-
+        
+        # Load projects
+        df = get_projects()
+        
         if not df.empty:
             for _, row in df.iterrows():
+                label = row["label"]
+        
+                text = (
+                    f"{row['project_id']} - {label}"
+                    if pd.notna(label) and str(label).strip()
+                    else str(row["project_id"])
+                )
+        
                 self.project_selector.addItem(
-                    str(row["project_id"]),
+                    text,
                     int(row["project_id"])
                 )
 

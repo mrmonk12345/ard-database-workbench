@@ -23,6 +23,13 @@ def get_project_ids():
     """
     return run_query(query)     
 
+def get_projects():
+    query = """
+    SELECT *
+    FROM projects
+    """
+    return run_query(query)     
+
 def get_amplicon_types():
     query = """
     SELECT *
