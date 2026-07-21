@@ -1,0 +1,15 @@
+chown: cannot read directory '/run/user/1716609750': Permission denied
+chown: changing ownership of '/run/user/1716630719': Operation not permitted
+chown: cannot read directory '/run/user/1716615545': Permission denied
+chown: changing ownership of '/run/user': Operation not permitted
+chmod: changing permissions of '/run/user': Operation not permitted
+Traceback (most recent call last):
+  File "/data/bin/apps/eb/software/Miniconda3/4.12.0/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/data/bin/apps/eb/software/Miniconda3/4.12.0/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/scripts/python/database_to_pipeline_input.py", line 5, in <module>
+    from config import (
+  File "/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/config.py", line 2, in <module>
+    import yaml
+ModuleNotFoundError: No module named 'yaml'

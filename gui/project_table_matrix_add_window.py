@@ -10,7 +10,7 @@ from gui.ui_utils import create_matrix_table, extract_matrix_selection
 
 from scripts.python.db_get_columns import get_table_columns
 
-from gui.tsv_expoorter import TSVExporter
+from gui.tsv_exporter import TSVExporter
 
 class ProjectTableMatrixAddWindow(QDialog):
     """

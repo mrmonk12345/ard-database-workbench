@@ -21,8 +21,8 @@ WHERE analysis_unit_id = ?
 
 def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
     """
-    Assigns base analysis units to a dataset if the dataset
-    currently contains no analysis units.
+    Assigns base dataset to analysis units if the unit
+    currently doesnt have an analysis dataset.
     
     If analysis units already exist:
       - Prints OK if all base analysis units are assigned.

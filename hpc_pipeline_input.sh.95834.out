@@ -1,0 +1,353 @@
+
+##################################################
+                                                 #
+Your current storage usage is [33m4[0m % out of [33m1946G[0m  #
+                                                 #
+##################################################
+
+sending incremental file list
+
+sent 2,400 bytes  received 33 bytes  4,866.00 bytes/sec
+total size is 8,898,197,260  speedup is 3,657,294.39
+Processing sample327_AU230
+Processing sample326_AU229
+Processing sample328_AU231
+Processing sample329_AU232
+Processing sample330_AU233
+Processing sample331_AU234
+Processing sample332_AU235
+Processing sample333_AU236
+Processing sample334_AU237
+Processing sample335_AU238
+Processing sample336_AU239
+Processing sample337_AU240
+Processing sample338_AU241
+Processing sample339_AU242
+Processing sample340_AU243
+Processing sample341_AU244
+Processing sample342_AU245
+Processing sample343_AU246
+Processing sample344_AU247
+Processing sample345_AU248
+Processing sample346_AU249
+Processing sample347_AU250
+Processing sample348_AU251
+Processing sample349_AU252
+Processing sample350_AU253
+Processing sample351_AU254
+Processing sample352_AU255
+Processing sample353_AU256
+Processing sample354_AU257
+Processing sample355_AU258
+Processing sample356_AU259
+Processing sample357_AU260
+Processing sample358_AU261
+Processing sample359_AU262
+Processing sample360_AU263
+Processing sample361_AU264
+Processing sample362_AU265
+Processing sample363_AU266
+Processing sample364_AU267
+Processing sample365_AU268
+Processing sample366_AU269
+Processing sample367_AU270
+Processing sample368_AU271
+Processing sample369_AU272
+Processing sample370_AU273
+Processing sample371_AU274
+Processing sample372_AU275
+Processing sample373_AU276
+Processing sample374_AU277
+Processing sample375_AU278
+Processing sample376_AU279
+Processing sample377_AU280
+Processing sample378_AU281
+Processing sample379_AU282
+Processing sample380_AU283
+Processing sample381_AU284
+Processing sample382_AU285
+Processing sample383_AU286
+Processing sample384_AU287
+Processing sample385_AU288
+Processing sample386_AU289
+Processing sample387_AU290
+Processing sample388_AU291
+Processing sample389_AU292
+? Processed 64 samples (128 files)
+?? Output: ./analysis_files/
+? Manifest written to: ./analysis_datasets/8/qiime_manifest.tsv
+? Done.
+? Sample metadata: ./analysis_datasets/8/sample_metadata.tsv
+? Done.
+? Amplicon metadata: ./analysis_datasets/8/amplicon_metadata.tsv
+? Done.
+✅ Linked 64 samples (128 files)
+📁 Output: ./analysis_datasets/8/analysis_unit_files
+Copied ./analysis_datasets/8/qiime_manifest.tsv -> ./pipeline_runs/dataset_8/data/16s_file_metadata.tsv
+Copied ./analysis_datasets/8/sample_metadata.tsv -> ./pipeline_runs/dataset_8/data/16s_sample_metadata_file.tsv
+Copied ./analysis_datasets/8/amplicon_metadata.tsv -> ./pipeline_runs/dataset_8/amplicon_metadata.tsv
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample326_AU229_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample326_AU229_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample326_AU229_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample326_AU229_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample326_AU229_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample326_AU229_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample327_AU230_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample327_AU230_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample327_AU230_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample327_AU230_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample327_AU230_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample327_AU230_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample328_AU231_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample328_AU231_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample328_AU231_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample328_AU231_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample328_AU231_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample328_AU231_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample329_AU232_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample329_AU232_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample329_AU232_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample329_AU232_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample329_AU232_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample329_AU232_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample330_AU233_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample330_AU233_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample330_AU233_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample330_AU233_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample330_AU233_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample330_AU233_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample331_AU234_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample331_AU234_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample331_AU234_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample331_AU234_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample331_AU234_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample331_AU234_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample332_AU235_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample332_AU235_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample332_AU235_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample332_AU235_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample332_AU235_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample332_AU235_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample333_AU236_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample333_AU236_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample333_AU236_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample333_AU236_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample333_AU236_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample333_AU236_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample334_AU237_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample334_AU237_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample334_AU237_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample334_AU237_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample334_AU237_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample334_AU237_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample335_AU238_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample335_AU238_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample335_AU238_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample335_AU238_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample335_AU238_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample335_AU238_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample336_AU239_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample336_AU239_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample336_AU239_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample336_AU239_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample336_AU239_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample336_AU239_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample337_AU240_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample337_AU240_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample337_AU240_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample337_AU240_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample337_AU240_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample337_AU240_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample338_AU241_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample338_AU241_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample338_AU241_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample338_AU241_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample338_AU241_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample338_AU241_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample339_AU242_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample339_AU242_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample339_AU242_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample339_AU242_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample339_AU242_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample339_AU242_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample340_AU243_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample340_AU243_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample340_AU243_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample340_AU243_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample340_AU243_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample340_AU243_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample341_AU244_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample341_AU244_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample341_AU244_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample341_AU244_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample341_AU244_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample341_AU244_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample342_AU245_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample342_AU245_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample342_AU245_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample342_AU245_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample342_AU245_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample342_AU245_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample343_AU246_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample343_AU246_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample343_AU246_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample343_AU246_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample343_AU246_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample343_AU246_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample344_AU247_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample344_AU247_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample344_AU247_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample344_AU247_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample344_AU247_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample344_AU247_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample345_AU248_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample345_AU248_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample345_AU248_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample345_AU248_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample345_AU248_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample345_AU248_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample346_AU249_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample346_AU249_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample346_AU249_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample346_AU249_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample346_AU249_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample346_AU249_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample347_AU250_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample347_AU250_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample347_AU250_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample347_AU250_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample347_AU250_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample347_AU250_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample348_AU251_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample348_AU251_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample348_AU251_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample348_AU251_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample348_AU251_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample348_AU251_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample349_AU252_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample349_AU252_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample349_AU252_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample349_AU252_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample349_AU252_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample349_AU252_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample350_AU253_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample350_AU253_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample350_AU253_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample350_AU253_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample350_AU253_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample350_AU253_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample351_AU254_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample351_AU254_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample351_AU254_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample351_AU254_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample351_AU254_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample351_AU254_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample352_AU255_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample352_AU255_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample352_AU255_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample352_AU255_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample352_AU255_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample352_AU255_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample353_AU256_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample353_AU256_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample353_AU256_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample353_AU256_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample353_AU256_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample353_AU256_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample354_AU257_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample354_AU257_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample354_AU257_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample354_AU257_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample354_AU257_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample354_AU257_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample355_AU258_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample355_AU258_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample355_AU258_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample355_AU258_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample355_AU258_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample355_AU258_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample356_AU259_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample356_AU259_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample356_AU259_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample356_AU259_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample356_AU259_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample356_AU259_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample357_AU260_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample357_AU260_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample357_AU260_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample357_AU260_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample357_AU260_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample357_AU260_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample358_AU261_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample358_AU261_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample358_AU261_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample358_AU261_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample358_AU261_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample358_AU261_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample359_AU262_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample359_AU262_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample359_AU262_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample359_AU262_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample359_AU262_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample359_AU262_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample360_AU263_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample360_AU263_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample360_AU263_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample360_AU263_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample360_AU263_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample360_AU263_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample361_AU264_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample361_AU264_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample361_AU264_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample361_AU264_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample361_AU264_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample361_AU264_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample362_AU265_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample362_AU265_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample362_AU265_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample362_AU265_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample362_AU265_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample362_AU265_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample363_AU266_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample363_AU266_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample363_AU266_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample363_AU266_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample363_AU266_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample363_AU266_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample364_AU267_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample364_AU267_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample364_AU267_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample364_AU267_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample364_AU267_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample364_AU267_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample365_AU268_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample365_AU268_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample365_AU268_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample365_AU268_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample365_AU268_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample365_AU268_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample366_AU269_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample366_AU269_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample366_AU269_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample366_AU269_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample366_AU269_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample366_AU269_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample367_AU270_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample367_AU270_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample367_AU270_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample367_AU270_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample367_AU270_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample367_AU270_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample368_AU271_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample368_AU271_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample368_AU271_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample368_AU271_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample368_AU271_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample368_AU271_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample369_AU272_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample369_AU272_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample369_AU272_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample369_AU272_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample369_AU272_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample369_AU272_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample370_AU273_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample370_AU273_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample370_AU273_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample370_AU273_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample370_AU273_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample370_AU273_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample371_AU274_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample371_AU274_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample371_AU274_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample371_AU274_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample371_AU274_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample371_AU274_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample372_AU275_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample372_AU275_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample372_AU275_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample372_AU275_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample372_AU275_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample372_AU275_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample373_AU276_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample373_AU276_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample373_AU276_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample373_AU276_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample373_AU276_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample373_AU276_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample374_AU277_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample374_AU277_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample374_AU277_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample374_AU277_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample374_AU277_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample374_AU277_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample375_AU278_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample375_AU278_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample375_AU278_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample375_AU278_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample375_AU278_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample375_AU278_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample376_AU279_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample376_AU279_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample376_AU279_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample376_AU279_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample376_AU279_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample376_AU279_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample377_AU280_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample377_AU280_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample377_AU280_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample377_AU280_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample377_AU280_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample377_AU280_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample378_AU281_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample378_AU281_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample378_AU281_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample378_AU281_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample378_AU281_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample378_AU281_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample379_AU282_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample379_AU282_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample379_AU282_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample379_AU282_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample379_AU282_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample379_AU282_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample380_AU283_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample380_AU283_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample380_AU283_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample380_AU283_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample380_AU283_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample380_AU283_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample381_AU284_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample381_AU284_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample381_AU284_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample381_AU284_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample381_AU284_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample381_AU284_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample382_AU285_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample382_AU285_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample382_AU285_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample382_AU285_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample382_AU285_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample382_AU285_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample383_AU286_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample383_AU286_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample383_AU286_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample383_AU286_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample383_AU286_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample383_AU286_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample384_AU287_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample384_AU287_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample384_AU287_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample384_AU287_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample384_AU287_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample384_AU287_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample385_AU288_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample385_AU288_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample385_AU288_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample385_AU288_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample385_AU288_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample385_AU288_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample386_AU289_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample386_AU289_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample386_AU289_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample386_AU289_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample386_AU289_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample386_AU289_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample387_AU290_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample387_AU290_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample387_AU290_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample387_AU290_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample387_AU290_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample387_AU290_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample388_AU291_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample388_AU291_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample388_AU291_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample388_AU291_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample388_AU291_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample388_AU291_R2.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample389_AU292_R1.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample389_AU292_R1.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample389_AU292_R1.fastq.gz
+/home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample389_AU292_R2.fastq.gz
+Linked /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/analysis_files/sample389_AU292_R2.fastq.gz -> /home/ARO.local/michaelr/Projects/db_collab_github/ARD_DB_tools/pipeline_runs/dataset_8/data/samples/16s/sample389_AU292_R2.fastq.gz
+dataset_id: 8
+pipeline_name: dataset_8
+Running: python scripts/python/1_dataset_to_analysis_files_simple_gzip_multi_threaded.py --dataset-id 8 --db ./final_ARD_projects_latest.db --fastq-dir ./raw_reads_projects/ --outdir ./analysis_files/
+Running: python scripts/python/2_dataset_to_manifest_file.py --dataset-id 8 --db ./final_ARD_projects_latest.db --fastq-dir ./analysis_files/ --outdir-base ./analysis_datasets/
+Running: python scripts/python/3_dataset_to_sample_metadata.py --dataset-id 8 --db ./final_ARD_projects_latest.db --outdir-base ./analysis_datasets/
+Running: python scripts/python/4_dataset_to_amplicon_metadata.py --dataset-id 8 --db ./final_ARD_projects_latest.db --outdir-base ./analysis_datasets/
+Running: python scripts/python/5_dataset_symlink_files.py --dataset-id 8 --db ./final_ARD_projects_latest.db --files-dir ./analysis_files/ --outdir-base ./analysis_datasets/
+Running: python scripts/python/6_dataset_directory_to_pipeline_run_directory.py --dataset-id 8 --pipeline-name dataset_8 --dataset-dir-base ./analysis_datasets/ --pipeline-dir-base ./pipeline_runs/
+? Pipeline completed

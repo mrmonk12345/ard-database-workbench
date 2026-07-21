@@ -4,8 +4,8 @@ channels:
   - defaults
 dependencies:
   - python=3.11
-  - mamba
   - pandas
   - pyqt6
   - pyyaml
+  - biopython
 prefix: /home/ARO.local/michaelr/.conda/envs/database
