@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
 
 from gui.action_box import ActionBox
 from gui.table_view_window import TableViewWindow
+from gui.table_simple_add_window import TableSimpleAddWindow
 
 from gui.treatment_sections import (
     assignments_section,
@@ -79,26 +80,25 @@ class TreatmentDataWindow(QDialog):
     # Add windows
     # ==================================
     def open_assignments_add(self): 
-        return        
-          
-#        self.window = SimpleAddWindow(
-#            self,
-#            entity_id=self.treatment_id,
-#            table_name="treatment_element_assignments",
-#            pk_column="treatment_assignment_id",
-#            output_filename=f"treatment_{self.treatment_id}_assignments_to_add.tsv",
-#        )
-#
-#        self.window.show()
+        self.window = TableSimpleAddWindow(
+            self,
+            entity_id=self.treatment_id,
+            entity_column="treatment_id",
+            table_name="treatment_element_assignments",
+            pk_column="treatment_assignment_id",
+            output_filename=f"treatment_{self.treatment_id}_assignments_to_add.tsv",
+        )
+
+        self.window.show()
 
     def open_elements_add(self):
-        return   
-#        self.window = SimpleAddWindow(
-#            self,
-#            entity_id=self.treatment_id,
-#            table_name="treatment_elements",
-#            pk_column="treatment_element_id",
-#            output_filename=f"treatment_{self.treatment_id}_elements_to_add.tsv",
-#        )
-#
-#        self.window.show()
+        self.window = TableSimpleAddWindow(
+            self,
+            entity_id=self.treatment_id,
+            entity_column="treatment_id",
+            table_name="treatment_elements",
+            pk_column="treatment_element_id",
+            output_filename=f"treatment_{self.treatment_id}_elements_to_add.tsv",
+        )
+
+        self.window.show()

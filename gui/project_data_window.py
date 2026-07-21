@@ -14,12 +14,12 @@ from gui.table_view_window import TableViewWindow
 
 from gui.project_sections import *
 
-from gui.project_table_simple_add_window import (
-    ProjectTableSimpleAddWindow
+from gui.table_simple_add_window import (
+    TableSimpleAddWindow
 )
 
-from gui.project_table_matrix_add_window import (
-    ProjectTableMatrixAddWindow
+from gui.table_matrix_add_window import (
+    TableMatrixAddWindow
 )
 
 from scripts.python.project_get_data import (
@@ -161,9 +161,10 @@ class ProjectDataWindow(QDialog):
 
     def open_samples_add(self):
 
-        self.window = ProjectTableSimpleAddWindow(
+        self.window = TableSimpleAddWindow(
             self,
-            project_id=self.project_id,
+            entity_id=self.project_id,
+            entity_column="project_id",
             table_name="samples",
             pk_column="sample_id",
             output_filename=f"project_{self.project_id}_samples_to_add.tsv"
@@ -173,9 +174,10 @@ class ProjectDataWindow(QDialog):
 
     def open_outputs_add(self):
 
-        self.window = ProjectTableSimpleAddWindow(
+        self.window = TableSimpleAddWindow(
             self,
-            project_id=self.project_id,
+            entity_id=self.project_id,
+            entity_column="project_id",
             table_name="sequencing_outputs",
             pk_column="sequencing_output_id",
             output_filename=f"project_{self.project_id}_sequencing_outputs_to_add.tsv"
@@ -193,9 +195,10 @@ class ProjectDataWindow(QDialog):
             self.project_id
         ).to_dict("records")
 
-        self.window = ProjectTableMatrixAddWindow(
+        self.window = TableMatrixAddWindow(
             self,
-            project_id=self.project_id,
+            entity_id=self.project_id,
+            entity_column="project_id",
             table_name="libraries",
             pk_column="library_id",
             rows_data=samples,
@@ -218,9 +221,10 @@ class ProjectDataWindow(QDialog):
             self.project_id
         ).to_dict("records")
 
-        self.window = ProjectTableMatrixAddWindow(
+        self.window = TableMatrixAddWindow(
             self,
-            project_id=self.project_id,
+            entity_id=self.project_id,
+            entity_column="project_id",
             table_name="analysis_units",
             pk_column="analysis_unit_id",
             rows_data=libraries,
