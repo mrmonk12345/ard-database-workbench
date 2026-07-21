@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import (
 )
 
 from gui.ui_utils import create_table, create_copyable_table
-from gui.tsv_expoorter import TSVExporter
+from gui.tsv_exporter import TSVExporter
 
 
 class ProjectTableViewWindow(QDialog):
