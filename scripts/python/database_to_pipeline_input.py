@@ -1,3 +1,5 @@
+"""Create all input files and a pipeline run directory for a dataset."""
+
 import subprocess
 from pathlib import Path
 import argparse
@@ -16,6 +18,7 @@ from scripts.python.create_pipeline_run import create_pipeline_run
 # --- parameters ---
 
 # --- CLI arguments ---
+# Parse the dataset selected for processing.
 parser = argparse.ArgumentParser(description="Run pipeline")
 
 parser.add_argument("--dataset-id", type=int, required=True, help="Dataset ID")
@@ -39,7 +42,7 @@ def run_step(script, args):
 
 # --- run pipeline steps ---
 
-# Step 1
+# Create gzipped FASTQ files from the raw reads.
 run_step(
     "1_dataset_to_analysis_files_simple_gzip_multi_threaded.py",
     [
@@ -50,7 +53,7 @@ run_step(
     ],
 )
 
-# Step 2
+# Create the QIIME FASTQ manifest.
 run_step(
     "2_dataset_to_manifest_file.py",
     [
@@ -61,7 +64,7 @@ run_step(
     ],
 )
 
-# Step 3
+# Create sample metadata for the dataset.
 run_step(
     "3_dataset_to_sample_metadata.py",
     [
@@ -71,7 +74,7 @@ run_step(
     ],
 )
 
-# Step 4
+# Create amplicon metadata for the dataset.
 run_step(
     "4_dataset_to_amplicon_metadata.py",
     [
@@ -81,7 +84,7 @@ run_step(
     ],
 )
 
-# Step 5
+# Create symlinks to the processed FASTQ files.
 run_step(
     "5_dataset_symlink_files.py",
     [
@@ -92,25 +95,25 @@ run_step(
     ],
 )
 
-
+# Create a database record and retrieve its generated pipeline run ID.
 pipeline_run_id = create_pipeline_run(
     DATABASE_PATH,
     dataset_id
 )
 
 # --- paths ---
+# Define the pipeline run and dataset symlink locations.
 pipeline_dir = Path(PIPELINE_RUNS_PATH) / str(pipeline_run_id)
 symlink_pipeline_dir = Path(ANALYSIS_DATASETS_PATH) / str(dataset_id) / "pipeline_runs" / str(pipeline_run_id)
 example_pipeline_dir = Path(PIPELINE_RUNS_PATH) / "example_pipeline"
 
 
-# --- create pipeline run directory ---
+# Create the pipeline run directory and its parent symlink directory.
 pipeline_dir.mkdir(parents=True, exist_ok=True)
 symlink_pipeline_dir.parent.mkdir(parents=True, exist_ok=True)
 
 
-# create symlink 
-
+# Link the dataset to the corresponding pipeline run directory.
 if not symlink_pipeline_dir.exists():
     symlink_pipeline_dir.symlink_to(
         pipeline_dir.resolve(),
@@ -118,14 +121,14 @@ if not symlink_pipeline_dir.exists():
     )
     
 
-# --- copy template pipeline ---
+# Copy the example pipeline structure into the new run directory.
 subprocess.run(
     ["rsync", "-av", f"{example_pipeline_dir}/", str(pipeline_dir)],
     check=True,
 )
 
 
-# Step 6
+# Copy the dataset metadata and FASTQ links into the pipeline run directory.
 run_step(
     "6_dataset_directory_to_pipeline_run_directory.py",
     [

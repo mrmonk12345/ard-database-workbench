@@ -1,6 +1,4 @@
-
-# update_pipeline_run_from_snakemake.py
-
+"""Update pipeline-run parameters from a Snakemake shell configuration."""
 
 import argparse
 import re
@@ -11,7 +9,7 @@ from config import ANALYSIS_DATASETS_PATH
 from config import DATABASE_PATH
 from config import PIPELINE_RUNS_PATH
 
-
+# Parse the pipeline-run ID and optional database path from the command line.
 parser = argparse.ArgumentParser(
     description="Update pipeline_runs from snakemake_qiime.sh"
 )
@@ -36,14 +34,22 @@ args = parser.parse_args()
 
 
 def parse_shell_variables(path):
+    """Read simple uppercase variable assignments from a shell file.
+
+    Comments, empty lines, and lines that do not match ``KEY=VALUE`` are
+    ignored. Matching values may optionally be enclosed in single or double
+    quotes.
+    """
     variables = {}
 
+    # Match uppercase variable names containing letters and underscores.
     pattern = re.compile(r"^([A-Z_]+)=(.*)$")
 
     with open(path) as f:
         for line in f:
             line = line.strip()
 
+            # Ignore blank lines and shell comments.
             if not line:
                 continue
 
@@ -59,6 +65,7 @@ def parse_shell_variables(path):
 
             value = value.strip()
 
+            # Remove matching surrounding quotes from the value.
             if (
                 (value.startswith('"') and value.endswith('"'))
                 or
@@ -74,6 +81,7 @@ def parse_shell_variables(path):
 conn = sqlite3.connect(args.db)
 cur = conn.cursor()
 
+# Retrieve the dataset associated with the selected pipeline run.
 cur.execute(
     """
     SELECT analysis_dataset_id
@@ -92,6 +100,7 @@ if row is None:
 
 dataset_id = row[0]
 
+# Locate the Snakemake configuration file for this pipeline run.
 config_path = (
     Path(PIPELINE_RUNS_PATH)
     / str(args.pipeline_run_id)
@@ -103,8 +112,10 @@ if not config_path.exists():
         f"Config file not found: {config_path}"
     )
 
+# Read parameter values from the shell configuration.
 variables = parse_shell_variables(config_path)
 
+# Update the pipeline-run record with the parsed QIIME parameters.
 cur.execute(
     """
     UPDATE pipeline_runs

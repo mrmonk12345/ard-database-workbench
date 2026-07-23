@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Copy dataset metadata and FASTQ links to a pipeline run directory."""
+
 import argparse
 import os
 import sys
@@ -10,6 +12,7 @@ DEFAULT_DATASET_BASE = "/home/ARO.local/michaelr/Projects/db_fixing_libraries/an
 
 
 def main():
+    """Prepare a pipeline run directory from an analysis dataset."""
     parser = argparse.ArgumentParser(
         description="Copy files to pipeline run"
     )
@@ -22,7 +25,7 @@ def main():
     args = parser.parse_args()
 
 
-    # ? output directory
+    # Use the pipeline name when provided; otherwise use the dataset ID.
     if args.pipeline_name:
         outdir = os.path.join(
         args.pipeline_dir_base,
@@ -35,25 +38,25 @@ def main():
         )
     os.makedirs(outdir, exist_ok=True)
 
-    # ? input directory
+    # Locate the source dataset directory.
     indir = os.path.join(
         args.dataset_dir_base,
         str(args.dataset_id)
         )
 
-
+    # Map dataset files to their locations in the pipeline directory.
     copies = [
         ("qiime_manifest.tsv", "data/16s_file_metadata.tsv"),
         ("sample_metadata.tsv", "data/16s_sample_metadata_file.tsv"),
         ("amplicon_metadata.tsv", "amplicon_metadata.tsv")
     ]
 
-    # ✅ copy metadata files
+    # Copy the metadata files to the pipeline run directory.
     for src_name, dst_rel in copies:
         src = os.path.join(indir, src_name)
         dst = os.path.join(outdir, dst_rel)
 
-        # ensure destination folder exists
+        # Ensure the destination folder exists.
         os.makedirs(os.path.dirname(dst), exist_ok=True)
 
         shutil.copy2(src, dst)
@@ -61,8 +64,7 @@ def main():
         print(f"Copied {src} -> {dst}")
 
 
-    # ✅ copy multiple files (wildcard)
-
+    # Link all analysis FASTQ files into the pipeline samples directory.
     src_pattern = os.path.join(indir, "analysis_unit_files", "*")
     dst_dir = os.path.join(outdir, "data", "samples", "16s")
 
@@ -73,6 +75,7 @@ def main():
         print(dst)
         real_path = os.path.realpath(file_path)
 
+        # Replace an existing file or symlink.
         if os.path.exists(dst):
           os.remove(dst)
         os.symlink(real_path, dst)

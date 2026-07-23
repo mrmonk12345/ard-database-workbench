@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Create a sample metadata TSV file for an analysis dataset."""
+
 import argparse
 import sqlite3
 import os
@@ -30,13 +32,15 @@ WHERE au.analysis_dataset_id = ? ;
 """
 
 
-def write_tsv(path, header, rows):
+def write_tsv(path, header, rows):    
+    """Write column headers and data rows to a TSV file."""
     with open(path, "w") as f:
         f.write("\t".join(header) + "\n")
         for row in rows:
             f.write("\t".join(str(x) for x in row) + "\n")
 
 def main():
+    """Read sample metadata from the database and write it to a TSV file."""
     parser = argparse.ArgumentParser(
         description="Create metadata files for dataset"
     )
@@ -46,11 +50,11 @@ def main():
 
     args = parser.parse_args()
 
-    # ? checks
+    # Check that the database exists before opening it.
     if not os.path.exists(args.db):
         sys.exit(f"ERROR: database not found: {args.db}")
 
-    # ? output dir (match gzip script structure)
+    # Create an output directory named after the dataset ID.
     if args.outdir_base:
         outdir = os.path.join(
         args.outdir_base,
@@ -67,7 +71,7 @@ def main():
     conn = sqlite3.connect(args.db)
     cur = conn.cursor()
 
-    # ? sample metadata
+    # Retrieve sample metadata for the selected dataset.
     sample_rows = cur.execute(
         SQL,
         (args.dataset_id,)
@@ -78,6 +82,7 @@ def main():
 
     sample_header = ["sample_name", "sample_id", "project_id", "treatment_id", "treatment_name", "analysis_unit_label", "sample_label",                      "time_since_planting"]
 
+    # Write the metadata to the dataset output directory.
     sample_path = os.path.join(outdir, "sample_metadata.tsv")
     write_tsv(sample_path, sample_header, sample_rows)
     

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Create symlinks to analysis FASTQ files for an analysis dataset."""
+
 import argparse
 import sqlite3
 import os
@@ -23,6 +25,7 @@ WHERE au.analysis_dataset_id = ? ;
 
 
 def main():
+    """Create FASTQ symlinks for all analysis units in a dataset."""
     parser = argparse.ArgumentParser(
         description="Create symlinks for FASTQ files"
     )
@@ -34,14 +37,14 @@ def main():
 
     args = parser.parse_args()
 
-    # checks
+    # Check that the database and source files directory exist.
     if not os.path.exists(args.db):
         sys.exit(f"ERROR: database not found: {args.db}")
 
     if not os.path.isdir(args.files_dir):
         sys.exit(f"ERROR: files directory not found: {args.files_dir}")
 
-    # ? output directory
+    # Create an output directory named after the dataset ID.
     if args.outdir_base:
         outdir = os.path.join(
         args.outdir_base,
@@ -59,6 +62,7 @@ def main():
     conn = sqlite3.connect(args.db)
     cur = conn.cursor()
 
+    # Retrieve FASTQ file paths for the selected dataset.
     rows = cur.execute(SQL, (args.dataset_id,)).fetchall()
 
     if not rows:
@@ -68,7 +72,7 @@ def main():
 
     for analysis_unit_id, fwd, rev in rows:
 
-
+        # Resolve the source paths before creating the symlinks.
         fwd_src = os.path.realpath(os.path.join(args.files_dir, fwd))
         rev_src = os.path.realpath(os.path.join(args.files_dir, rev))
 
@@ -81,8 +85,7 @@ def main():
         rev_dest = os.path.abspath(os.path.join(outdir, rev))
 
 
-        # create symlinks
-
+        # Replace existing links or files with fresh symlinks.
         if os.path.exists(fwd_dest):
           os.remove(fwd_dest)
         

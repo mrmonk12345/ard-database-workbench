@@ -1,3 +1,6 @@
+
+"""Load ASV taxonomy assignments from a TSV file into the database."""
+
 import argparse
 import sqlite3
 from datetime import date
@@ -6,6 +9,16 @@ import pandas as pd
 
 
 def parse_taxonomy(taxon_string):
+    """
+    Convert a semicolon-separated taxonomy string into ranked values.
+
+    Args:
+        taxon_string: Taxonomy string using prefixes such as ``d__`` and
+            ``p__``.
+
+    Returns:
+        A dictionary containing the standard taxonomic ranks.
+    """
 
     ranks = {
         "kingdom": None,
@@ -17,6 +30,7 @@ def parse_taxonomy(taxon_string):
         "species": None,
     }
 
+    # Map taxonomy prefixes to database column names.
     rank_map = {
         "d": "kingdom",
         "p": "phylum",
@@ -27,6 +41,7 @@ def parse_taxonomy(taxon_string):
         "s": "species",
     }
 
+    # Extract each rank from the taxonomy string.
     for item in str(taxon_string).split(";"):
 
         item = item.strip()
@@ -47,15 +62,29 @@ def load_taxonomy(
     db_path,
     pipeline_run_id,
 ):
+    """
+    Insert taxonomy assignments for ASVs in a pipeline run.
+
+    The TSV file must contain ``Feature ID``, ``Taxon``, and ``Confidence``
+    columns. Features that are not present in the selected pipeline run are
+    skipped.
+
+    Args:
+        taxonomy_file: Path to the taxonomy TSV file.
+        db_path: Path to the SQLite database.
+        pipeline_run_id: ID of the associated pipeline run.
+    """
 
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
 
+    # Read the taxonomy assignments from the TSV file.
     df = pd.read_csv(
         taxonomy_file,
         sep="\t",
     )
 
+    # Map sequence hashes to ASV IDs for the selected pipeline run.
     asv_lookup = dict(
         cur.execute(
             """
@@ -69,6 +98,7 @@ def load_taxonomy(
 
     rows = []
 
+    # Convert each taxonomy assignment into database values.
     for _, row in df.iterrows():
 
         sequence_hash = row["Feature ID"]
@@ -96,6 +126,7 @@ def load_taxonomy(
             )
         )
 
+    # Insert all taxonomy assignments in a single batch.
     cur.executemany(
         """
         INSERT INTO taxonomy (
@@ -123,7 +154,7 @@ def load_taxonomy(
 
 
 if __name__ == "__main__":
-
+    # Parse command-line arguments when the script is run directly.
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -144,6 +175,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Load the taxonomy assignments into the database.
     load_taxonomy(
         taxonomy_file=args.taxonomy,
         db_path=args.db_path,

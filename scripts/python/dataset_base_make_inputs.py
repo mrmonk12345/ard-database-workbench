@@ -1,10 +1,13 @@
+
+"""Load analysis unit IDs associated with an analysis dataset."""
+
 import sqlite3
 import pandas as pd
 
 from config import DATABASE_PATH
 
-# --- SQL QUERIES ---
 
+# Select analysis units that match the dataset's sequencing run and amplicon type.
 SELECT_AU_IDS_FOR_DATASET_SQL = """
 SELECT au.analysis_unit_id
 FROM analysis_datasets ad
@@ -22,9 +25,18 @@ WHERE
 # --- FUNCTION ---
 
 def create_dataset_inputs(db_path=DATABASE_PATH, dataset_id=None):
+    """Return analysis unit IDs for the selected dataset as a DataFrame.
+
+    Args:
+        db_path: Path to the SQLite database.
+        dataset_id: ID of the analysis dataset to query.
+
+    Returns:
+        A pandas DataFrame containing the matching analysis unit IDs.
+    """
     conn = sqlite3.connect(db_path)
 
-    # Load into pandas DataFrame directly
+    # Execute the query and load the results directly into pandas.
     df = pd.read_sql_query(
         SELECT_AU_IDS_FOR_DATASET_SQL,
         conn,

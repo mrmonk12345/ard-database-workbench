@@ -1,3 +1,4 @@
+"""Generate and refresh descriptive labels for database records."""
 
 import sqlite3
 import pandas as pd
@@ -7,8 +8,10 @@ from config import DATABASE_PATH
 
 
 def run_query(query, params=None):
+    """Execute a SQL query and return the results as a DataFrame."""
     conn = sqlite3.connect(DATABASE_PATH)
 
+    # Use query parameters when provided.
     if params:
         df = pd.read_sql(query, conn, params=params)
     else:
@@ -18,26 +21,22 @@ def run_query(query, params=None):
     return df
 
 def add_prefix(value, prefix):
+    """Add a prefix to a value unless the value is the placeholder ``X``."""
     return f"{prefix}{value}" if value != "X" else "X"
 
 def update_labels(table_name, id_column, label_column, df):
-    """
-    Update labels in a table.
+    """Update label values in a database table.
 
-    Parameters
-    ----------
-    table_name : str
-        Table to update.
-    id_column : str
-        Primary key column.
-    label_column : str
-        Label column to update.
-    df : DataFrame
-        Must contain id_column and label_column.
+    Args:
+        table_name: Table containing the records to update.
+        id_column: Primary key column used to identify each record.
+        label_column: Column containing the label to update.
+        df: DataFrame containing the ID and new label columns.
     """
     conn = sqlite3.connect(DATABASE_PATH)
     cur = conn.cursor()
 
+    # Update each record using its primary key.
     query = f"""
         UPDATE {table_name}
         SET {label_column} = ?
@@ -53,12 +52,14 @@ def update_labels(table_name, id_column, label_column, df):
     conn.close()
 
 def refresh_all_labels():
-#    update_labels(
-#        "samples",
-#        "sample_id",
-#        "label",
-#        make_samples_labels().rename(columns={"sample_label": "label"})
-#    )
+    """Generate and save labels for all supported database entities."""
+    # Samples can be refreshed when sample labels are ready to be updated.
+    # update_labels(
+    #     "samples",
+    #     "sample_id",
+    #     "label",
+    #     make_samples_labels().rename(columns={"sample_label": "label"})
+    # )
 
     update_labels(
         "libraries",
@@ -86,6 +87,7 @@ def refresh_all_labels():
     )
 
 def make_samples_labels():
+    """Build labels for samples from their related metadata."""
     query = """
     SELECT
         s.sample_id,
@@ -108,11 +110,12 @@ def make_samples_labels():
     
     df = run_query(query)
 
-
+    # Add the R prefix to replicate numbers.
     df["replicate"] = df["replicate"].apply(
         lambda x: add_prefix(x, "R")
     )
 
+    # Combine sample attributes into one readable label.
     df["sample_label"] = (
         df["location"]
         + "_"
@@ -130,6 +133,7 @@ def make_samples_labels():
     return df[["sample_id", "sample_label"]]
 
 def make_libraries_labels():
+    """Build labels for libraries from sample and amplicon metadata."""
     query = """
     SELECT
         l.library_id,
@@ -145,6 +149,7 @@ def make_libraries_labels():
     
     df = run_query(query)
 
+    # Add a prefix to the amplicon type ID.
     df["amplicon_type_id"] = df["amplicon_type_id"].apply(
         lambda x: add_prefix(x, "AT")
     )
@@ -160,6 +165,7 @@ def make_libraries_labels():
     return df[["library_id", "library_label"]]
 
 def make_sequencing_outputs_labels():
+    """Build labels for sequencing outputs and their related metadata."""
     query = """
     SELECT
         so.sequencing_output_id,
@@ -177,6 +183,8 @@ def make_sequencing_outputs_labels():
     """
     
     df = run_query(query)
+
+    # Add prefixes to sequencing run and amplicon type IDs.
 
     df["amplicon_type_id"] = df["amplicon_type_id"].apply(
         lambda x: add_prefix(x, "AT")
@@ -198,6 +206,7 @@ def make_sequencing_outputs_labels():
     return df[["sequencing_output_id", "sequencing_output_label"]]
 
 def make_analysis_units_labels():
+    """Build labels for analysis units from library and run metadata."""
     query = """
     SELECT
         au.analysis_unit_id,
@@ -212,6 +221,7 @@ def make_analysis_units_labels():
     
     df = run_query(query)
 
+    # Add a prefix to the sequencing run ID.
     df["sequencing_run_id"] = df["sequencing_run_id"].apply(
         lambda x: add_prefix(x, "SR")
     )

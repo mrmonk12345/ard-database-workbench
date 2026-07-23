@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## Upload input data (TSV) to a specified table in the database 
+
 source /home/ARO.local/collaboration/michalm_collab/envs/database/env_database.sh
 
 python -m scripts.python.input_table \

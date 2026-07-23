@@ -1,3 +1,5 @@
+"""Assign base analysis units to an analysis dataset."""
+
 import sqlite3
 import pandas as pd
 import argparse
@@ -5,13 +7,14 @@ import argparse
 from scripts.python.dataset_base_make_inputs import create_dataset_inputs
 from config import DATABASE_PATH
 
-
+# Find analysis units that are already assigned to the dataset.
 SELECT_EXISTING_INPUTS_SQL = """
 SELECT analysis_unit_id
 FROM analysis_units
 WHERE analysis_dataset_id = ?
 """
 
+# Assign an analysis unit to the selected dataset.
 UPDATE_INPUT_SQL = """
 UPDATE analysis_units
 SET analysis_dataset_id = ?
@@ -20,16 +23,19 @@ WHERE analysis_unit_id = ?
 
 
 def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
-    """
-    Assigns base dataset to analysis units if the unit
-    currently doesnt have an analysis dataset.
-    
-    If analysis units already exist:
-      - Prints OK if all base analysis units are assigned.
-      - Prints a warning if some expected analysis units are missing.
-      - Does NOT modify the dataset.
+    """Assign missing base analysis units to a dataset.
+
+    If the dataset has no inputs, all expected analysis units are assigned.
+    If the dataset already has inputs, the function only reports whether any
+    expected units are missing and does not modify the existing assignments.
+
+    Args:
+        dataset_id: ID of the analysis dataset to update.
+        db_path: Path to the SQLite database.
+        no_commit: If True, show planned changes without saving them.
     """
 
+    # Determine which analysis units are expected for this dataset.
     expected_df = create_dataset_inputs(
         db_path=db_path,
         dataset_id=dataset_id
@@ -40,6 +46,7 @@ def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
     conn = sqlite3.connect(db_path)
 
     try:
+        # Load analysis units currently assigned to the dataset.
         existing_df = pd.read_sql_query(
             SELECT_EXISTING_INPUTS_SQL,
             conn,
@@ -48,7 +55,7 @@ def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
 
         existing_au_ids = set(existing_df["analysis_unit_id"])
 
-        # Dataset has no inputs -> initialize it
+        # Initialize a dataset that does not have any inputs yet.
         if len(existing_au_ids) == 0:
             rows_to_insert = [
                 (dataset_id, au_id)
@@ -74,7 +81,7 @@ def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
         
             return
 
-        # Dataset already has inputs
+        # Do not modify a dataset that already contains inputs.
         missing_au_ids = expected_au_ids - existing_au_ids
 
         if not missing_au_ids:
@@ -99,6 +106,7 @@ def sync_dataset_inputs(dataset_id, db_path=DATABASE_PATH, no_commit=False):
 
 
 if __name__ == "__main__":
+    # Parse command-line options when the script is run directly.
     parser = argparse.ArgumentParser(
         description="Initialize analysis_dataset_inputs for a dataset."
     )
@@ -124,6 +132,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Synchronize the selected dataset with its expected analysis units.
     sync_dataset_inputs(
         dataset_id=args.dataset_id,
         db_path=args.db,

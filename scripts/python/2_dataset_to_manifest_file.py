@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Create a QIIME FASTQ manifest for an analysis dataset."""
 
 import argparse
 import sqlite3
@@ -12,6 +13,7 @@ DEFAULT_FASTQ_DIR = "/home/ARO.local/michaelr/Projects/db_fixing_libraries/analy
 DEFAULT_OUTPUT_BASE = "/home/ARO.local/michaelr/Projects/db_fixing_libraries/analysis_datasets/"
 
 
+# Retrieve analysis unit names and their paired FASTQ file paths.
 SQL = """
 SELECT
     au.analysis_unit_name,
@@ -29,6 +31,7 @@ WHERE au.analysis_dataset_id = ?
 
 
 def write_tsv(path, header, rows):
+    """Write column headers and data rows to a tab-separated file."""
     with open(path, "w") as f:
         f.write("\t".join(header) + "\n")
         for row in rows:
@@ -36,12 +39,14 @@ def write_tsv(path, header, rows):
 
 
 def make_absolute(path, base_dir):
+    """Return an absolute path using base_dir for relative paths."""
     if os.path.isabs(path):
         return path
     return os.path.abspath(os.path.join(base_dir, path))
 
 
 def main():
+    """Read FASTQ paths from the database and create a QIIME manifest."""
     parser = argparse.ArgumentParser(description="Create FASTQ manifest from DB")
     parser.add_argument("--db", default=DEFAULT_DB)
     parser.add_argument("--dataset-id", required=True, type=int)
@@ -50,11 +55,11 @@ def main():
 
     args = parser.parse_args()
     
-    # ? checks
+    # Check that the database exists before opening it.
     if not os.path.exists(args.db):
         sys.exit(f"ERROR: database not found: {args.db}")
 
-    # ? output dir (match gzip script structure)
+    # Create an output directory named after the dataset ID.
     if args.outdir_base:
         outdir = os.path.join(
         args.outdir_base,
@@ -68,11 +73,10 @@ def main():
 
     os.makedirs(outdir, exist_ok=True)
 
-    # Connect to DB
+    # Connect to the database and retrieve FASTQ paths for the dataset.
     conn = sqlite3.connect(args.db)
     cur = conn.cursor()
 
-    # ? qiime manifest
     rows = cur.execute(
         SQL, 
         (args.dataset_id,)
@@ -81,14 +85,14 @@ def main():
     if not rows:
         sys.exit("ERROR: No data found!")
 
-    # Process file paths
+    # Convert relative FASTQ paths to absolute paths for QIIME.
     manifest_rows = []
     for sample, r1, r2 in rows:
         r1_abs = make_absolute(r1, args.fastq_dir)
         r2_abs = make_absolute(r2, args.fastq_dir)
         manifest_rows.append([sample, r1_abs, r2_abs])
 
-    # Header and file writing
+    # Write the manifest using the column names required by QIIME.
     manifest_header = ["sample-id", "forward-absolute-filepath", "reverse-absolute-filepath"]
     manifest_path = os.path.join(outdir, "qiime_manifest.tsv")
     

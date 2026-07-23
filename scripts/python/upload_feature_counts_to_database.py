@@ -1,3 +1,5 @@
+"""Load ASV feature counts from a TSV file into the database."""
+
 import sqlite3
 import pandas as pd
 
@@ -7,10 +9,21 @@ def load_feature_counts(
     db_path,
     pipeline_run_id,
 ):
+    """
+    Insert non-zero ASV feature counts for a pipeline run.
+
+    The TSV file is expected to contain ASV sequence hashes in the first
+    column and analysis-unit names in the remaining columns.
+
+    Args:
+        tsv_file: Path to the feature-count TSV file.
+        db_path: Path to the SQLite database.
+        pipeline_run_id: ID of the associated pipeline run.
+    """
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
 
-    # Skip metadata line and read whitespace-delimited table
+    # Skip the metadata line and read the tab-separated feature table.
     df = pd.read_csv(
         tsv_file,
         sep="\t",
@@ -18,13 +31,13 @@ def load_feature_counts(
         engine="python",
     )
 
-    # Rename first column to sequence_hash
+    # The first column contains the sequence hash used to identify each ASV.
     df.rename(
         columns={df.columns[0]: "sequence_hash"},
         inplace=True,
     )
 
-    # ASV lookup
+    # Build a lookup from sequence hashes to ASV IDs for this pipeline run.
     asv_lookup = dict(
         cur.execute(
             """
@@ -36,7 +49,7 @@ def load_feature_counts(
         )
     )
 
-    # Analysis unit lookup
+    # Build a lookup from analysis-unit names to their database IDs.
     au_lookup = dict(
         cur.execute(
             """
@@ -50,6 +63,7 @@ def load_feature_counts(
 
     rows = []
 
+    # Process each ASV and its counts across all analysis units.
     for _, row in df.iterrows():
 
         asv_id = asv_lookup.get(row["sequence_hash"])
@@ -61,12 +75,14 @@ def load_feature_counts(
 
             count = float(row[sample_name])
 
+            # Zero counts do not need to be stored.
             if count == 0:
                 continue
 
             analysis_unit_id = au_lookup.get(sample_name)
 
-            # If DB stores only AU229 instead of sample326_AU229
+            # Support names such as sample326_AU229 when the database
+            # stores only the shorter AU229 analysis-unit name.
             if analysis_unit_id is None and "_" in sample_name:
                 analysis_unit_id = au_lookup.get(
                     sample_name.split("_")[-1]
@@ -87,6 +103,7 @@ def load_feature_counts(
                 )
             )
 
+    # Insert all feature counts in one batch.
     cur.executemany(
         """
         INSERT INTO feature_counts (
@@ -108,7 +125,7 @@ def load_feature_counts(
     )
 
 if __name__ == "__main__":
-
+    # Parse command-line arguments when the script is run directly.
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -131,6 +148,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Load the feature counts into the database.
     load_feature_counts(
         tsv_file=args.table,
         db_path=args.db_path,

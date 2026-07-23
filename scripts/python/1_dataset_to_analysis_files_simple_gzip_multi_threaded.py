@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Create gzipped analysis FASTQ files for an analysis dataset."""
+
 import argparse
 import sqlite3
 import os
@@ -55,6 +57,7 @@ ON CONFLICT(analysis_unit_id) DO UPDATE SET
 """
 
 def gzip_file(src, dst, threads):
+    """Compress a FASTQ file using pigz."""
     with open(dst, "wb") as out_f:
         subprocess.run(
             ["pigz", "-p", str(threads), "-c", src],
@@ -63,10 +66,12 @@ def gzip_file(src, dst, threads):
         )
 
 def copy_gz(src, dst):
+    """Copy an already-compressed FASTQ file."""
     shutil.copy2(src, dst)
 
 # ? worker function (runs in parallel)
 def process_sample(row, args, outdir, project_id):
+    """Process one analysis unit and return its database file metadata."""
     analysis_unit_id, analysis_unit_name, sequencing_output_id, fwd, rev = row
 
     fwd_path = os.path.join(args.fastq_dir, project_id, fwd)
@@ -113,6 +118,7 @@ def process_sample(row, args, outdir, project_id):
     )
 
 def main():
+    """Read dataset FASTQs, create output files, and update the database."""
     parser = argparse.ArgumentParser(
         description="Create gzipped FASTQ files (multithreaded)"
     )
@@ -141,7 +147,8 @@ def main():
 
     conn = sqlite3.connect(args.db)
     cur = conn.cursor()
-    
+
+    # Get the project ID and FASTQ records for the selected dataset.
     project_row = cur.execute(GET_PROJECT_ID_SQL, (args.dataset_id,)).fetchone()
 
     if not project_row:
@@ -154,7 +161,7 @@ def main():
     if not rows:
         sys.exit("ERROR: no FASTQs found")
 
-    # ? deduplicate
+    # Remove duplicate analysis units before parallel processing.
     seen = set()
     filtered = []
     for row in rows:
@@ -165,7 +172,7 @@ def main():
 
     results = []
 
-    # ? parallel execution
+    # parallel execution
     with ThreadPoolExecutor(max_workers=args.workers) as executor:
         futures = [executor.submit(process_sample, row, args, outdir, project_id)
                    for row in filtered]
@@ -177,7 +184,7 @@ def main():
                 print(f"ERROR: {e}")
                 sys.exit(1)
 
-    # ? single-thread DB writes
+    # single-thread DB writes
     for analysis_unit_id, sequencing_output_id, r1, r2 in results:
         cur.execute(
             WRITE_FILES_DATABASE_SQL,

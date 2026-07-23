@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Create an amplicon metadata TSV file for an analysis dataset."""
+
 import argparse
 import sqlite3
 import os
@@ -22,12 +24,14 @@ WHERE au.analysis_dataset_id = ?
 
 
 def write_tsv(path, header, rows):
+    """Write column headers and data rows to a TSV file."""
     with open(path, "w") as f:
         f.write("\t".join(header) + "\n")
         for row in rows:
             f.write("\t".join(str(x) for x in row) + "\n")
 
 def main():
+    """Read amplicon metadata from the database and write it to a TSV file."""
     parser = argparse.ArgumentParser(
         description="Create metadata files for dataset"
     )
@@ -37,11 +41,11 @@ def main():
 
     args = parser.parse_args()
 
-    # ? checks
+    # Check that the database exists before opening it.
     if not os.path.exists(args.db):
         sys.exit(f"ERROR: database not found: {args.db}")
 
-    # ? output dir (match gzip script structure)
+    # Create an output directory named after the dataset ID.
     if args.outdir_base:
         outdir = os.path.join(
         args.outdir_base,
@@ -58,7 +62,7 @@ def main():
     conn = sqlite3.connect(args.db)
     cur = conn.cursor()
 
-    # ? amplicon metadata
+    # Retrieve amplicon metadata for the selected dataset.
     amplicon_rows = cur.execute(
         SQL,
         (args.dataset_id,)
@@ -67,9 +71,10 @@ def main():
     if not amplicon_rows:
         print("WARNING: no amplicon metadata found")
 
-    # dynamic header from DB
+    # Use the database column names as the TSV header.
     amplicon_header = [desc[0] for desc in cur.description]
 
+    # Write the metadata to the dataset output directory.
     amplicon_path = os.path.join(outdir, "amplicon_metadata.tsv")
     write_tsv(amplicon_path, amplicon_header, amplicon_rows)
     

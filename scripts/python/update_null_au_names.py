@@ -1,9 +1,16 @@
+"""Fill missing analysis-unit names in the database."""
+
 import sqlite3
 
 from config import DATABASE_PATH
 
 
 def update_null_au_names():
+    """Assign names to analysis units that do not already have one.
+
+    Names are generated from the related sample ID and analysis-unit ID.
+    Existing non-empty names are left unchanged.
+    """
     sql = """
     UPDATE analysis_units
     SET analysis_unit_name = (
