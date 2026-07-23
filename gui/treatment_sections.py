@@ -1,3 +1,5 @@
+"""Define treatment dashboard sections and their related actions."""
+
 from scripts.python.treatment_get_data import (
     get_treatment_element_assignments,
     get_treatment_elements,
@@ -12,7 +14,7 @@ from scripts.python.treatment_get_data import (
 
 
 def assignments_section(window):
-
+    """Return the treatment-element assignments section configuration."""
     return {
         "title": "Treatment Assignments",
 
@@ -41,7 +43,7 @@ def assignments_section(window):
 
 
 def elements_section(window):
-
+    """Return the treatment elements section configuration."""
     return {
         "title": "Treatment Elements",
 
@@ -70,7 +72,7 @@ def elements_section(window):
 
 
 def samples_section(window):
-
+    """Return the treatment samples section configuration."""
     return {
         "title": "Samples",
 
@@ -94,7 +96,7 @@ def samples_section(window):
 
 
 def projects_section(window):
-
+    """Return the treatment projects section configuration."""
     return {
         "title": "Projects",
 

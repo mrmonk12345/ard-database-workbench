@@ -1,3 +1,5 @@
+"""Display project data, counts, and related database actions."""
+
 from PyQt6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -33,12 +35,20 @@ from scripts.python.project_get_data import (
 
 
 class ProjectDataWindow(QDialog):
+    """Show summary counts and actions for a selected project."""
 
     def __init__(
         self,
         parent=None,
         project_id=None,
     ):
+        """
+        Create the project dashboard.
+
+        Args:
+            parent: Optional parent Qt widget.
+            project_id: ID of the project to display.
+        """
         super().__init__(parent)
 
         self.project_id = project_id
@@ -49,17 +59,16 @@ class ProjectDataWindow(QDialog):
 
         self.resize(600, 900)
 
+        # Use a scroll area so all project sections remain accessible.
         main_layout = QVBoxLayout(self)
-
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
 
         content = QWidget()
-
         layout = QVBoxLayout(content)
 
+        # Display summary counts for sequencing runs and amplicon types.
         top = QHBoxLayout()
-
         top.addWidget(
             self.display_box(
                 "Sequencing Runs",
@@ -68,7 +77,6 @@ class ProjectDataWindow(QDialog):
                 )
             )
         )
-
         top.addWidget(
             self.display_box(
                 "Amplicon Types",
@@ -77,40 +85,27 @@ class ProjectDataWindow(QDialog):
                 )
             )
         )
-
         layout.addLayout(top)
 
-        btn = QPushButton(
-            "View Sequencing Runs & Amplicon Types"
-        )
-
-        btn.clicked.connect(
-            self.open_runs_amplicon
-        )
-
+        # Provide access to the combined sequencing-run and amplicon view.
+        btn = QPushButton("View Sequencing Runs & Amplicon Types")
+        btn.clicked.connect(self.open_runs_amplicon)
         layout.addWidget(btn)
 
+        # Build the configurable project data sections.
         sections = [
-
             samples_section(self),
-
             outputs_section(self),
-
             libraries_section(self),
-
             analysis_units_section(self),
-
             analysis_unit_files_section(self),
-
             analysis_datasets_section(self),
-
             analysis_dataset_inputs_section(self),
-
             pipeline_runs_section(self),
         ]
 
+        # Add one action box for each project data category.
         for section in sections:
-
             layout.addWidget(
                 ActionBox(
                     title=section["title"],
@@ -120,7 +115,6 @@ class ProjectDataWindow(QDialog):
             )
 
         scroll.setWidget(content)
-
         main_layout.addWidget(scroll)
 
     def display_box(
@@ -128,18 +122,16 @@ class ProjectDataWindow(QDialog):
         title,
         count,
     ):
+        """Create a compact group box displaying a record count."""
         box = QGroupBox(title)
-
         layout = QVBoxLayout()
 
         label = QLabel(str(count))
-
         label.setStyleSheet(
             "font-size:24px;font-weight:bold;"
         )
 
         layout.addWidget(label)
-
         box.setLayout(layout)
 
         return box
@@ -150,6 +142,7 @@ class ProjectDataWindow(QDialog):
         dataframe,
         filename,
     ):
+        """Open a table window for viewing and exporting project data."""
         self.window = TableViewWindow(
             self,
             dataframe=dataframe,
@@ -160,7 +153,7 @@ class ProjectDataWindow(QDialog):
         self.window.show()
 
     def open_samples_add(self):
-
+        """Open the window for preparing new project sample records."""
         self.window = TableSimpleAddWindow(
             self,
             entity_id=self.project_id,
@@ -173,7 +166,7 @@ class ProjectDataWindow(QDialog):
         self.window.show()
 
     def open_outputs_add(self):
-
+        """Open the window for preparing new project sequencing output records."""
         self.window = TableSimpleAddWindow(
             self,
             entity_id=self.project_id,
@@ -186,7 +179,8 @@ class ProjectDataWindow(QDialog):
         self.window.show()
 
     def open_libraries_add(self):
-
+        """Open the matrix window for preparing new library records."""
+        # Libraries are defined by sample and amplicon-type combinations.
         samples = get_project_samples(
             self.project_id
         ).to_dict("records")
@@ -212,7 +206,8 @@ class ProjectDataWindow(QDialog):
         self.window.show()
 
     def open_analysis_units_add(self):
-
+        """Open the matrix window for preparing new analysis-unit records."""
+        # Analysis units are defined by library and sequencing-run pairs.
         libraries = get_project_libraries(
             self.project_id
         ).to_dict("records")
@@ -238,7 +233,7 @@ class ProjectDataWindow(QDialog):
         self.window.show()
 
     def open_runs_amplicon(self):
-
+        """Open the sequencing-run and amplicon-type details window."""
         from gui.project_amplicon_runs_window import (
             ProjectAmpliconRunsWindow
         )

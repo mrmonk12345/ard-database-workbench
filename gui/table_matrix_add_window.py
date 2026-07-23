@@ -1,4 +1,4 @@
-import csv
+"""Provide a matrix-based interface for generating relationship-table TSV files."""
 
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLabel, QPushButton,
@@ -14,10 +14,10 @@ from gui.tsv_exporter import TSVExporter
 
 class TableMatrixAddWindow(QDialog):
     """
-    Generic matrix-based TSV generator.
+    Generate a TSV file from selected row-and-column combinations.
 
-    Use this for any:
-    row entities x column entities ? relationship table
+    The matrix represents relationships between two entity types, such as
+    libraries and sequencing runs or samples and amplicon types.
     """
 
     def __init__(
@@ -34,8 +34,25 @@ class TableMatrixAddWindow(QDialog):
         col_id_key="id",
         output_filename="output.tsv"
     ):
+        """
+        Initialize the matrix selection window.
+
+        Args:
+            parent: Optional parent Qt widget.
+            entity_id: ID of the parent entity to include in exported rows.
+            entity_column: Database column for the parent entity ID.
+            table_name: Database table used to determine TSV columns.
+            pk_column: Auto-generated primary key column to exclude.
+            rows_data: Records displayed as matrix rows.
+            cols_data: Records displayed as matrix columns.
+            row_id_key: ID field used for row records.
+            row_label_key: Display label field used for row records.
+            col_id_key: ID field used for column records.
+            output_filename: Default name for the exported TSV file.
+        """
         super().__init__(parent)
 
+        # Store the configuration used to build and export the matrix.
         self.entity_id = entity_id
         self.entity_column = entity_column
         self.table_name = table_name
@@ -50,15 +67,12 @@ class TableMatrixAddWindow(QDialog):
         self.setWindowTitle("Matrix Add (TSV Export)")
         self.resize(500, 400)
 
+        # Create the main layout and the matrix container.
         main_layout = QVBoxLayout()
-
-        # ======================
-        # BOTTOM (UI)
-        # ======================
         container = QWidget()
         layout = QVBoxLayout()
 
-        # ? Instructions
+        # Explain how to select combinations and export the TSV file.
         layout.addWidget(QLabel(
             "1. Select combinations in the matrix\n"
             "2. Click 'Download TSV'\n"
@@ -66,11 +80,11 @@ class TableMatrixAddWindow(QDialog):
             "   input_table.sh --input file.tsv"
         ))
 
-        # Table title
+        # Show the entity types represented by the matrix axes.
         title = QLabel(f"<b>{self.row_id_key} x {self.col_id_key}</b>")
         layout.addWidget(title)
 
-        # ? Matrix table
+        # Build the selectable matrix from the supplied row and column data.
         self.table = create_matrix_table(
             rows_data=self.rows_data,
             cols_data=self.cols_data,
@@ -78,19 +92,20 @@ class TableMatrixAddWindow(QDialog):
             row_label_key=self.row_label_key,
             col_id_key=self.col_id_key
         )
-        
+
+        # Allow users to select or clear an entire matrix column.        
         self.table.horizontalHeader().sectionClicked.connect(self.toggle_column)
         
         layout.addWidget(self.table)
 
-        # ? Button
+        # Export the selected combinations when clicked.
         btn = QPushButton("Download TSV")
         btn.clicked.connect(self.download_tsv)
         layout.addWidget(btn)
 
         container.setLayout(layout)
 
-        # ? Splitter (future extensibility)
+        # Use a splitter so the layout can be extended later if needed.
         splitter = QSplitter(Qt.Orientation.Vertical)
         splitter.addWidget(container)
 
@@ -99,39 +114,42 @@ class TableMatrixAddWindow(QDialog):
 
         
     def toggle_column(self, col_index):
-      """
-      Toggle all checkboxes in a column.
-      If at least one is unchecked ? check all
-      Otherwise ? uncheck all
-      """
-      
-      if col_index < 2:
-          return  # skip first 2 columns
+        """
+        Toggle all selectable cells in a matrix column.
 
-  
-      table = self.table
-      row_count = table.rowCount()
-  
-      # Detect if we should check or uncheck
-      should_check = False
-      for row in range(row_count):
-          item = table.item(row, col_index)
-          if item and item.checkState() != Qt.CheckState.Checked:
-              should_check = True
-              break
-  
-      # Apply state
-      new_state = Qt.CheckState.Checked if should_check else Qt.CheckState.Unchecked
-  
-      for row in range(row_count):
-          item = table.item(row, col_index)
-          if item:
-              item.setCheckState(new_state)
+        If at least one cell is unchecked, all cells in the column are checked.
+        Otherwise, all cells in the column are unchecked. The first two columns
+        contain row information and are not selectable.
+        """
+      
+        if col_index < 2:
+            return  # skip first 2 columns
+
+    
+        table = self.table
+        row_count = table.rowCount()
+    
+        # Check whether the column contains an unchecked cell.
+        should_check = False
+        for row in range(row_count):
+            item = table.item(row, col_index)
+            if item and item.checkState() != Qt.CheckState.Checked:
+                should_check = True
+                break
+    
+
+        new_state = Qt.CheckState.Checked if should_check else Qt.CheckState.Unchecked
+
+        # Apply the selected state to every cell in the column.
+        for row in range(row_count):
+            item = table.item(row, col_index)
+            if item:
+                item.setCheckState(new_state)
               
-    # ======================
-    # TSV EXPORT
-    # ======================
+
     def download_tsv(self):
+        """Export selected matrix combinations as a database-ready TSV file."""
+        # Convert checked matrix cells into relationship records.
         data = extract_matrix_selection(
             table=self.table,
             rows_data=self.rows_data,
@@ -144,11 +162,11 @@ class TableMatrixAddWindow(QDialog):
             print("No selections")
             return
 
-        # ? columns, remove PK only
+        # Get the destination table columns and exclude its generated ID.
         columns = get_table_columns(self.table_name)
         columns = [c for c in columns if c != self.pk_column]
 
-        # ? prepare cleaned data
+        # Add required values while leaving other table columns blank.
         cleaned_data = []
         for row in data:
             row_dict = {col: "" for col in columns}
@@ -167,10 +185,10 @@ class TableMatrixAddWindow(QDialog):
 
             cleaned_data.append(row_dict)
 
-        # ? use exporter
+        # Open the save dialog and write the selected records to TSV.
         exporter = TSVExporter(self)
         file_path = exporter.save(cleaned_data, columns, self.output_filename)
 
-        # ? only close dialog if saved
+        # Close the dialog only when the file was successfully saved.
         if file_path:
             self.accept()

@@ -1,8 +1,10 @@
+"""Define project dashboard sections and their related actions."""
+
 from scripts.python.project_get_data import *
 
 
 def samples_section(window):
-
+    """Return the Samples section configuration."""
     return {
         "title": "Samples",
 
@@ -34,7 +36,7 @@ def samples_section(window):
 
 
 def outputs_section(window):
-
+    """Return the Sequencing Outputs section configuration."""
     return {
 
         "title":
@@ -68,7 +70,7 @@ def outputs_section(window):
 
 
 def libraries_section(window):
-
+    """Return the Libraries section configuration."""
     return {
 
         "title":
@@ -102,7 +104,7 @@ def libraries_section(window):
 
 
 def analysis_units_section(window):
-
+    """Return the Analysis Units section configuration."""
     return {
 
         "title":
@@ -136,7 +138,7 @@ def analysis_units_section(window):
 
 
 def analysis_unit_files_section(window):
-
+    """Return the Analysis Unit Files section configuration."""
     return {
 
         "title":
@@ -165,7 +167,7 @@ def analysis_unit_files_section(window):
 
 
 def analysis_datasets_section(window):
-
+    """Return the Analysis Datasets section configuration."""
     return {
 
         "title":
@@ -194,7 +196,7 @@ def analysis_datasets_section(window):
 
 
 def analysis_dataset_inputs_section(window):
-
+    """Return the Analysis Dataset Inputs section configuration."""
     return {
 
         "title":
@@ -223,7 +225,7 @@ def analysis_dataset_inputs_section(window):
 
 
 def pipeline_runs_section(window):
-
+    """Return the Pipeline Runs section configuration."""
     return {
 
         "title":

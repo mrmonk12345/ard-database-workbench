@@ -1,3 +1,5 @@
+"""Display treatment data, counts, and related database actions."""
+
 from PyQt6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -18,37 +20,43 @@ from gui.treatment_sections import (
 
 
 class TreatmentDataWindow(QDialog):
+    """Show summary counts and actions for a selected treatment."""
 
     def __init__(
         self,
         parent=None,
         treatment_id=None,
     ):
+        """
+        Initialize the treatment dashboard.
+
+        Args:
+            parent: Optional parent Qt widget.
+            treatment_id: ID of the treatment to display.
+        """
         super().__init__(parent)
 
+        # Store the selected treatment for queries and new-record forms.
         self.treatment_id = treatment_id
 
         self.setWindowTitle(
             f"Treatment Data - {treatment_id}"
         )
-
         self.resize(600, 500)
 
+        # Create the main layout for the treatment sections.
         layout = QVBoxLayout(self)
 
+        # Each section supplies a title, count, and related action buttons.
         sections = [
-
             assignments_section(self),
-
             elements_section(self),
-
             samples_section(self),
-
             projects_section(self),
         ]
 
+        # Add one reusable action box for each treatment data category.
         for section in sections:
-
             layout.addWidget(
                 ActionBox(
                     title=section["title"],
@@ -67,6 +75,13 @@ class TreatmentDataWindow(QDialog):
         dataframe,
         filename,
     ):
+        """Open a table window for viewing and exporting records.
+
+        Args:
+            table_name: Title displayed by the table window.
+            dataframe: pandas DataFrame containing the records.
+            filename: Default TSV filename for the export.
+        """
         self.window = TableViewWindow(
             self,
             dataframe=dataframe,
@@ -80,6 +95,7 @@ class TreatmentDataWindow(QDialog):
     # Add windows
     # ==================================
     def open_assignments_add(self): 
+        """Open a window for preparing treatment-element assignments."""
         self.window = TableSimpleAddWindow(
             self,
             entity_id=self.treatment_id,
@@ -92,6 +108,7 @@ class TreatmentDataWindow(QDialog):
         self.window.show()
 
     def open_elements_add(self):
+        """Open a window for preparing new treatment-element records."""
         self.window = TableSimpleAddWindow(
             self,
             entity_id=self.treatment_id,
