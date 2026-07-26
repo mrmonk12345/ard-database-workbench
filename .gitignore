@@ -34,6 +34,7 @@ venv/
 
 # SQLite and database artifacts
 *.db
+!example_database.db
 
 # Logs and temporary files
 *.log
