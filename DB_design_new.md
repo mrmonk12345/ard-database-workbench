@@ -217,7 +217,7 @@ These tables manage active bioinformatic processing (e.g., QIIME2/DADA2 pipeline
 
 These tables capture downstream abundance matrices and taxonomy metrics after pipeline execution.
 
-* Tables: processed\_runs, feature\_counts, asvs, taxonomy.
+* Tables: feature\_counts, asvs, taxonomy.
 * Purpose: Resolves batch-processed outputs back into granular, sample-specific tables.
 
 
