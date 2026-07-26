@@ -1,5 +1,0 @@
-chown: cannot read directory '/run/user/1716609750': Permission denied
-chown: changing ownership of '/run/user/1716630719': Operation not permitted
-chown: cannot read directory '/run/user/1716615545': Permission denied
-chown: changing ownership of '/run/user': Operation not permitted
-chmod: changing permissions of '/run/user': Operation not permitted
