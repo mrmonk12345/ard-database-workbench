@@ -1,11 +1,11 @@
 # Local data directories and files that should not be tracked in GitHub
 # These are project-specific staging, generated, or database-related folders
-analysis_datasets/
-analysis_files/
-articles/
-input_staging/
-pipeline_runs/
-raw_reads_projects/
+analysis_datasets/**
+analysis_files/**
+articles/**
+input_staging/**
+pipeline_runs/**
+raw_reads_projects/**
 
 # Allow placeholder files so the directories can be visible in GitHub
 !analysis_datasets/.gitkeep
