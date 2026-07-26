@@ -7,6 +7,14 @@ input_staging/
 pipeline_runs/
 raw_reads_projects/
 
+# Allow placeholder files so the directories can be visible in GitHub
+!analysis_datasets/.gitkeep
+!analysis_files/.gitkeep
+!articles/.gitkeep
+!input_staging/.gitkeep
+!pipeline_runs/.gitkeep
+!raw_reads_projects/.gitkeep
+
 # Python artifacts
 __pycache__/
 **/__pycache__/
