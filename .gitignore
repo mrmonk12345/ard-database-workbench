@@ -1,13 +1,61 @@
+# Local data directories and files that should not be tracked in GitHub
+# These are project-specific staging, generated, or database-related folders
 analysis_datasets/
 analysis_files/
 articles/
+input_staging/
 pipeline_runs/
 raw_reads_projects/
-input_staging/
+
+# Python artifacts
+__pycache__/
 **/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+*.egg
+
+# Python virtual environments and local env files
+.env
+.venv/
+env/
+venv/
+
+# SQLite and database artifacts
+*.db
+
+# Logs and temporary files
+*.log
 progress.log
+
+# Temporary or local project files
 project_id_12.txt
 reminder.txt
-*.env
+
+# OS and system files
 *.nfs*
-*.db
+Thumbs.db
+Desktop.ini
+
+# Build and release folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# IDE / editor files
+.vscode/
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
