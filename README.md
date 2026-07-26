@@ -34,8 +34,8 @@ The project uses a practical mix of tools:
 
 The existing documentation was split into several files so that each topic could be covered clearly:
 
-- database_design.md - database architecture, schema design, metadata philosophy, and rationale behind the data model
-- database_tables_explanation.md - descriptions of the database tables
+- database.md - database architecture, schema design, metadata philosophy, and rationale behind the data model
+- tables.md - descriptions of the database tables
 - workflow.md - the operational workflow for adding projects, importing data, generating pipeline inputs, running analyses, and exporting results
 
 ## Project structure
@@ -43,9 +43,10 @@ The existing documentation was split into several files so that each topic could
 The project is organized into a few main areas:
 
 - scripts/ - utility and processing scripts
-- input_staging/ - temporary staging area for incoming data
+- input_staging/ - temporary staging area for incoming table files used to add rows to the database
 - gui/ - graphical user interface
 - pipeline_runs/ - pipeline execution files and outputs
+- raw_reads_projects/ - raw sequencing files stored by project
 - analysis_files/ - analysis-ready files
 - analysis_datasets/ - datasets prepared for downstream analyses
 

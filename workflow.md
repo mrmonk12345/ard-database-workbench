@@ -27,7 +27,11 @@ If relevant, treatment elements and treatment element assignments should also be
 
 ## Step 4: Add raw FASTQ files
 
-Place the raw sequencing files into the project-specific directory under the raw reads area. This gives the project a physical location for its incoming files.
+Place the raw sequencing files into the project-specific directory under the raw reads area:
+
+- raw_reads_projects/
+
+This gives the project a physical location for its incoming files.
 
 ## Step 5: Open the GUI and inspect the project
 
@@ -47,7 +51,7 @@ Use the sample import workflow to add rows to the database:
 2. Choose the number of samples to add
 3. Download the TSV template
 4. Fill in the TSV in Excel or another spreadsheet tool
-5. Import the file using the input table script
+5. Save or place the file under 'input_staging/' and import it using the input table script
 
 The relevant script is:
 
@@ -99,6 +103,10 @@ To make the pipeline folder, adjust the parameters in the pipeline input script 
 - scripts/shell/database_to_pipeline_input.sh
 
 The first step of the pipeline often includes gzipping FASTQ files, which can be resource intensive. In some setups, this part may need to be run from a main directory or via a script that calls the relevant workflow.
+
+pipelines will be under the directory:
+
+- pipeline_runs/
 
 ## Step 12: Run the analysis workflow
 
