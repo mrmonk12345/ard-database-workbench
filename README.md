@@ -2,6 +2,8 @@
 
 This folder contains an improved overview of the ARD amplicon database project. The project is a centralized system for managing metadata, sequencing data, bioinformatic analyses, and results from ARD amplicon sequencing experiments.
 
+> Current location: this project currently lives on the ARO HPC in the Michlam collaboration directory at /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB.
+
 ## What this project does
 
 The database acts as a single source of truth for the project. It links together:
