@@ -121,6 +121,10 @@ After the pipeline folder has been prepared, the analysis can begin. Typical ste
 
 In this project, the pipeline work is strongly tied to the generated folder structure and the input files produced by the database export scripts.
 
+make sure to update the pipeline run info in the database:
+
+- scripts/shell/update_pipeline_run_from_snakemake.sh
+
 ## Step 13: Export results
 
 After analysis, export the results into simple, readable data formats. Common export steps include:
