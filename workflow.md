@@ -4,7 +4,9 @@ This project has a fairly clear workflow, and most of the work up to the point o
 
 ## Step 1: Set up the environment
 
-Start by installing a tool for viewing and editing the SQLite database. DB Browser for SQLite is the main tool used for this project.
+Start by installing a tool for viewing and editing the SQLite database. DB Browser for SQLite is the main tool I used for this project. Another option is DBeaver.
+
+If the `.db` file is located on a server and you are using Windows, consider using SSHFS to mount the server in the file explorer. This allows you to access the server's files locally.
 
 ## Step 2: Choose the project
 
