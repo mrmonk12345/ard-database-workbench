@@ -68,6 +68,8 @@ Repeat the same general process for sequencing outputs. This step links the raw 
 As with samples, the workflow uses the same import route through:
 
 - scripts/shell/input_table.sh
+  
+If the raw files are from NCBI (you have SRR accessions), download the Runs metadata table from the SRA Run Selector, convert to TSV, place it in input_staging/, and import into ref_SRA_run_info with: scripts/shell/input_table.sh. this will help with getting information and labels from ncbi.
 
 The data should be prepared carefully because these records connect raw files to the correct sample, project, and sequencing run.
 
