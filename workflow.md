@@ -136,6 +136,20 @@ After analysis, export the results into simple, readable data formats. Common ex
 
 These exports make the results easier to inspect, compare, and share.
 
+## Step 14: (Optional) upload of exported results to the database
+
+If you want to, you can try sending the exported pipeline results back into the SQLite database.
+
+This is an optional helper step, not something you need to run for the main workflow. It is only useful if you want those exported files linked back into the database records for that pipeline run.
+
+The main command is:
+
+- scripts/shell/upload_pipeline_run_results_to_database.sh
+
+It loads the exported ASV FASTA, feature counts, and taxonomy files into the corresponding database tables.
+
+This will make the SQLite database file significantly larger, take that into account when planning your workflow.
+
 ## Practical advice
 
 - Use the GUI and DB browser for inspection and manual review
