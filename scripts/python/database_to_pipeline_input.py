@@ -23,6 +23,12 @@ parser = argparse.ArgumentParser(description="Run pipeline")
 
 parser.add_argument("--dataset-id", type=int, required=True, help="Dataset ID")
 
+parser.add_argument(
+    "--pipeline-run-id",
+    type=int,
+    help="Existing pipeline run ID to reuse; if omitted, a new pipeline run is created",
+)
+
 args = parser.parse_args()
 
 dataset_id = args.dataset_id
@@ -95,11 +101,16 @@ run_step(
     ],
 )
 
-# Create a database record and retrieve its generated pipeline run ID.
-pipeline_run_id = create_pipeline_run(
-    DATABASE_PATH,
-    dataset_id
-)
+# Use existing pipeline run ID if provided, otherwise create one.
+if args.pipeline_run_id is not None:
+    pipeline_run_id = args.pipeline_run_id
+    print(f"Using existing pipeline_run_id: {pipeline_run_id}")
+else:
+    pipeline_run_id = create_pipeline_run(
+        DATABASE_PATH,
+        dataset_id,
+    )
+    print(f"Created pipeline_run_id: {pipeline_run_id}")
 
 # --- paths ---
 # Define the pipeline run and dataset symlink locations.

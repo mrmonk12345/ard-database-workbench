@@ -1,1 +1,0 @@
-bash scripts/shell/database_to_pipeline_input.sh
