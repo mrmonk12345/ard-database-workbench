@@ -1,3 +1,5 @@
+<img src="dep_sign.png" width=120, height=120 align="left" />
+
 # ARD Database Docs
 
 This folder contains an improved overview of the ARD amplicon database project. The project is a centralized system for managing metadata, sequencing data, bioinformatic analyses, and results from ARD amplicon sequencing experiments.
