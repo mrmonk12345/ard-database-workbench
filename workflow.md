@@ -18,6 +18,7 @@ Add the core project-level data to the database. This usually includes tables su
 
 - projects
 - amplicon_types
+- project_amplicon_types
 - sequencing_runs
 - analysis_datasets
 - treatments

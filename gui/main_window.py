@@ -9,6 +9,7 @@ import pandas as pd
 
 from gui.project_data_window import ProjectDataWindow
 from gui.treatment_data_window import TreatmentDataWindow
+from gui.general_tables_data_window import GeneralTablesDataWindow
 from scripts.python.db_get_data import get_projects, get_treatments
 
 
@@ -29,7 +30,7 @@ class MainWindow(QWidget):
         self.tabs = QTabWidget()
         self.tabs.addTab(self._create_project_tab(), "Project")
         self.tabs.addTab(self._create_treatment_tab(), "Treatments")
-        self.tabs.addTab(self._create_dataset_tab(), "Datasets")
+        self.tabs.addTab(self._create_general_tables_tab(), "General Tables")
         self.tabs.addTab(self._create_setup_tab(), "Setup")
 
         main_layout.addWidget(self.tabs)
@@ -120,15 +121,19 @@ class MainWindow(QWidget):
 
         return widget
 
-    def _create_dataset_tab(self):
-        """Create the dataset-related actions tab."""
+
+    def _create_general_tables_tab(self):
+        """Create the general-tables tab."""
         widget = QWidget()
         layout = QVBoxLayout(widget)
 
-        export_btn = QPushButton("Export Manifest")
-        export_btn.clicked.connect(self._handle_export_manifest)
+        layout.addWidget(
+            QLabel("Open the general table viewer to browse treatments, amplicon types, and projects.")
+        )
 
-        layout.addWidget(export_btn)
+        open_btn = QPushButton("Open General Tables")
+        open_btn.clicked.connect(self._handle_open_general_tables)
+        layout.addWidget(open_btn)
 
         return widget
 
@@ -155,9 +160,10 @@ class MainWindow(QWidget):
         treatment_id = self.treatment_selector.currentData()
         self.open_treatment_dashboard(treatment_id)
 
-    def _handle_export_manifest(self):
-        """Log that the manifest export action was selected."""
-        self.log.append("Export Manifest clicked")
+    def _handle_open_general_tables(self):
+        """Open the starter dialog for browsing general tables."""
+        self.general_tables_window = GeneralTablesDataWindow(self)
+        self.general_tables_window.show()
 
     # =====================
     # Logic
