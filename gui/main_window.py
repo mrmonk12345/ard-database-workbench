@@ -22,6 +22,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("ARD Database GUI")
+        self.setMinimumSize(200, 200)
 
         # The main layout contains the navigation tabs and application log.
         main_layout = QVBoxLayout()
