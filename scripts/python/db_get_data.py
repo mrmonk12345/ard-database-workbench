@@ -52,6 +52,14 @@ def get_amplicon_types():
     """
     return run_query(query)
 
+def get_project_amplicon_types():
+    """Return all project amplicon type records."""
+    query = """
+    SELECT *
+    FROM project_amplicon_types
+    """
+    return run_query(query)
+
 def get_sequencing_runs():
     """Return all sequencing run records."""
     query = """
@@ -59,11 +67,43 @@ def get_sequencing_runs():
     FROM sequencing_runs
     """
     return run_query(query)
-    
+
+def get_analysis_datasets():
+    """Return all analysis dataset records."""
+    query = """
+    SELECT *
+    FROM analysis_datasets
+    """
+    return run_query(query)
+
 def get_treatments():
     """Return all treatment records."""
     query = """
     SELECT *
     FROM treatments
+    """
+    return run_query(query)
+
+def get_locations():
+    """Return all location records."""
+    query = """
+    SELECT *
+    FROM locations
+    """
+    return run_query(query)
+
+def get_rootstocks():
+    """Return all rootstock records."""
+    query = """
+    SELECT *
+    FROM rootstocks
+    """
+    return run_query(query)
+
+def get_sampling_compartments():
+    """Return all sampling compartment records."""
+    query = """
+    SELECT *
+    FROM sampling_compartments
     """
     return run_query(query)
