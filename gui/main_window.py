@@ -128,7 +128,7 @@ class MainWindow(QWidget):
         layout = QVBoxLayout(widget)
 
         layout.addWidget(
-            QLabel("Open the general table viewer to browse treatments, amplicon types, and projects.")
+            QLabel("Open the general table viewer to browse treatments, amplicon types, projects and more.")
         )
 
         open_btn = QPushButton("Open General Tables")
