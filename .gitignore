@@ -38,6 +38,8 @@ venv/
 
 # Logs and temporary files
 *.log
+*.out
+*.err
 progress.log
 
 # Temporary or local project files

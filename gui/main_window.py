@@ -179,7 +179,7 @@ class MainWindow(QWidget):
 
         # Keep a reference to the dialog while it is open.
         self.project_window = ProjectDataWindow(self, project_id=project_id)
-        self.project_window.exec()
+        self.project_window.show()
         
         
     def open_treatment_dashboard(self, treatment_id=None):
@@ -191,4 +191,4 @@ class MainWindow(QWidget):
 
         # Keep a reference to the dialog while it is open.
         self.treatment_window = TreatmentDataWindow(self, treatment_id=treatment_id)
-        self.treatment_window.exec()
+        self.treatment_window.show()
