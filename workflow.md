@@ -99,7 +99,7 @@ Once the main data has been imported, clean up the names and labels. Useful scri
 - scripts/shell/update_null_au_names.sh
 - scripts/shell/refresh_all_labels.sh
 
-These scripts can affect the whole database, so it is wise to review them before running them widely.
+Input the project you want to update to these scripts.
 
 ## Step 11: Prepare the pipeline folder
 
