@@ -1,8 +1,6 @@
-"""Generate and refresh descriptive labels for database records."""
-
+import argparse
 import sqlite3
 import pandas as pd
-
 
 from config import DATABASE_PATH
 
@@ -11,7 +9,6 @@ def run_query(query, params=None):
     """Execute a SQL query and return the results as a DataFrame."""
     conn = sqlite3.connect(DATABASE_PATH)
 
-    # Use query parameters when provided.
     if params:
         df = pd.read_sql(query, conn, params=params)
     else:
@@ -20,59 +17,58 @@ def run_query(query, params=None):
     conn.close()
     return df
 
+
 def add_prefix(value, prefix):
-    """Add a prefix to a value unless the value is the placeholder ``X``."""
+    """Add a prefix to a value unless the value is the placeholder X."""
     return f"{prefix}{value}" if value != "X" else "X"
 
-def update_labels(table_name, id_column, label_column, df):
-    """Update label values in a database table.
 
-    Args:
-        table_name: Table containing the records to update.
-        id_column: Primary key column used to identify each record.
-        label_column: Column containing the label to update.
-        df: DataFrame containing the ID and new label columns.
-    """
+def update_labels(table_name, id_column, label_column, df):
+    """Update label values in a database table."""
     conn = sqlite3.connect(DATABASE_PATH)
     cur = conn.cursor()
 
-    # Update each record using its primary key.
     query = f"""
         UPDATE {table_name}
         SET {label_column} = ?
         WHERE {id_column} = ?
+          AND ({label_column} IS NULL OR {label_column} != ?)
     """
-
+    
     cur.executemany(
         query,
-        df[[label_column, id_column]].values.tolist()
+        [
+            [label, record_id, label]
+            for label, record_id in df[[label_column, id_column]].values.tolist()
+        ]
     )
 
     conn.commit()
-    conn.close()
+    
+    print(f"Updated {cur.rowcount} rows in {table_name}")
+    print(
+        f"Skipped {len(df) - cur.rowcount} rows in {table_name} "
+        f"(label already up to date)"
+    )
 
-def refresh_all_labels():
+
+def refresh_all_labels(project_id):
     """Generate and save labels for all supported database entities."""
-    # Samples can be refreshed when sample labels are ready to be updated.
-    # update_labels(
-    #     "samples",
-    #     "sample_id",
-    #     "label",
-    #     make_samples_labels().rename(columns={"sample_label": "label"})
-    # )
 
     update_labels(
         "libraries",
         "library_id",
         "label",
-        make_libraries_labels().rename(columns={"library_label": "label"})
+        make_libraries_labels(project_id).rename(
+            columns={"library_label": "label"}
+        )
     )
 
     update_labels(
         "sequencing_outputs",
         "sequencing_output_id",
         "label",
-        make_sequencing_outputs_labels().rename(
+        make_sequencing_outputs_labels(project_id).rename(
             columns={"sequencing_output_label": "label"}
         )
     )
@@ -81,59 +77,15 @@ def refresh_all_labels():
         "analysis_units",
         "analysis_unit_id",
         "label",
-        make_analysis_units_labels().rename(
+        make_analysis_units_labels(project_id).rename(
             columns={"analysis_unit_label": "label"}
         )
     )
 
-def make_samples_labels():
-    """Build labels for samples from their related metadata."""
-    query = """
-    SELECT
-        s.sample_id,
-        COALESCE(l.label, 'X') AS location,
-        COALESCE(r.label, 'X') AS rootstock,
-        COALESCE(sc.label, 'X') AS compartment,
-        COALESCE(t.label, 'X') AS treatment,
-        COALESCE(CAST(s.time_since_planting AS TEXT), 'X') AS time_since_planting,
-        COALESCE(CAST(s.replicate_number AS TEXT), 'X') AS replicate
-    FROM samples s
-    LEFT JOIN locations l
-        ON s.location_id = l.location_id
-    LEFT JOIN rootstocks r
-        ON s.rootstock_id = r.rootstock_id
-    LEFT JOIN sampling_compartments sc
-        ON s.sampling_compartment_id = sc.sampling_compartment_id
-    LEFT JOIN treatments t
-        ON s.treatment_id = t.treatment_id
-    """
-    
-    df = run_query(query)
 
-    # Add the R prefix to replicate numbers.
-    df["replicate"] = df["replicate"].apply(
-        lambda x: add_prefix(x, "R")
-    )
-
-    # Combine sample attributes into one readable label.
-    df["sample_label"] = (
-        df["location"]
-        + "_"
-        + df["rootstock"]
-        + "_"
-        + df["compartment"]
-        + "_"
-        + df["treatment"]
-        + "_"
-        + df["time_since_planting"]
-        + "_"
-        + df["replicate"]
-    )
-
-    return df[["sample_id", "sample_label"]]
-
-def make_libraries_labels():
+def make_libraries_labels(project_id):
     """Build labels for libraries from sample and amplicon metadata."""
+
     query = """
     SELECT
         l.library_id,
@@ -145,11 +97,11 @@ def make_libraries_labels():
         ON l.sample_id = s.sample_id
     LEFT JOIN amplicon_types at
         ON l.amplicon_type_id = at.amplicon_type_id
+    WHERE s.project_id = ?
     """
-    
-    df = run_query(query)
 
-    # Add a prefix to the amplicon type ID.
+    df = run_query(query, (project_id,))
+
     df["amplicon_type_id"] = df["amplicon_type_id"].apply(
         lambda x: add_prefix(x, "AT")
     )
@@ -164,8 +116,10 @@ def make_libraries_labels():
 
     return df[["library_id", "library_label"]]
 
-def make_sequencing_outputs_labels():
-    """Build labels for sequencing outputs and their related metadata."""
+
+def make_sequencing_outputs_labels(project_id):
+    """Build labels for sequencing outputs."""
+
     query = """
     SELECT
         so.sequencing_output_id,
@@ -180,15 +134,15 @@ def make_sequencing_outputs_labels():
         ON so.sequencing_run_id = sr.sequencing_run_id
     LEFT JOIN amplicon_types at
         ON so.amplicon_type_id = at.amplicon_type_id
+    WHERE s.project_id = ?
     """
-    
-    df = run_query(query)
 
-    # Add prefixes to sequencing run and amplicon type IDs.
+    df = run_query(query, (project_id,))
 
     df["amplicon_type_id"] = df["amplicon_type_id"].apply(
         lambda x: add_prefix(x, "AT")
     )
+
     df["sequencing_run_id"] = df["sequencing_run_id"].apply(
         lambda x: add_prefix(x, "SR")
     )
@@ -205,8 +159,10 @@ def make_sequencing_outputs_labels():
 
     return df[["sequencing_output_id", "sequencing_output_label"]]
 
-def make_analysis_units_labels():
-    """Build labels for analysis units from library and run metadata."""
+
+def make_analysis_units_labels(project_id):
+    """Build labels for analysis units."""
+
     query = """
     SELECT
         au.analysis_unit_id,
@@ -215,13 +171,15 @@ def make_analysis_units_labels():
     FROM analysis_units au
     LEFT JOIN libraries l
         ON au.library_id = l.library_id
+    LEFT JOIN samples s
+        ON l.sample_id = s.sample_id
     LEFT JOIN sequencing_runs sr
         ON au.sequencing_run_id = sr.sequencing_run_id
+    WHERE s.project_id = ?
     """
-    
-    df = run_query(query)
 
-    # Add a prefix to the sequencing run ID.
+    df = run_query(query, (project_id,))
+
     df["sequencing_run_id"] = df["sequencing_run_id"].apply(
         lambda x: add_prefix(x, "SR")
     )
@@ -233,3 +191,20 @@ def make_analysis_units_labels():
     )
 
     return df[["analysis_unit_id", "analysis_unit_label"]]
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Refresh labels for a specific project."
+    )
+    parser.add_argument(
+        "-p",
+        "--project-id",
+        type=int,
+        required=True,
+        help="Project ID",
+    )
+
+    args = parser.parse_args()
+
+    refresh_all_labels(args.project_id)
