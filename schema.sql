@@ -68,6 +68,14 @@ CREATE TABLE IF NOT EXISTS "analysis_unit_files" (
 	FOREIGN KEY("analysis_unit_id") REFERENCES "analysis_units"("analysis_unit_id"),
 	FOREIGN KEY("sequencing_output_id") REFERENCES "sequencing_outputs"("sequencing_output_id")
 );
+CREATE TABLE IF NOT EXISTS "asvs" (
+	"asv_id"	TEXT NOT NULL,
+	"pipeline_run_id"	INTEGER,
+	"sequence"	TEXT,
+	"sequence_hash"	TEXT,
+	PRIMARY KEY("asv_id"),
+	FOREIGN KEY("pipeline_run_id") REFERENCES "pipeline_runs"("pipeline_run_id")
+);
 CREATE TABLE IF NOT EXISTS "sequencing_runs" (
 	"sequencing_run_id"	INTEGER NOT NULL,
 	"project_id"	INTEGER NOT NULL,
@@ -146,15 +154,6 @@ CREATE TABLE IF NOT EXISTS "amplicon_types" (
 	"r_sequence"	TEXT,
 	"r_length"	INTEGER,
 	PRIMARY KEY("amplicon_type_id" AUTOINCREMENT)
-);
-CREATE TABLE IF NOT EXISTS "analysis_datasets" (
-	"analysis_dataset_id"	INTEGER NOT NULL,
-	"amplicon_type_id"	INTEGER NOT NULL,
-	"sequencing_run_id"	INTEGER NOT NULL,
-	"type"	TEXT,
-	"notes"	INTEGER,
-	PRIMARY KEY("analysis_dataset_id" AUTOINCREMENT),
-	FOREIGN KEY("amplicon_type_id") REFERENCES "amplicon_types"("amplicon_type_id")
 );
 CREATE TABLE IF NOT EXISTS "zzz_analysis_dataset_inputs" (
 	"analysis_dataset_id"	INTEGER NOT NULL,
@@ -235,22 +234,6 @@ CREATE TABLE IF NOT EXISTS "samples" (
 	FOREIGN KEY("sampling_compartment_id") REFERENCES "sampling_compartments"("sampling_compartment_id"),
 	CONSTRAINT "fk_samples_treatment_id" FOREIGN KEY("treatment_id") REFERENCES "treatments"("treatment_id")
 );
-CREATE TABLE IF NOT EXISTS "sequencing_outputs" (
-	"sequencing_output_id"	INTEGER NOT NULL,
-	"label"	TEXT,
-	"project_id"	INTEGER,
-	"sample_id"	INTEGER,
-	"sequencing_run_id"	INTEGER,
-	"amplicon_type_id"	INTEGER,
-	"srr"	TEXT,
-	"fastq1"	TEXT,
-	"fastq2"	TEXT,
-	"notes"	TEXT,
-	"zzz_legacy_library_id"	INTEGER,
-	PRIMARY KEY("sequencing_output_id" AUTOINCREMENT),
-	FOREIGN KEY("sample_id") REFERENCES "samples"("sample_id"),
-	FOREIGN KEY("sequencing_run_id") REFERENCES "sequencing_runs"("sequencing_run_id")
-);
 CREATE TABLE IF NOT EXISTS "sampling_compartments" (
 	"sampling_compartment_id"	INTEGER,
 	"name"	TEXT,
@@ -269,17 +252,6 @@ CREATE TABLE IF NOT EXISTS "feature_counts" (
 	FOREIGN KEY("analysis_unit_id") REFERENCES "analysis_units"("analysis_unit_id"),
 	CONSTRAINT "fk_abundance_asv_id" FOREIGN KEY("asv_id") REFERENCES "asvs"("asv_id"),
 	FOREIGN KEY("pipeline_run_id") REFERENCES "pipeline_runs"("pipeline_run_id")
-);
-CREATE TABLE IF NOT EXISTS "pipeline_definitions" (
-	"pipline_definitions_id"	INTEGER,
-	"pipeline_name"	TEXT,
-	"pipeline_version"	TEXT,
-	"workflow_name"	TEXT,
-	"workflow_version"	INTEGER,
-	"method_name"	INTEGER,
-	"method_version"	INTEGER,
-	"parameters"	TEXT,
-	PRIMARY KEY("pipline_definitions_id" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "treatment_elements" (
 	"treatment_element_id"	INTEGER,
@@ -330,19 +302,17 @@ CREATE TABLE IF NOT EXISTS "project_amplicon_types" (
 	FOREIGN KEY("amplicon_type_id") REFERENCES "amplicon_types"("amplicon_type_id"),
 	FOREIGN KEY("project_id") REFERENCES "projects"("project_id")
 );
-CREATE VIEW NCBI_sample_run_info AS
-SELECT
-	so.sequencing_output_id,
-    s.sample_id,
-	so.project_id,
-    so.srr,
-    ref.*
-FROM sequencing_outputs so
-LEFT JOIN samples s
-    ON s.sample_id = so.sample_id
-LEFT JOIN ref_SRA_run_info ref
-    ON so.srr = ref.Run
-/* NCBI_sample_run_info(sequencing_output_id,sample_id,project_id,srr,Run,"Assay Type",AvgSpotLen,Bases,BioProject,BioSample,BioSampleModel,Bytes,"Center Name",Collection_Date,Consent,"DATASTORE filetype","DATASTORE provider","DATASTORE region",Depth,elev,env_biome,env_feature,env_material,Experiment,geo_loc_name_country,geo_loc_name_country_continent,geo_loc_name,Instrument,lat_lon,"Library Name",LibraryLayout,LibrarySelection,LibrarySource,Organism,Platform,ReleaseDate,create_date,version,"Sample Name","SRA Study","filename (run)","filetype (run)",Host,isolation_source,"platform (run)",samp_collect_device,samp_mat_process,samp_size,source_material_id,condition,multiplexing,pair,ref_biomaterial,marker,soil,tmp) */;
+CREATE TABLE IF NOT EXISTS "pipeline_definitions" (
+	"pipeline_definition_id"	INTEGER,
+	"pipeline_name"	TEXT,
+	"pipeline_version"	TEXT,
+	"workflow_name"	TEXT,
+	"workflow_version"	INTEGER,
+	"method_name"	INTEGER,
+	"method_version"	INTEGER,
+	"parameters"	TEXT,
+	PRIMARY KEY("pipeline_definition_id" AUTOINCREMENT)
+);
 CREATE TABLE IF NOT EXISTS "pipeline_runs" (
 	"pipeline_run_id"	INTEGER,
 	"pipeline_definition_id"	INTEGER,
@@ -360,13 +330,46 @@ CREATE TABLE IF NOT EXISTS "pipeline_runs" (
 	"notes"	TEXT,
 	PRIMARY KEY("pipeline_run_id" AUTOINCREMENT),
 	FOREIGN KEY("analysis_dataset_id") REFERENCES "analysis_datasets"("analysis_dataset_id"),
-	FOREIGN KEY("pipeline_definition_id") REFERENCES "pipeline_definitions"("pipline_definitions_id")
+	FOREIGN KEY("pipeline_definition_id") REFERENCES "pipeline_definitions"("pipeline_definition_id")
 );
-CREATE TABLE IF NOT EXISTS "asvs" (
-	"asv_id"	INTEGER NOT NULL,
-	"pipeline_run_id"	INTEGER,
-	"sequence"	TEXT,
-	"sequence_hash"	TEXT,
-	PRIMARY KEY("asv_id" AUTOINCREMENT),
-	FOREIGN KEY("pipeline_run_id") REFERENCES "pipeline_runs"("pipeline_run_id")
+CREATE TABLE IF NOT EXISTS "analysis_datasets" (
+	"analysis_dataset_id"	INTEGER NOT NULL,
+	"amplicon_type_id"	INTEGER NOT NULL,
+	"sequencing_run_id"	INTEGER NOT NULL,
+	"type"	TEXT,
+	"notes"	INTEGER,
+	PRIMARY KEY("analysis_dataset_id" AUTOINCREMENT),
+	FOREIGN KEY("amplicon_type_id") REFERENCES "amplicon_types"("amplicon_type_id"),
+	FOREIGN KEY("sequencing_run_id") REFERENCES "sequencing_runs"("sequencing_run_id")
 );
+CREATE TABLE IF NOT EXISTS "sequencing_outputs" (
+	"sequencing_output_id"	INTEGER NOT NULL,
+	"label"	TEXT,
+	"project_id"	INTEGER,
+	"sample_id"	INTEGER,
+	"sequencing_run_id"	INTEGER,
+	"amplicon_type_id"	INTEGER,
+	"srr"	TEXT,
+	"fastq1"	TEXT,
+	"fastq2"	TEXT,
+	"files_origin"	TEXT,
+	"notes"	TEXT,
+	"zzz_legacy_library_id"	INTEGER,
+	PRIMARY KEY("sequencing_output_id" AUTOINCREMENT),
+	FOREIGN KEY("amplicon_type_id") REFERENCES "amplicon_types"("amplicon_type_id"),
+	FOREIGN KEY("sample_id") REFERENCES "samples"("sample_id"),
+	FOREIGN KEY("sequencing_run_id") REFERENCES "sequencing_runs"("sequencing_run_id")
+);
+CREATE VIEW NCBI_sample_run_info AS
+SELECT
+	so.sequencing_output_id,
+    s.sample_id,
+	so.project_id,
+    so.srr,
+    ref.*
+FROM sequencing_outputs so
+LEFT JOIN samples s
+    ON s.sample_id = so.sample_id
+LEFT JOIN ref_SRA_run_info ref
+    ON so.srr = ref.Run
+/* NCBI_sample_run_info(sequencing_output_id,sample_id,project_id,srr,Run,"Assay Type",AvgSpotLen,Bases,BioProject,BioSample,BioSampleModel,Bytes,"Center Name",Collection_Date,Consent,"DATASTORE filetype","DATASTORE provider","DATASTORE region",Depth,elev,env_biome,env_feature,env_material,Experiment,geo_loc_name_country,geo_loc_name_country_continent,geo_loc_name,Instrument,lat_lon,"Library Name",LibraryLayout,LibrarySelection,LibrarySource,Organism,Platform,ReleaseDate,create_date,version,"Sample Name","SRA Study","filename (run)","filetype (run)",Host,isolation_source,"platform (run)",samp_collect_device,samp_mat_process,samp_size,source_material_id,condition,multiplexing,pair,ref_biomaterial,marker,soil,tmp) */;
