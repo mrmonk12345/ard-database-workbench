@@ -120,6 +120,8 @@ cur.execute(
     """
     UPDATE pipeline_runs
     SET
+        trim_left_f = ?,
+        trim_left_r = ?,
         trunc_len_f = ?,
         trunc_len_r = ?,
         p_max_ee_f = ?,
@@ -130,6 +132,8 @@ cur.execute(
     WHERE pipeline_run_id = ?
     """,
     (
+        variables.get("TRIM_LEFT_F"),
+        variables.get("TRIM_LEFT_R"),
         variables.get("TRUNC_LEN_F"),
         variables.get("TRUNC_LEN_R"),
         variables.get("P_MAX_EE_F"),
