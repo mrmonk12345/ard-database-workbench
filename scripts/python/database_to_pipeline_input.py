@@ -29,6 +29,13 @@ parser.add_argument(
     help="Existing pipeline run ID to reuse; if omitted, a new pipeline run is created",
 )
 
+parser.add_argument(
+    "--no-gzip",
+    action="store_true",
+    help="Skip raw read extraction and gzipping (Step 1)",
+)
+
+
 args = parser.parse_args()
 
 dataset_id = args.dataset_id
@@ -49,15 +56,18 @@ def run_step(script, args):
 # --- run pipeline steps ---
 
 # Create gzipped FASTQ files from the raw reads.
-run_step(
-    "1_dataset_to_analysis_files_simple_gzip_multi_threaded.py",
-    [
-        "--dataset-id", str(dataset_id),
-        "--db", str(DATABASE_PATH),
-        "--fastq-dir", str(RAW_READS_PATH),
-        "--outdir", str(ANALYSIS_FILES_PATH),
-    ],
-)
+if not args.no_gzip:
+    run_step(
+        "1_dataset_to_analysis_files_simple_gzip_multi_threaded.py",
+        [
+            "--dataset-id", str(dataset_id),
+            "--db", str(DATABASE_PATH),
+            "--fastq-dir", str(RAW_READS_PATH),
+            "--outdir", str(ANALYSIS_FILES_PATH),
+        ],
+    )
+else:
+    print("Skipping FASTQ gzip step.")
 
 # Create the QIIME FASTQ manifest.
 run_step(
