@@ -30,7 +30,7 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--no-gzip",
+    "--no-step-1",
     action="store_true",
     help="Skip raw read extraction and gzipping (Step 1)",
 )
@@ -56,7 +56,7 @@ def run_step(script, args):
 # --- run pipeline steps ---
 
 # Create gzipped FASTQ files from the raw reads.
-if not args.no_gzip:
+if not args.no_step_1:
     run_step(
         "1_dataset_to_analysis_files_simple_gzip_multi_threaded.py",
         [
@@ -67,7 +67,7 @@ if not args.no_gzip:
         ],
     )
 else:
-    print("Skipping FASTQ gzip step.")
+    print("Skipping step-1: FASTQ gzip.")
 
 # Create the QIIME FASTQ manifest.
 run_step(

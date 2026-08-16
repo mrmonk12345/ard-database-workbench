@@ -1,6 +1,7 @@
 name: database
 channels:
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
   - python=3.11
@@ -8,4 +9,5 @@ dependencies:
   - pyqt6
   - pyyaml
   - biopython
+  - cutadapt
 prefix: /home/ARO.local/michaelr/.conda/envs/database
