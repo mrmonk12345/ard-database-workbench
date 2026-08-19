@@ -4,5 +4,5 @@
 
 source /home/ARO.local/collaboration/michalm_collab/envs/database/env_database.sh
 
-python -m scripts.python.database_to_pipeline_input --dataset-id 10 --no-step-1
+python -m scripts.python.database_to_pipeline_input --dataset-id 4 --pipeline-run-id 5  #--no-step-1
 
