@@ -107,3 +107,19 @@ def get_sampling_compartments():
     FROM sampling_compartments
     """
     return run_query(query)
+
+def get_ncbi_view():
+    """Return all NCBI view records."""
+    query = """
+    SELECT *
+    FROM NCBI_sample_run_info
+    """
+    return run_query(query)
+
+def get_pipeline_runs_view():
+    """Return all pipeline runs view records."""
+    query = """
+    SELECT *
+    FROM vw_pipeline_run_summary
+    """
+    return run_query(query)
