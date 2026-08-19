@@ -20,7 +20,7 @@ The main goal is to make ARD amplicon data organized, searchable, reproducible, 
 
 ## Why the system exists
 
-Amplicon sequencing projects usually involve many moving parts. Data may come from different files, different stages of processing, and different technical contexts. This project helps keep those pieces connected so that information can be traced from the original sample to the final analysis results.
+Amplicon sequencing projects usually involve many parts. Data may come from different files, different stages of processing, and different technical contexts. This project helps keep those pieces connected so that information can be traced from the original sample to the final analysis results.
 
 ## Technology stack
 
