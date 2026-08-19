@@ -10,6 +10,7 @@ import pandas as pd
 from gui.project_data_window import ProjectDataWindow
 from gui.treatment_data_window import TreatmentDataWindow
 from gui.general_tables_data_window import GeneralTablesDataWindow
+from gui.views_data_window import ViewsDataWindow
 from scripts.python.db_get_data import get_projects, get_treatments
 
 
@@ -32,6 +33,7 @@ class MainWindow(QWidget):
         self.tabs.addTab(self._create_project_tab(), "Project")
         self.tabs.addTab(self._create_treatment_tab(), "Treatments")
         self.tabs.addTab(self._create_general_tables_tab(), "General Tables")
+        self.tabs.addTab(self._create_views_tab(), "Database Views")
         self.tabs.addTab(self._create_setup_tab(), "Setup")
 
         main_layout.addWidget(self.tabs)
@@ -147,6 +149,19 @@ class MainWindow(QWidget):
 
         return widget
 
+    def _create_views_tab(self):
+        """Create the database-views tab."""
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+
+        layout.addWidget(QLabel("Open the database view browser."))
+
+        open_btn = QPushButton("Open Database Views")
+        open_btn.clicked.connect(self._handle_open_views)
+        layout.addWidget(open_btn)
+
+        return widget
+
     # =====================
     # Handlers / Actions
     # =====================
@@ -165,6 +180,11 @@ class MainWindow(QWidget):
         """Open the starter dialog for browsing general tables."""
         self.general_tables_window = GeneralTablesDataWindow(self)
         self.general_tables_window.show()
+
+    def _handle_open_views(self):
+        """Open the dialog for browsing database views."""
+        self.views_window = ViewsDataWindow(self)
+        self.views_window.show()
 
     # =====================
     # Logic
