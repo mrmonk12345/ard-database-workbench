@@ -6,6 +6,7 @@ articles/**
 input_staging/**
 pipeline_runs/**
 raw_reads_projects/**
+exported_results/**
 
 # Allow placeholder files so the directories can be visible in GitHub
 !analysis_datasets/.gitkeep
