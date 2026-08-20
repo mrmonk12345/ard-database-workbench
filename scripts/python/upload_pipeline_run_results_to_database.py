@@ -11,7 +11,7 @@ from config import (
 )
 
 
-def load_pipeline_run(pipeline_run_id: int):
+def load_pipeline_run(pipeline_run_id: int, reference: str):
     """
     Load ASVs, feature counts, and taxonomy for a pipeline run.
 
@@ -21,6 +21,7 @@ def load_pipeline_run(pipeline_run_id: int):
 
     Args:
         pipeline_run_id: ID of the pipeline run to load.
+        reference: the taxonomy reference db used.
     """
     # Locate the exported results and helper scripts.
     export_dir = (
@@ -68,6 +69,8 @@ def load_pipeline_run(pipeline_run_id: int):
             str(scripts_dir / "upload_taxonomy_to_database.py"),
             "--pipeline-run-id",
             str(pipeline_run_id),
+            "--reference",
+            str(reference),
             "--db-path",
             DATABASE_PATH,
             "--taxonomy",
@@ -88,8 +91,14 @@ if __name__ == "__main__":
         required=True,
         type=int,
     )
+    
+    parser.add_argument(
+        "--reference",
+        default="gon_qiime_pipleine_version",
+        type=str,
+    )
 
     args = parser.parse_args()
 
     # Load all exported results for the selected pipeline run.
-    load_pipeline_run(args.pipeline_run_id)
+    load_pipeline_run(args.pipeline_run_id, args.reference)

@@ -61,6 +61,7 @@ def load_taxonomy(
     taxonomy_file,
     db_path,
     pipeline_run_id,
+    reference,
 ):
     """
     Insert taxonomy assignments for ASVs in a pipeline run.
@@ -73,6 +74,7 @@ def load_taxonomy(
         taxonomy_file: Path to the taxonomy TSV file.
         db_path: Path to the SQLite database.
         pipeline_run_id: ID of the associated pipeline run.
+        reference: the reference db used.
     """
 
     conn = sqlite3.connect(db_path)
@@ -121,8 +123,8 @@ def load_taxonomy(
                 taxonomy["genus"],
                 taxonomy["species"],
                 float(row["Confidence"]),
-                "gon_qiime_pipleine_version",
-                ,
+                reference,
+                None,
             )
         )
 
@@ -162,6 +164,12 @@ if __name__ == "__main__":
         required=True,
         type=int,
     )
+    
+    parser.add_argument(
+        "--reference",
+        required=True,
+        type=str,
+    )
 
     parser.add_argument(
         "--taxonomy",
@@ -180,4 +188,5 @@ if __name__ == "__main__":
         taxonomy_file=args.taxonomy,
         db_path=args.db_path,
         pipeline_run_id=args.pipeline_run_id,
+        reference = args.reference,
     )
