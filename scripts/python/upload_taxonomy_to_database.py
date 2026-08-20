@@ -121,8 +121,8 @@ def load_taxonomy(
                 taxonomy["genus"],
                 taxonomy["species"],
                 float(row["Confidence"]),
-                "GTDB",
-                date.today().isoformat(),
+                "gon_qiime_pipleine_version",
+                ,
             )
         )
 
