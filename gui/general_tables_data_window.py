@@ -20,6 +20,7 @@ from gui.general_sections import (
     locations_section,
     rootstocks_section,
     sampling_compartments_section,
+    pipeline_runs_section,
 )
 
 
@@ -52,6 +53,7 @@ class GeneralTablesDataWindow(QDialog):
             locations_section(self),
             rootstocks_section(self),
             sampling_compartments_section(self),
+            pipeline_runs_section(self),
         ]
 
         for section in sections:

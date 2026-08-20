@@ -10,6 +10,7 @@ from scripts.python.db_get_data import (
     get_locations,
     get_rootstocks,
     get_sampling_compartments,
+    get_pipeline_runs,
 )
 
 
@@ -169,6 +170,23 @@ def sampling_compartments_section(window):
                     "Sampling Compartments",
                     get_sampling_compartments(),
                     "sampling_compartments.tsv",
+                ),
+            ),
+        ],
+    }
+
+def pipeline_runs_section(window):
+    """Return the Pipeline Runs section configuration."""
+    return {
+        "title": "Pipeline Runs",
+        "count": len(get_pipeline_runs()),
+        "buttons": [
+            (
+                "View",
+                lambda: window.open_table(
+                    "Pipeline Runs",
+                    get_pipeline_runs(),
+                    "pipeline_runs.tsv",
                 ),
             ),
         ],
