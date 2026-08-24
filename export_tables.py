@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 
 
-from config import DATABASE_PATH
+from config import DATABASE_PATH, EXPORTED_RESULTS
 
 
 # Connect to database
@@ -134,7 +134,7 @@ count_matrix = df_counts.pivot(
     values="count"
 ).fillna(0)
 
-output_dir = Path("exported_results")
+output_dir = Path(EXPORTED_RESULTS)
 output_dir.mkdir(exist_ok=True)
 
 # Save Count Matrix

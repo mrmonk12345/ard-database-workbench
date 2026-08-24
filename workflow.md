@@ -151,6 +151,16 @@ It loads the exported ASV FASTA, feature counts, and taxonomy files into the cor
 
 This will make the SQLite database file significantly larger, take that into account when planning your workflow.
 
+## Step 15: (Optional) export desired samples to tsv count, metadata and taxonomy tables
+
+edit export_tables.py SQL queries.
+
+run:
+
+- scripts/shell/export_tables.sh
+
+this will write the tables to exported_results/
+
 ## Practical advice
 
 - Use the GUI and DB browser for inspection and manual review

@@ -5,5 +5,6 @@ paths:
   analysis_files: ./analysis_files/
   analysis_datasets: ./analysis_datasets/
   pipeline_runs: ./pipeline_runs/
+  exported_results: ./exported_results/
   python_scripts: ./scripts/python/
   conda_envs: /home/ARO.local/collaboration/michalm_collab/envs/
