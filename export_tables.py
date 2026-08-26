@@ -59,15 +59,15 @@ SELECT DISTINCT
     p.project_id,
     p.label            AS project_label,
     p.prjna            AS project_prjna,
-    loc.country        AS location_country,
-    loc.city           AS location_city,
+    loc.country        AS soil_location_country,
+    loc.city           AS soil_location_city,
     tr.treatment_id,
     tr.name            AS treatment_name,
     sc.name            AS compartment_name,
     r.name             AS rootstock_name
 FROM samples s
 LEFT JOIN projects p ON s.project_id = p.project_id
-LEFT JOIN locations loc ON s.location_id = loc.location_id
+LEFT JOIN soil_locations loc ON s.soil_location_id = loc.soil_location_id
 LEFT JOIN treatments tr ON s.treatment_id = tr.treatment_id
 LEFT JOIN sampling_compartments sc ON s.sampling_compartment_id = sc.sampling_compartment_id
 LEFT JOIN rootstocks r ON s.rootstock_id = r.rootstock_id
@@ -83,7 +83,7 @@ df_sample_metadata = pd.read_sql_query(sample_metadata_query, conn).set_index("s
 print("3. Extracting Taxonomy...")
 taxonomy_query = """
 SELECT DISTINCT
-    asv_id, 
+    feature_id, 
     kingdom, 
     phylum, 
     class, 
@@ -101,12 +101,12 @@ WHERE 1=1
     -- AND kingdom = 'Bacteria'
 ;
 """
-df_taxonomy = pd.read_sql_query(taxonomy_query, conn).set_index("asv_id")
+df_taxonomy = pd.read_sql_query(taxonomy_query, conn).set_index("feature_id")
 
 print("4. Extracting Feature Counts...")
 counts_query = """
 SELECT 
-    fc.asv_id, 
+    fc.feature_id, 
     fc.analysis_unit_id, 
     fc."count"
 FROM feature_counts fc
@@ -122,14 +122,14 @@ df_counts = pd.read_sql_query(counts_query, conn)
 # -----------------------------------------------------------------------------
 print("Pivoting Count Matrix & Saving TSVs...")
 
-# Ensure asv_id and analysis_unit_id types match across dataframes
-df_counts["asv_id"] = df_counts["asv_id"].astype(str)
+# Ensure feature_id and analysis_unit_id types match across dataframes
+df_counts["feature_id"] = df_counts["feature_id"].astype(str)
 df_counts["analysis_unit_id"] = df_counts["analysis_unit_id"].astype(str)
 df_taxonomy.index = df_taxonomy.index.astype(str)
 df_au_metadata.index = df_au_metadata.index.astype(str)
 
 count_matrix = df_counts.pivot(
-    index="asv_id", 
+    index="feature_id", 
     columns="analysis_unit_id", 
     values="count"
 ).fillna(0)
@@ -138,11 +138,11 @@ output_dir = Path(EXPORTED_RESULTS)
 output_dir.mkdir(exist_ok=True)
 
 # Save Count Matrix
-count_matrix.to_csv(output_dir / "asv_count_matrix.tsv", sep="\t")
+count_matrix.to_csv(output_dir / "feature_count_matrix.tsv", sep="\t")
 
-# Filter and save Taxonomy aligned to active ASVs in matrix
-active_asvs = count_matrix.index
-df_taxonomy[df_taxonomy.index.isin(active_asvs)].to_csv(output_dir / "asv_taxonomy.tsv", sep="\t")
+# Filter and save Taxonomy aligned to active features in matrix
+active_features = count_matrix.index
+df_taxonomy[df_taxonomy.index.isin(active_features)].to_csv(output_dir / "feature_taxonomy.tsv", sep="\t")
 
 # Filter and save Analysis Unit Metadata aligned to active columns in matrix
 active_aus = count_matrix.columns
@@ -157,9 +157,9 @@ if "sample_id" in df_au_metadata.columns:
 conn.close()
 
 print("\nFinished successfully!")
-print(f"Matrix shape: {count_matrix.shape[0]} ASVs x {count_matrix.shape[1]} Analysis Units")
+print(f"Matrix shape: {count_matrix.shape[0]} features x {count_matrix.shape[1]} Analysis Units")
 print("Files generated:")
-print(" - asv_count_matrix.tsv       (Count matrix keyed by analysis_unit_id)")
-print(" - asv_taxonomy.tsv           (Taxonomy table keyed by asv_id)")
+print(" - feature_count_matrix.tsv       (Count matrix keyed by analysis_unit_id)")
+print(" - feature_taxonomy.tsv           (Taxonomy table keyed by feature_id)")
 print(" - analysis_unit_metadata.tsv (Analysis unit info + link to sample_id)")
 print(" - sample_metadata.tsv        (Sample level metadata keyed by sample_id)")

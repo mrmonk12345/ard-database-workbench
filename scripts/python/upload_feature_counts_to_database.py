@@ -1,4 +1,4 @@
-"""Load ASV feature counts from a TSV file into the database."""
+"""Load feature counts from a TSV file into the database."""
 
 import sqlite3
 import pandas as pd
@@ -10,9 +10,9 @@ def load_feature_counts(
     pipeline_run_id,
 ):
     """
-    Insert non-zero ASV feature counts for a pipeline run.
+    Insert non-zero feature counts for a pipeline run.
 
-    The TSV file is expected to contain ASV sequence hashes in the first
+    The TSV file is expected to contain feature sequence hashes in the first
     column and analysis-unit names in the remaining columns.
 
     Args:
@@ -31,18 +31,18 @@ def load_feature_counts(
         engine="python",
     )
 
-    # The first column contains the sequence hash used to identify each ASV.
+    # The first column contains the sequence hash used to identify each feature.
     df.rename(
         columns={df.columns[0]: "sequence_hash"},
         inplace=True,
     )
 
-    # Build a lookup from sequence hashes to ASV IDs for this pipeline run.
-    asv_lookup = dict(
+    # Build a lookup from sequence hashes to feature IDs for this pipeline run.
+    feature_lookup = dict(
         cur.execute(
             """
-            SELECT sequence_hash, asv_id
-            FROM asvs
+            SELECT sequence_hash, feature_id
+            FROM features
             WHERE pipeline_run_id = ?
             """,
             (pipeline_run_id,),
@@ -63,12 +63,12 @@ def load_feature_counts(
 
     rows = []
 
-    # Process each ASV and its counts across all analysis units.
+    # Process each feature and its counts across all analysis units.
     for _, row in df.iterrows():
 
-        asv_id = asv_lookup.get(row["sequence_hash"])
+        feature_id = feature_lookup.get(row["sequence_hash"])
 
-        if asv_id is None:
+        if feature_id is None:
             continue
 
         for sample_name in df.columns[1:]:
@@ -96,7 +96,7 @@ def load_feature_counts(
 
             rows.append(
                 (
-                    asv_id,
+                    feature_id,
                     analysis_unit_id,
                     pipeline_run_id,
                     int(count),
@@ -107,7 +107,7 @@ def load_feature_counts(
     cur.executemany(
         """
         INSERT INTO feature_counts (
-            asv_id,
+            feature_id,
             analysis_unit_id,
             pipeline_run_id,
             count
