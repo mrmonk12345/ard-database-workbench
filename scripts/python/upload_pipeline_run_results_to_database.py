@@ -13,7 +13,7 @@ from config import (
 
 def load_pipeline_run(pipeline_run_id: int, reference: str):
     """
-    Load ASVs, feature counts, and taxonomy for a pipeline run.
+    Load features, feature counts, and taxonomy for a pipeline run.
 
     The expected exported files are located in the pipeline run's
     ``exported`` directory. Each result type is loaded by its corresponding
@@ -32,11 +32,11 @@ def load_pipeline_run(pipeline_run_id: int, reference: str):
 
     scripts_dir = Path(PYTHON_SCRIPTS_PATH)
 
-    # Load ASV sequences from the exported FASTA file.
+    # Load feature sequences from the exported FASTA file.
     subprocess.run(
         [
             "python",
-            str(scripts_dir / "upload_asvs_fasta_to_database.py"),
+            str(scripts_dir / "upload_features_fasta_to_database.py"),
             "--pipeline-run-id",
             str(pipeline_run_id),
             "--db-path",
@@ -47,7 +47,7 @@ def load_pipeline_run(pipeline_run_id: int, reference: str):
         check=True,
     )
 
-    # Load non-zero ASV feature counts from the exported feature table.
+    # Load non-zero feature feature counts from the exported feature table.
     subprocess.run(
         [
             "python",
@@ -62,7 +62,7 @@ def load_pipeline_run(pipeline_run_id: int, reference: str):
         check=True,
     )
 
-    # Load ASV taxonomy assignments from the exported taxonomy file.
+    # Load feature taxonomy assignments from the exported taxonomy file.
     subprocess.run(
         [
             "python",

@@ -1,5 +1,5 @@
 
-"""Load ASV taxonomy assignments from a TSV file into the database."""
+"""Load feature taxonomy assignments from a TSV file into the database."""
 
 import argparse
 import sqlite3
@@ -64,7 +64,7 @@ def load_taxonomy(
     reference,
 ):
     """
-    Insert taxonomy assignments for ASVs in a pipeline run.
+    Insert taxonomy assignments for features in a pipeline run.
 
     The TSV file must contain ``Feature ID``, ``Taxon``, and ``Confidence``
     columns. Features that are not present in the selected pipeline run are
@@ -86,12 +86,12 @@ def load_taxonomy(
         sep="\t",
     )
 
-    # Map sequence hashes to ASV IDs for the selected pipeline run.
-    asv_lookup = dict(
+    # Map sequence hashes to feature IDs for the selected pipeline run.
+    feature_lookup = dict(
         cur.execute(
             """
-            SELECT sequence_hash, asv_id
-            FROM asvs
+            SELECT sequence_hash, feature_id
+            FROM features
             WHERE pipeline_run_id = ?
             """,
             (pipeline_run_id,),
@@ -105,16 +105,16 @@ def load_taxonomy(
 
         sequence_hash = row["Feature ID"]
 
-        asv_id = asv_lookup.get(sequence_hash)
+        feature_id = feature_lookup.get(sequence_hash)
 
-        if asv_id is None:
+        if feature_id is None:
             continue
 
         taxonomy = parse_taxonomy(row["Taxon"])
 
         rows.append(
             (
-                asv_id,
+                feature_id,
                 taxonomy["kingdom"],
                 taxonomy["phylum"],
                 taxonomy["class"],
@@ -132,7 +132,7 @@ def load_taxonomy(
     cur.executemany(
         """
         INSERT INTO taxonomy (
-            asv_id,
+            feature_id,
             kingdom,
             phylum,
             class,
