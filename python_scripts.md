@@ -57,10 +57,10 @@ This document lists the main Python scripts (regular scripts and GUI modules). E
 - Imports: none
 
 ### scripts/python/upload_pipeline_run_results_to_database.py
-- Description: Load exported pipeline run results (ASVs, counts, taxonomy) into the database.
+- Description: Load exported pipeline run results (features, counts, taxonomy) into the database.
 - Called by: `scripts/shell/upload_pipeline_run_results_to_database.sh`
 - Imported by: none
-- Calls: `upload_asvs_fasta_to_database.py`, `upload_feature_counts_to_database.py`, `upload_taxonomy_to_database.py`
+- Calls: `upload_features_fasta_to_database.py`, `upload_feature_counts_to_database.py`, `upload_taxonomy_to_database.py`
 - Imports: none
 
 ### scripts/python/create_pipeline_run.py
@@ -105,8 +105,8 @@ This document lists the main Python scripts (regular scripts and GUI modules). E
 - Calls: none
 - Imports: none
 
-### scripts/python/upload_asvs_fasta_to_database.py
-- Description: Helper to upload ASV fasta sequences for a pipeline run.
+### scripts/python/upload_features_fasta_to_database.py
+- Description: Helper to upload feature fasta sequences for a pipeline run.
 - Called by: `upload_pipeline_run_results_to_database.py`
 - Imported by: none
 - Calls: none
