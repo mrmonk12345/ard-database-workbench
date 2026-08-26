@@ -7,7 +7,7 @@ from scripts.python.db_get_data import (
     get_sequencing_runs,
     get_analysis_datasets,
     get_treatments,
-    get_locations,
+    get_soil_locations,
     get_rootstocks,
     get_sampling_compartments,
     get_pipeline_runs,
@@ -122,17 +122,17 @@ def treatments_section(window):
     }
 
 
-def locations_section(window):
+def soil_locations_section(window):
     """Return the Locations section configuration."""
     return {
-        "title": "Locations",
-        "count": len(get_locations()),
+        "title": "Soil Locations",
+        "count": len(get_soil_locations()),
         "buttons": [
             (
                 "View",
                 lambda: window.open_table(
                     "Locations",
-                    get_locations(),
+                    get_soil_locations(),
                     "locations.tsv",
                 ),
             ),

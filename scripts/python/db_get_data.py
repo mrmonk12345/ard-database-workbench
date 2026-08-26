@@ -84,11 +84,11 @@ def get_treatments():
     """
     return run_query(query)
 
-def get_locations():
+def get_soil_locations():
     """Return all location records."""
     query = """
     SELECT *
-    FROM locations
+    FROM soil_locations
     """
     return run_query(query)
 
