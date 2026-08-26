@@ -59,15 +59,15 @@ SELECT DISTINCT
     p.project_id,
     p.label            AS project_label,
     p.prjna            AS project_prjna,
-    loc.country        AS location_country,
-    loc.city           AS location_city,
+    loc.country        AS soil_location_country,
+    loc.city           AS soil_location_city,
     tr.treatment_id,
     tr.name            AS treatment_name,
     sc.name            AS compartment_name,
     r.name             AS rootstock_name
 FROM samples s
 LEFT JOIN projects p ON s.project_id = p.project_id
-LEFT JOIN locations loc ON s.location_id = loc.location_id
+LEFT JOIN soil_locations loc ON s.soil_location_id = loc.soil_location_id
 LEFT JOIN treatments tr ON s.treatment_id = tr.treatment_id
 LEFT JOIN sampling_compartments sc ON s.sampling_compartment_id = sc.sampling_compartment_id
 LEFT JOIN rootstocks r ON s.rootstock_id = r.rootstock_id
