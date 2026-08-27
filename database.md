@@ -5,7 +5,7 @@ The database is organized around a clear and practical flow of information. It b
 ## The main stages
 
 1. **Project and sample metadata**
-   Information about the study, samples, treatments, locations, and experimental setup is stored first.
+   Information about the study, samples, treatments, soil_locations, and experimental setup is stored first.
 
 2. **Sequencing runs and raw files**
    The database records sequencing events and links them to the relevant files, such as FASTQ outputs.
@@ -18,7 +18,7 @@ The database is organized around a clear and practical flow of information. It b
 
 ## Main table groups
 
-- **Project metadata**: projects, treatments, locations, rootstocks, sampling compartments
+- **Project metadata**: projects, treatments, soil_locations, rootstocks, sampling compartments
 - **Sample and library data**: samples, libraries, amplicon types
 - **Sequencing data**: sequencing runs, sequencing outputs
 - **Analysis data**: analysis datasets, analysis units, pipeline runs
@@ -41,7 +41,7 @@ This allows the database to store not only what was measured, but also the conte
 
 The schema is organized into several conceptual layers:
 
-- **Biological metadata**: tables such as projects, samples, libraries, rootstocks, locations, treatments, and sampling_compartments
+- **Biological metadata**: tables such as projects, samples, libraries, rootstocks, soil_locations, treatments, and sampling_compartments
 - **Technical and ingestion metadata**: tables such as sequencing_runs
 - **System axes**: tables such as amplicon_types and project_amplicon_types that define the biological target and support scientific consistency
 - **Operational and pipeline metadata**: tables such as analysis_units, analysis_datasets, and pipeline_runs
