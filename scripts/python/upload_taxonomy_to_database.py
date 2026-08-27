@@ -149,6 +149,16 @@ def load_taxonomy(
         rows,
     )
 
+    # Mark taxonomy as uploaded for this pipeline run.
+    cur.execute(
+    """
+    UPDATE pipeline_runs
+    SET taxonomy_uploaded = 1
+    WHERE pipeline_run_id = ?
+    """,
+    (pipeline_run_id,),
+    )
+    
     conn.commit()
     conn.close()
 

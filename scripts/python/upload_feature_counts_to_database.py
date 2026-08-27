@@ -117,6 +117,16 @@ def load_feature_counts(
         rows,
     )
 
+    # Mark feature counts as uploaded for this pipeline run.
+    cur.execute(
+    """
+    UPDATE pipeline_runs
+    SET feature_counts_uploaded = 1
+    WHERE pipeline_run_id = ?
+    """,
+    (pipeline_run_id,),
+    )
+    
     conn.commit()
     conn.close()
 

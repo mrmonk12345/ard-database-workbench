@@ -52,6 +52,16 @@ def load_features(
         rows,
     )
 
+    # Mark features as uploaded for this pipeline run.
+    cur.execute(
+    """
+    UPDATE pipeline_runs
+    SET features_uploaded = 1
+    WHERE pipeline_run_id = ?
+    """,
+    (pipeline_run_id,),
+    )
+
     conn.commit()
     conn.close()
 
