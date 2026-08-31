@@ -33,6 +33,7 @@ def parse_taxonomy(taxon_string):
     # Map taxonomy prefixes to database column names.
     rank_map = {
         "d": "kingdom",
+        "k": "kingdom",
         "p": "phylum",
         "c": "class",
         "o": "order",
