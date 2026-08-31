@@ -11,7 +11,11 @@ from config import (
 )
 
 
-def load_pipeline_run(pipeline_run_id: int, reference: str):
+def load_pipeline_run(
+    pipeline_run_id: int,
+    reference: str,
+    feature_type: str = "asv",
+):
     """
     Load features, feature counts, and taxonomy for a pipeline run.
 
@@ -22,6 +26,7 @@ def load_pipeline_run(pipeline_run_id: int, reference: str):
     Args:
         pipeline_run_id: ID of the pipeline run to load.
         reference: the taxonomy reference db used.
+        feature_type: feature classification type (for example ``asv`` or ``otu``).
     """
     # Locate the exported results and helper scripts.
     export_dir = (
@@ -43,6 +48,8 @@ def load_pipeline_run(pipeline_run_id: int, reference: str):
             DATABASE_PATH,
             "--fasta",
             str(export_dir / "dna-sequences.fasta"),
+            "--feature-type",
+            str(feature_type),
         ],
         check=True,
     )
@@ -98,7 +105,17 @@ if __name__ == "__main__":
         type=str,
     )
 
+    parser.add_argument(
+        "--feature-type",
+        default="asv",
+        type=str,
+    )
+
     args = parser.parse_args()
 
     # Load all exported results for the selected pipeline run.
-    load_pipeline_run(args.pipeline_run_id, args.reference)
+    load_pipeline_run(
+        args.pipeline_run_id,
+        args.reference,
+        feature_type=args.feature_type,
+    )
