@@ -4,4 +4,4 @@
 
 source /home/ARO.local/collaboration/michalm_collab/envs/database/env_database.sh
 
-python -m scripts.python.update_null_au_names --project-id 3
+python -m scripts.python.update_null_au_names --project-id 1

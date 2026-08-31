@@ -4,4 +4,4 @@
 
 source /home/ARO.local/collaboration/michalm_collab/envs/database/env_database.sh
 
-python -m scripts.python.refresh_labels --project-id 9
+python -m scripts.python.refresh_labels --project-id 1
