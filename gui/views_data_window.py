@@ -13,6 +13,7 @@ from gui.table_view_window import TableViewWindow
 from gui.views_sections import (
     ncbi_view_section,
     pipeline_runs_view_section,
+    pipeline_run_features_data_view_section,
 )
 
 
@@ -38,6 +39,7 @@ class ViewsDataWindow(QDialog):
         sections = [
             ncbi_view_section(self),
             pipeline_runs_view_section(self),
+			pipeline_run_features_data_view_section(self),
         ]
 
         for section in sections:

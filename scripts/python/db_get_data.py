@@ -131,3 +131,19 @@ def get_pipeline_runs_view():
     FROM vw_pipeline_run_summary
     """
     return run_query(query)
+
+def get_pipeline_run_features_data_view():
+    """Return all pipeline run feature data view records."""
+    query = """
+    SELECT *
+    FROM vw_pipeline_run_features_data
+    """
+    return run_query(query)
+
+def get_pipeline_run_features_data_view_count():
+    """Return the number of pipeline run feature data view records."""
+    query = """
+    SELECT COUNT(*) AS count
+    FROM vw_pipeline_run_features_data
+    """
+    return run_query(query).iloc[0]["count"]
