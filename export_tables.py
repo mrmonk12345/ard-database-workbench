@@ -20,21 +20,29 @@ SELECT DISTINCT
     au.analysis_dataset_id,
     lib.sample_id,
     s.sample_name,
-    s.host_species,
     p.label            AS project_label,
     tr.name            AS treatment_name,
-    sc.name            AS compartment_name
+    sc.name            AS compartment_name,
+    r.name             AS rootstock_name,
+    loc.name           AS soil_location_name,
+    s.time_since_planting,
+    s.initial_health_status,
+    s.host_species,
+    s.experimental_setting
+    
 FROM analysis_units au
 LEFT JOIN libraries lib ON au.library_id = lib.library_id
 LEFT JOIN samples s ON lib.sample_id = s.sample_id
 LEFT JOIN projects p ON s.project_id = p.project_id
 LEFT JOIN treatments tr ON s.treatment_id = tr.treatment_id
 LEFT JOIN sampling_compartments sc ON s.sampling_compartment_id = sc.sampling_compartment_id
+LEFT JOIN soil_locations loc ON s.soil_location_id = loc.soil_location_id
+LEFT JOIN rootstocks r ON s.rootstock_id = r.rootstock_id
 WHERE 1=1
     -- =========================================================
     -- ANALYSIS UNIT & METADATA FILTERS (Uncomment as needed)
     -- =========================================================
-    -- AND p.project_id IN (1, 2)
+    AND p.project_id IN (15, 9, 7, 14)
     -- AND tr.name = 'Drought_Stress'
 ;
 """
@@ -98,7 +106,7 @@ WHERE 1=1
     -- =========================================================
     -- TAXONOMY FILTERS (Uncomment as needed)
     -- =========================================================
-    -- AND kingdom = 'Bacteria'
+    AND reference_db = 'gtdb_r214'
 ;
 """
 df_taxonomy = pd.read_sql_query(taxonomy_query, conn).set_index("feature_id")
