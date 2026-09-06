@@ -10,6 +10,8 @@ Start by installing a tool for viewing and editing the SQLite database. DB Brows
 
 If the `.db` file is located on a server and you are using Windows, consider using SSHFS to mount the server in the file explorer. This allows you to access the server's files locally.
 
+The project also includes a `config.yml` file with the usual environment settings. It normally does not need to be changed.
+
 ## Step 2: Choose the project
 
 Pick the project you want to work on. If the project already exists, fill in any missing information. If it is new, create the project record first.
