@@ -1,6 +1,6 @@
 # Workflow Guide
 
-This project has a fairly clear workflow, and most of the work up to the point of creating the pipeline folder is done through DB Browser, shell scripts, and Excel files.
+This guide describes the workflow for adding a new project, entering its data into the database, preparing and running the analysis pipeline, and exporting the results as TSV files. The work uses DB Browser, shell scripts, and Excel files.
 
 ## Step 1: Set up the environment
 
