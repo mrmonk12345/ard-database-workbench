@@ -21,6 +21,13 @@ This document lists the main Python scripts (regular scripts and GUI modules). E
 - Calls: none
 - Imports: `dataset_base_make_inputs.py`
 
+### scripts/python/dataset_base_make_inputs.py
+- Description: Find the analysis units associated with an analysis dataset.
+- Called by: `dataset_base_write_inputs.py`
+- Imported by: `dataset_base_write_inputs.py`
+- Calls: none
+- Imports: none
+
 ### scripts/python/0_demultiplex_primers_and_gzip.py
 - Description: Demultiplex primers and gzip FASTQ files for a dataset.
 - Called by: `scripts/shell/demultiplex_multiple_primers.sh`

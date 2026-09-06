@@ -1,6 +1,6 @@
 # Database Tables
 
-This document describes every table defined in `schema.sql`, including workflow, supporting, staging, reference, junction, and legacy tables. The `NCBI_sample_run_info` view is documented at the end.
+This document describes every table and view defined in `schema.sql`.
 
 ## Workflow tables
 
@@ -9,134 +9,143 @@ Stores study and research project metadata.
 
 | Column | Description |
 | --- | --- |
-| `project_id` | Unique auto-incrementing project identifier. |
-| `label` | Short human-readable project label. |
-| `prjna` | NCBI BioProject accession, when available. |
-| `article_identifier` | Identifier for the associated publication. |
-| `article_file_name` | File name of the associated publication. |
+| `project_id` | Unique project identifier. |
+| `label` | Human-readable project label. |
+| `prjna` | NCBI BioProject accession. |
+| `article_identifier` | Associated publication identifier. |
+| `article_file_name` | Associated publication file name. |
 | `notes` | Additional project notes. |
-| `amplicon_type_id` | Default amplicon type for the project. |
+| `amplicon_type_id` | Default amplicon type. |
 
 ### `amplicon_types`
-Defines the genetic target and primers used for amplicon sequencing.
+Defines genetic targets and primers used for amplicon sequencing.
 
 | Column | Description |
 | --- | --- |
 | `amplicon_type_id` | Unique amplicon-type identifier. |
-| `marker_gene` | Target marker gene, such as 16S or ITS. |
+| `marker_gene` | Target marker gene. |
 | `variable_region` | Target variable region. |
-| `amplicon_length` | Expected amplified-region length. |
+| `amplicon_length` | Expected amplicon length. |
 | `f_name` | Forward primer name. |
-| `f_sequence` | Forward primer nucleotide sequence. |
+| `f_sequence` | Forward primer sequence. |
 | `f_length` | Forward primer length. |
 | `r_name` | Reverse primer name. |
-| `r_sequence` | Reverse primer nucleotide sequence. |
+| `r_sequence` | Reverse primer sequence. |
 | `r_length` | Reverse primer length. |
 
 ### `project_amplicon_types`
-Associates projects with the amplicon types used in them.
+Associates projects with their amplicon types.
 
 | Column | Description |
 | --- | --- |
-| `project_id` | Associated project identifier. |
-| `amplicon_type_id` | Associated amplicon-type identifier. |
-| `role` | Purpose of the amplicon type in the project. |
+| `project_id` | Associated project. |
+| `amplicon_type_id` | Associated amplicon type. |
+| `role` | Amplicon-type role in the project. |
 
 ### `samples`
 Stores biological sample metadata and experimental context.
 
 | Column | Description |
 | --- | --- |
-| `sample_id` | Unique auto-incrementing sample identifier. |
+| `sample_id` | Unique sample identifier. |
 | `sample_name` | Original or local sample name. |
-| `original_sample_label` | Sample label before standardization. |
+| `original_sample_label` | Label before standardization. |
 | `label` | Standardized sample label. |
-| `project_id` | Project from which the sample originated. |
-| `location_id` | Sample collection location. |
-| `rootstock_id` | Associated plant rootstock. |
-| `sampling_compartment_id` | Biological or physical sampling compartment. |
-| `treatment_id` | Applied experimental treatment. |
-| `time_since_planting` | Time elapsed since planting at sampling. |
+| `project_id` | Source project. |
+| `soil_location_id` | Sample collection location. |
+| `rootstock_id` | Associated rootstock. |
+| `sampling_compartment_id` | Sample compartment. |
+| `treatment_id` | Applied treatment. |
+| `time_since_planting` | Time since planting. |
 | `replicate_number` | Experimental replicate number. |
-| `initial_health_status` | Health status at the start of observation. |
-| `final_health_status` | Health status at the end of observation or sampling. |
+| `initial_health_status` | Initial health status. |
+| `final_health_status` | Final health status. |
 | `host_species` | Host organism species. |
 | `scion_cultivar` | Associated scion cultivar. |
-| `soil_texture` | Physical soil-texture classification. |
+| `soil_texture` | Soil-texture classification. |
 | `soil_type` | Soil-type classification. |
-| `sampling_depth` | Depth of sample collection. |
-| `experimental_setting` | Experimental setting, such as field or greenhouse. |
+| `sampling_depth` | Sampling depth. |
+| `experimental_setting` | Experimental setting. |
+| `notes` | Additional sample notes. |
 
-### `locations`
-Stores geographic locations associated with samples.
+### `soil_locations`
+Stores soil collection locations and related metadata.
 
 | Column | Description |
 | --- | --- |
-| `location_id` | Unique auto-incrementing location identifier. |
+| `soil_location_id` | Unique soil-location identifier. |
+| `name` | Location name. |
 | `label` | Short location label. |
-| `country` | Country containing the location. |
+| `country` | Country. |
 | `city` | City or nearest locality. |
 | `coordinates` | Geographic coordinates. |
+| `project_id` | Associated project. |
+| `soil_texture` | Soil-texture classification. |
+| `soil_type` | Soil-type classification. |
+| `notes` | Additional location notes. |
 
 ### `rootstocks`
-Stores rootstock definitions used in experiments.
+Stores rootstock definitions.
 
 | Column | Description |
 | --- | --- |
-| `rootstock_id` | Unique auto-incrementing rootstock identifier. |
+| `rootstock_id` | Unique rootstock identifier. |
 | `name` | Rootstock name. |
 | `label` | Short rootstock label. |
-| `rootstock_type` | Rootstock category or type. |
-| `description` | Detailed rootstock description. |
+| `rootstock_type` | Rootstock category. |
+| `description` | Rootstock description. |
 
 ### `sampling_compartments`
-Defines biological or physical compartments used to classify sample origin.
+Defines biological or physical sample compartments.
 
 | Column | Description |
 | --- | --- |
-| `sampling_compartment_id` | Unique auto-incrementing compartment identifier. |
+| `sampling_compartment_id` | Unique compartment identifier. |
 | `name` | Compartment name. |
 | `label` | Short compartment label. |
-| `description` | Detailed compartment description. |
-| `project_id` | Project defining or using the compartment. |
+| `description` | Compartment description. |
+| `project_id` | Defining or associated project. |
 
 ### `treatments`
-Stores experimental treatments applied to projects or samples.
+Stores experimental treatments.
 
 | Column | Description |
 | --- | --- |
-| `treatment_id` | Unique auto-incrementing treatment identifier. |
+| `treatment_id` | Unique treatment identifier. |
 | `name` | Treatment name. |
 | `label` | Short treatment label. |
 | `description` | Treatment description. |
-| `project_id` | Project in which the treatment is used. |
-| `treatment_function` | Intended function or biological purpose. |
+| `project_id` | Project using the treatment. |
+| `treatment_function` | Intended treatment function. |
+| `notes` | Additional treatment notes. |
 
 ### `treatment_elements`
-Defines components that can make up an experimental treatment.
+Defines components of experimental treatments.
 
 | Column | Description |
 | --- | --- |
-| `treatment_element_id` | Unique auto-incrementing element identifier. |
-| `name` | Treatment-element name. |
+| `treatment_element_id` | Unique element identifier. |
+| `name` | Element name. |
 | `category` | Broad element category. |
 | `type` | Element type. |
-| `subtype` | More specific element subtype. |
+| `subtype` | Element subtype. |
+| `description` | Element description. |
 | `notes` | Additional element notes. |
 
 ### `treatment_element_assignments`
-Associates treatment elements with treatments and records their application.
+Associates treatment elements with treatments.
 
 | Column | Description |
 | --- | --- |
 | `treatment_id` | Treatment receiving the element. |
-| `treatment_element_id` | Element included in the treatment. |
-| `dose_value` | Numeric applied dose. |
-| `dose_unit` | Unit of the dose. |
-| `duration_value` | Numeric application duration. |
-| `duration_unit` | Unit of the duration. |
-| `application_method` | Method used to apply the element. |
-| `function` | Element function within the treatment. |
+| `treatment_element_id` | Assigned treatment element. |
+| `dose_value` | Applied dose. |
+| `dose_unit` | Dose unit. |
+| `duration_value` | Application duration. |
+| `duration_unit` | Duration unit. |
+| `application_method` | Application method. |
+| `function` | Element function in the treatment. |
+| `description` | Assignment description. |
 | `notes` | Additional assignment notes. |
 
 ### `libraries`
@@ -144,25 +153,25 @@ Represents a prepared library linking a sample to an amplicon type.
 
 | Column | Description |
 | --- | --- |
-| `library_id` | Unique auto-incrementing library identifier. |
+| `library_id` | Unique library identifier. |
 | `label` | Human-readable library label. |
-| `sample_id` | Sample used to prepare the library. |
+| `sample_id` | Source sample. |
 | `amplicon_type_id` | Library sequencing target. |
 | `notes` | Additional library notes. |
 | `srx` | NCBI SRA experiment accession. |
 | `zzz_legacy_library_id` | Legacy library reference. |
 
 ### `sequencing_runs`
-Records a sequencing instrument run and its metadata.
+Records sequencing instrument runs.
 
 | Column | Description |
 | --- | --- |
-| `sequencing_run_id` | Unique auto-incrementing run identifier. |
+| `sequencing_run_id` | Unique sequencing-run identifier. |
 | `project_id` | Associated project. |
 | `platform` | Sequencing platform or instrument. |
 | `run_date` | Sequencing date. |
 | `depth` | Run-level sequencing depth. |
-| `read_type` | Read layout, such as single-end or paired-end. |
+| `read_type` | Read layout. |
 | `notes` | Additional run notes. |
 
 ### `sequencing_outputs`
@@ -170,116 +179,123 @@ Stores raw sequencing files and their provenance.
 
 | Column | Description |
 | --- | --- |
-| `sequencing_output_id` | Unique auto-incrementing output identifier. |
+| `sequencing_output_id` | Unique output identifier. |
 | `label` | Human-readable output label. |
 | `project_id` | Associated project. |
-| `sample_id` | Sample represented in the output. |
-| `sequencing_run_id` | Run that generated the output. |
-| `amplicon_type_id` | Amplicon type represented in the output. |
+| `sample_id` | Represented sample. |
+| `sequencing_run_id` | Source sequencing run. |
+| `amplicon_type_id` | Represented amplicon type. |
 | `srr` | NCBI SRA run accession. |
-| `fastq1` | First or forward FASTQ path or file name. |
-| `fastq2` | Second or reverse FASTQ path or file name. |
-| `files_origin` | Origin or source of the files. |
+| `fastq1` | First or forward FASTQ path. |
+| `fastq2` | Second or reverse FASTQ path. |
+| `files_origin` | File origin. |
 | `notes` | Additional output notes. |
 | `zzz_legacy_library_id` | Legacy library reference. |
 
 ### `analysis_datasets`
-Groups analysis units for processing, usually by amplicon type and sequencing run.
+Groups analysis units for processing.
 
 | Column | Description |
 | --- | --- |
-| `analysis_dataset_id` | Unique auto-incrementing dataset identifier. |
+| `analysis_dataset_id` | Unique dataset identifier. |
 | `amplicon_type_id` | Dataset amplicon type. |
 | `sequencing_run_id` | Dataset sequencing run. |
-| `type` | Dataset category, typically `base`. |
+| `type` | Dataset category. |
 | `notes` | Additional dataset notes. |
 
 ### `analysis_units`
-Defines logical sample-level units used in downstream analysis.
+Defines logical sample-level units used in analysis.
 
 | Column | Description |
 | --- | --- |
-| `analysis_unit_id` | Unique auto-incrementing analysis-unit identifier. |
-| `analysis_unit_name` | Stable generated analysis-unit name. |
-| `label` | Human-readable analysis-unit label. |
-| `library_id` | Source sequencing library. |
-| `sequencing_run_id` | Sequencing run used by the unit. |
-| `analysis_dataset_id` | Dataset containing the unit. |
+| `analysis_unit_id` | Unique analysis-unit identifier. |
+| `analysis_unit_name` | Stable generated name. |
+| `label` | Human-readable label. |
+| `library_id` | Source library. |
+| `sequencing_run_id` | Associated sequencing run. |
+| `analysis_dataset_id` | Containing dataset. |
 
 ### `analysis_unit_files`
 Tracks file preparation status and paths for analysis units.
 
 | Column | Description |
 | --- | --- |
-| `analysis_unit_id` | Analysis unit associated with the files. |
+| `analysis_unit_id` | Associated analysis unit. |
 | `sequencing_output_id` | Source sequencing output. |
 | `amplicon_separating_done` | Whether amplicon separation is complete. |
 | `demultiplexing_done` | Whether demultiplexing is complete. |
 | `gzip_done` | Whether gzip compression is complete. |
-| `read1_path` | Prepared first-read file path. |
-| `read2_path` | Prepared second-read file path. |
+| `read1_path` | Prepared first-read path. |
+| `read2_path` | Prepared second-read path. |
 
 ### `pipeline_definitions`
 Defines pipeline, workflow, method, version, and parameter information.
 
 | Column | Description |
 | --- | --- |
-| `pipeline_definition_id` | Unique auto-incrementing definition identifier. |
+| `pipeline_definition_id` | Unique definition identifier. |
 | `pipeline_name` | Bioinformatic pipeline name. |
 | `pipeline_version` | Pipeline version. |
 | `workflow_name` | Workflow name. |
 | `workflow_version` | Workflow version. |
 | `method_name` | Analysis method name. |
 | `method_version` | Analysis method version. |
-| `parameters` | Pipeline parameters or configuration. |
+| `parameters` | Pipeline parameters. |
+| `notes` | Additional definition notes. |
 
 ### `pipeline_runs`
 Tracks pipeline execution against an analysis dataset.
 
 | Column | Description |
 | --- | --- |
-| `pipeline_run_id` | Unique auto-incrementing run identifier. |
-| `pipeline_definition_id` | Definition used for the run. |
-| `analysis_dataset_id` | Dataset processed by the run. |
-| `status` | Current or final execution status. |
+| `pipeline_run_id` | Unique pipeline-run identifier. |
+| `pipeline_definition_id` | Definition used by the run. |
+| `analysis_dataset_id` | Processed dataset. |
+| `status` | Current or final status. |
+| `trim_left_f` | Bases trimmed from forward reads. |
+| `trim_left_r` | Bases trimmed from reverse reads. |
 | `trunc_len_f` | Forward-read truncation length. |
 | `trunc_len_r` | Reverse-read truncation length. |
 | `p_min_overlap` | Minimum paired-read overlap. |
-| `p_max_ee_f` | Maximum expected forward-read errors. |
-| `p_max_ee_r` | Maximum expected reverse-read errors. |
+| `p_max_ee_f` | Maximum forward-read expected errors. |
+| `p_max_ee_r` | Maximum reverse-read expected errors. |
 | `sampling_depth` | Sampling or rarefaction depth. |
 | `max_depth` | Maximum sequencing depth considered. |
-| `processed_data_path` | Location of processed results. |
-| `is_primary` | Whether this is the primary run for the dataset. |
+| `processed_data_path` | Processed-results location. |
+| `is_primary` | Whether this is the primary run. |
+| `features_uploaded` | Whether feature sequences were uploaded. |
+| `feature_counts_uploaded` | Whether feature counts were uploaded. |
+| `taxonomy_uploaded` | Whether taxonomy was uploaded. |
 | `notes` | Additional pipeline-run notes. |
 
-### `asvs`
-Stores amplicon sequence variants generated by pipeline runs.
+### `features`
+Stores sequence features generated by pipeline runs.
 
 | Column | Description |
 | --- | --- |
-| `asv_id` | Unique ASV identifier. |
-| `pipeline_run_id` | Run that generated the ASV. |
-| `sequence` | ASV nucleotide sequence. |
+| `feature_id` | Unique feature identifier. |
+| `pipeline_run_id` | Run that generated the feature. |
+| `sequence` | Feature nucleotide sequence. |
 | `sequence_hash` | Sequence hash or fingerprint. |
+| `feature_type` | Sequence feature type. |
 
 ### `feature_counts`
-Stores ASV abundance in analysis units and pipeline runs.
+Stores feature abundance in analysis units and pipeline runs.
 
 | Column | Description |
 | --- | --- |
-| `asv_id` | ASV being counted. |
-| `analysis_unit_id` | Unit in which the ASV was observed. |
+| `feature_id` | Feature being counted. |
+| `analysis_unit_id` | Unit in which the feature was observed. |
 | `pipeline_run_id` | Run that produced the count. |
 | `sample_id` | Sample corresponding to the unit. |
-| `count` | Observed ASV abundance. |
+| `count` | Observed feature abundance. |
 
 ### `taxonomy`
-Stores taxonomic assignments for ASVs.
+Stores taxonomic assignments for sequence features.
 
 | Column | Description |
 | --- | --- |
-| `asv_id` | ASV receiving the assignment. |
+| `feature_id` | Feature receiving the assignment. |
 | `kingdom` | Assigned kingdom. |
 | `phylum` | Assigned phylum. |
 | `class` | Assigned class. |
@@ -288,158 +304,56 @@ Stores taxonomic assignments for ASVs.
 | `genus` | Assigned genus. |
 | `species` | Assigned species. |
 | `confidence` | Assignment confidence. |
-| `reference_db` | Reference database used for classification. |
+| `reference_db` | Reference database used. |
 | `date_classified` | Classification date. |
 
 ## Supporting and import tables
 
 ### `directories`
-Maps a name to a database table and directory location.
+Maps a name to a table and directory location.
 
 | Column | Description |
 | --- | --- |
-| `name` | Name of the directory mapping. |
+| `name` | Directory mapping name. |
 | `table_name` | Associated table name. |
 | `directory` | Directory path or location. |
 
 ### `zzz_stg_samples_to_be_filled`
-Staging table for sample metadata awaiting review or transfer.
-
-| Column | Description |
-| --- | --- |
-| `sample_name` | Source sample name. |
-| `Library Name` | Source library name. |
-| `Sample Name` | Source sample-name field. |
-| `article_file_name` | Source article file name. |
-| `treatment_name` | Source treatment name. |
-| `compartment_name` | Source compartment name. |
-| `rootstock_name` | Source rootstock name. |
-| `sampling_health_status` | Health status at sampling. |
-| `final_health_status` | Final health status. |
-| `location` | Source location. |
-| `previous_cultivation` | Previous cultivation information. |
-| `time_since_planting` | Time since planting. |
-| `soil_texture` | Source soil texture. |
-| `soil_type` | Source soil type. |
-| `sampling_depth` | Source sampling depth. |
-| `experimental_setting` | Source experimental setting. |
+Staging table for sample metadata awaiting review or transfer. It contains the source fields `sample_name`, `Library Name`, `Sample Name`, `article_file_name`, `treatment_name`, `compartment_name`, `rootstock_name`, `sampling_health_status`, `final_health_status`, `location`, `previous_cultivation`, `time_since_planting`, `soil_texture`, `soil_type`, `sampling_depth`, and `experimental_setting`.
 
 ### `ref_SRA_run_info`
-Stores metadata imported from NCBI SRA run records.
+Stores metadata imported from NCBI SRA run records. Its columns are `Run`, `Assay Type`, `AvgSpotLen`, `Bases`, `BioProject`, `BioSample`, `BioSampleModel`, `Bytes`, `Center Name`, `Collection_Date`, `Consent`, `DATASTORE filetype`, `DATASTORE provider`, `DATASTORE region`, `Depth`, `elev`, `env_biome`, `env_feature`, `env_material`, `Experiment`, `geo_loc_name_country`, `geo_loc_name_country_continent`, `geo_loc_name`, `Instrument`, `lat_lon`, `Library Name`, `LibraryLayout`, `LibrarySelection`, `LibrarySource`, `Organism`, `Platform`, `ReleaseDate`, `create_date`, `version`, `Sample Name`, `SRA Study`, `filename (run)`, `filetype (run)`, `Host`, `isolation_source`, `platform (run)`, `samp_collect_device`, `samp_mat_process`, `samp_size`, `source_material_id`, `condition`, `multiplexing`, `pair`, `ref_biomaterial`, `marker`, `soil`, and `tmp`.
 
-| Column | Description |
-| --- | --- |
-| `Run` | Unique NCBI SRA run accession. |
-| `Assay Type` | SRA assay type. |
-| `AvgSpotLen` | Average spot or read length. |
-| `Bases` | Number of bases reported by SRA. |
-| `BioProject` | NCBI BioProject accession. |
-| `BioSample` | NCBI BioSample accession. |
-| `BioSampleModel` | NCBI BioSample model. |
-| `Bytes` | Data size in bytes. |
-| `Center Name` | Sequencing center name. |
-| `Collection_Date` | Sample collection date. |
-| `Consent` | Consent information. |
-| `DATASTORE filetype` | Available data-store file type. |
-| `DATASTORE provider` | Data-store provider. |
-| `DATASTORE region` | Data-store region. |
-| `Depth` | Reported sequencing depth. |
-| `elev` | Collection-site elevation. |
-| `env_biome` | Environmental biome. |
-| `env_feature` | Environmental feature. |
-| `env_material` | Environmental material. |
-| `Experiment` | NCBI SRA experiment accession. |
-| `geo_loc_name_country` | Geographic country. |
-| `geo_loc_name_country_continent` | Geographic continent. |
-| `geo_loc_name` | Reported geographic location. |
-| `Instrument` | Sequencing instrument. |
-| `lat_lon` | Latitude and longitude. |
-| `Library Name` | SRA library name. |
-| `LibraryLayout` | Library layout. |
-| `LibrarySelection` | Library selection method. |
-| `LibrarySource` | Library source category. |
-| `Organism` | Associated organism. |
-| `Platform` | Sequencing platform. |
-| `ReleaseDate` | SRA public release date. |
-| `create_date` | SRA record creation date. |
-| `version` | Imported metadata version. |
-| `Sample Name` | SRA sample name. |
-| `SRA Study` | SRA study accession. |
-| `filename (run)` | Run-level file name. |
-| `filetype (run)` | Run-level file type. |
-| `Host` | Host organism. |
-| `isolation_source` | Material isolation source. |
-| `platform (run)` | Run-level platform description. |
-| `samp_collect_device` | Sample collection device. |
-| `samp_mat_process` | Sample-material processing. |
-| `samp_size` | Sample size. |
-| `source_material_id` | Source-material identifier. |
-| `condition` | Sample or experimental condition. |
-| `multiplexing` | Multiplexing information. |
-| `pair` | Read-pair information. |
-| `ref_biomaterial` | Referenced biomaterial. |
-| `marker` | Reported marker or target. |
-| `soil` | Soil information. |
-| `tmp` | Temporary or auxiliary imported value. |
+## Legacy and junction tables
 
 ### `zzz_library_amplicon_types`
-Legacy junction table associating libraries with amplicon types.
-
-| Column | Description |
-| --- | --- |
-| `library_id` | Legacy library identifier. |
-| `amplicon_type_id` | Associated amplicon-type identifier. |
-| `role` | Amplicon-type role for the library. |
+Legacy library-to-amplicon-type junction table with `library_id`, `amplicon_type_id`, and `role`.
 
 ### `zzz_sequencing_run_libraries`
-Legacy junction table associating sequencing runs with libraries.
-
-| Column | Description |
-| --- | --- |
-| `sequencing_run_id` | Sequencing run identifier. |
-| `library_id` | Library identifier. |
-| `barcode` | Library barcode in the run. |
-| `notes` | Additional association notes. |
+Legacy sequencing-run-to-library junction table with `sequencing_run_id`, `library_id`, `barcode`, and `notes`.
 
 ### `zzz_old_libaries_ncbi_srx`
-Legacy table retaining library and NCBI SRA experiment information. The table name preserves the original `libaries` spelling.
-
-| Column | Description |
-| --- | --- |
-| `library_id` | Legacy library identifier. |
-| `sample_id` | Associated sample identifier. |
-| `amplicon_type_id` | Associated amplicon-type identifier. |
-| `notes` | Additional legacy notes. |
-| `srx` | NCBI SRA experiment accession. |
+Legacy library and NCBI SRA experiment table with `library_id`, `sample_id`, `amplicon_type_id`, `notes`, and `srx`. The table name preserves the original `libaries` spelling.
 
 ### `zzz_analysis_dataset_inputs`
-Legacy junction table associating analysis datasets with analysis units.
-
-| Column | Description |
-| --- | --- |
-| `analysis_dataset_id` | Analysis dataset identifier. |
-| `analysis_unit_id` | Analysis unit included in the dataset. |
+Legacy analysis-dataset-to-analysis-unit junction table with `analysis_dataset_id` and `analysis_unit_id`.
 
 ### `zz_sequencing_outputs_amplicon_types`
-Legacy junction table associating sequencing outputs with amplicon types.
-
-| Column | Description |
-| --- | --- |
-| `sequencing_output_id` | Sequencing output identifier. |
-| `amplicon_type_id` | Associated amplicon-type identifier. |
+Legacy sequencing-output-to-amplicon-type junction table with `sequencing_output_id` and `amplicon_type_id`.
 
 ### `sqlite_sequence`
-SQLite-managed table tracking the last value for `AUTOINCREMENT` tables.
+SQLite-managed table tracking the last `AUTOINCREMENT` value, with `name` and `seq` columns.
 
-| Column | Description |
-| --- | --- |
-| `name` | Table whose sequence is tracked. |
-| `seq` | Most recently generated integer for that table. |
-
-## Derived view
+## Views
 
 ### `NCBI_sample_run_info`
-Combines sequencing-output records with sample IDs and matching NCBI SRA metadata. It contains `sequencing_output_id`, `sample_id`, `project_id`, and `srr`, followed by the columns from `ref_SRA_run_info`.
+Combines sequencing outputs with sample IDs and matching NCBI SRA metadata.
+
+### `vw_pipeline_run_summary`
+Summarizes pipeline runs with project, amplicon type, sequencing-run, and pipeline-run information.
+
+### `vw_pipeline_run_features_data`
+Summarizes pipeline runs and includes the number of generated features plus upload-status flags.
 
 ## Workflow summary
 
@@ -449,4 +363,4 @@ Combines sequencing-output records with sample IDs and matching NCBI SRA metadat
 - **Sequencing outputs** hold initial files and provenance.
 - **Analysis units and datasets** define what will be processed.
 - **Pipeline runs** record how processing was performed.
-- **ASVs, feature counts, and taxonomy** store analysis results.
+- **Features, feature counts, and taxonomy** store analysis results.

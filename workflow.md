@@ -137,29 +137,28 @@ After analysis, export the results into simple, readable data formats. Common ex
 
 These exports make the results easier to inspect, compare, and share.
 
-## Step 14: (Optional) upload of exported results to the database
+## Step 14: (Optional) Upload results to the database
 
-If you want to, you can try sending the exported pipeline results back into the SQLite database.
+Use this step only if you want to save the pipeline results in the SQLite database. It is not required for the main workflow.
 
-This is an optional helper step, not something you need to run for the main workflow. It is only useful if you want those exported files linked back into the database records for that pipeline run.
-
-The main command is:
+Run:
 
 - scripts/shell/upload_pipeline_run_results_to_database.sh
 
-It loads the exported ASV FASTA, feature counts, and taxonomy files into the corresponding database tables.
+This uploads the ASV FASTA, feature counts, and taxonomy files to the database and links them to the pipeline run.
 
-This will make the SQLite database file significantly larger, take that into account when planning your workflow.
+The database file will become significantly larger after this step.
 
-## Step 15: (Optional) export desired samples to tsv count, metadata and taxonomy tables
+## Step 15: (Optional) Export selected samples
 
-edit export_tables.py SQL queries.
+Use this step when you want count, metadata, and taxonomy tables for selected samples.
 
-run:
+1. Edit the SQL queries in `export_tables.py` to select the samples and data you need.
+2. Run:
 
 - scripts/shell/export_tables.sh
 
-this will write the tables to exported_results/
+The exported tables will be written to `exported_results/`.
 
 ## Practical advice
 

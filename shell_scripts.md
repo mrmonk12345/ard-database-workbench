@@ -20,6 +20,12 @@ This document lists the convenience shell scripts in `scripts/shell/`, a short d
 - Calls: [scripts/python/0_demultiplex_primers_and_gzip.py](scripts/python/0_demultiplex_primers_and_gzip.py)
 - Invoked as: `python -m scripts.python.0_demultiplex_primers_and_gzip`
 
+## scripts/shell/export_tables.sh
+
+- Description: Export selected database tables using the queries configured in `export_tables.py`.
+- Calls: `export_tables.py`
+- Invoked as: `python -m export_tables`
+
 ## scripts/shell/input_table.sh
 
 - Description: Upload a TSV file into a specified database table (convenience wrapper around the input table uploader).
@@ -38,6 +44,12 @@ This document lists the convenience shell scripts in `scripts/shell/`, a short d
 - Calls: [gui/main.py](gui/main.py) by running the module `gui.main`.
 - Invoked as: `python -m gui.main`
 
+## scripts/shell/run_sqlitebrowser.sh
+
+- Description: Open the SQLite database in SQLite Browser.
+- Calls: none
+- Invoked as: `sqlitebrowser final_ARD_projects_latest.db`
+
 ## scripts/shell/update_null_au_names.sh
 
 - Description: Update analysis units that have null names in the database. Use with caution.
@@ -55,5 +67,11 @@ This document lists the convenience shell scripts in `scripts/shell/`, a short d
 - Description: Upload results produced by a pipeline run into the database for a given `pipeline_run_id`.
 - Calls: [scripts/python/upload_pipeline_run_results_to_database.py](scripts/python/upload_pipeline_run_results_to_database.py)
 - Invoked as: `python -m scripts.python.upload_pipeline_run_results_to_database`
+
+## scripts/shell/upload_taxonomy_pipeline_results_to_database.sh
+
+- Description: Upload taxonomy results for a pipeline run into the database.
+- Calls: [scripts/python/upload_taxonomy_to_database.py](scripts/python/upload_taxonomy_to_database.py)
+- Invoked as: `python scripts/python/upload_taxonomy_to_database.py --pipeline-run-id <id> --reference <reference> --taxonomy <file> --db-path <database>`
 
 
