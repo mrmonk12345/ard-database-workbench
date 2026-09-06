@@ -38,9 +38,9 @@ The project uses a practical mix of tools:
 
 The existing documentation was split into several files so that each topic could be covered clearly:
 
-- database.md - database architecture, schema design, metadata philosophy, and rationale behind the data model
-- tables.md - descriptions of the database tables
-- workflow.md - the operational workflow for adding projects, importing data, generating pipeline inputs, running analyses, and exporting results
+- database.md(database.md) - database architecture, schema design, metadata philosophy, and rationale behind the data model
+- tables.md(tables.md) - descriptions of the database tables
+- workflow.md(workflow.md) - the operational workflow for adding projects, importing data, generating pipeline inputs, running analyses, and exporting results
 
 ## Project structure
 

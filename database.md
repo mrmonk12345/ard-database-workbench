@@ -22,7 +22,7 @@ The database is organized around a clear and practical flow of information. It b
 - **Sample and library data**: samples, libraries, amplicon types
 - **Sequencing data**: sequencing runs, sequencing outputs
 - **Analysis data**: analysis datasets, analysis units, pipeline runs
-- **Results**: ASVs, feature counts, taxonomy
+- **Results**: features (ASVs), feature counts, taxonomy
 
 ## Design philosophy
 
@@ -45,7 +45,7 @@ The schema is organized into several conceptual layers:
 - **Technical and ingestion metadata**: tables such as sequencing_runs
 - **System axes**: tables such as amplicon_types and project_amplicon_types that define the biological target and support scientific consistency
 - **Operational and pipeline metadata**: tables such as analysis_units, analysis_datasets, and pipeline_runs
-- **Result metadata**: tables such as feature_counts, asvs, and taxonomy
+- **Result metadata**: tables such as feature_counts, features, and taxonomy
 - **Reference and legacy support**: tables such as ref_SRA_run_info, zzz_stg_samples_to_be_filled, and other zzz_* helper tables
 
 ## Core parallel architecture
