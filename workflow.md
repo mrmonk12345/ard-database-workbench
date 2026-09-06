@@ -2,6 +2,8 @@
 
 This guide describes the workflow for adding a new project, entering its data into the database, preparing and running the analysis pipeline, and exporting the results as TSV files. The work uses DB Browser, shell scripts, and Excel files.
 
+The bash scripts usually contain the parameters and call the relevant Python script. Edit the parameters in the bash script before running it; you normally do not need to enter them in the command line.
+
 ## Step 1: Set up the environment
 
 Start by installing a tool for viewing and editing the SQLite database. DB Browser for SQLite is the main tool I used for this project. Another option is DBeaver.
