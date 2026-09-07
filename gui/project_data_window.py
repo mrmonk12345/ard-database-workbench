@@ -26,11 +26,7 @@ from gui.table_matrix_add_window import (
 
 from scripts.python.project_get_data import (
     get_project_samples,
-    get_project_amplicon_types,
     get_project_libraries,
-    get_project_sequencing_runs,
-    get_project_sequencing_runs_count,
-    get_project_amplicon_types_count,
 )
 
 
@@ -67,33 +63,10 @@ class ProjectDataWindow(QDialog):
         content = QWidget()
         layout = QVBoxLayout(content)
 
-        # Display summary counts for sequencing runs and amplicon types.
-        top = QHBoxLayout()
-        top.addWidget(
-            self.display_box(
-                "Sequencing Runs",
-                get_project_sequencing_runs_count(
-                    project_id
-                )
-            )
-        )
-        top.addWidget(
-            self.display_box(
-                "Amplicon Types",
-                get_project_amplicon_types_count(
-                    project_id
-                )
-            )
-        )
-        layout.addLayout(top)
-
-        # Provide access to the combined sequencing-run and amplicon view.
-        btn = QPushButton("View Sequencing Runs & Amplicon Types")
-        btn.clicked.connect(self.open_runs_amplicon)
-        layout.addWidget(btn)
-
         # Build the configurable project data sections.
         sections = [
+            sequencing_runs_section(self),
+            amplicon_types_section(self),
             samples_section(self),
             outputs_section(self),
             libraries_section(self),

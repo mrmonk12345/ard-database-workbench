@@ -3,6 +3,42 @@
 from scripts.python.project_get_data import *
 
 
+def sequencing_runs_section(window):
+    """Return the Sequencing Runs section configuration."""
+    return {
+        "title": "Sequencing Runs",
+        "count": get_project_sequencing_runs_count(window.project_id),
+        "buttons": [
+            (
+                "View",
+                lambda: window.open_table(
+                    "Sequencing Runs",
+                    get_project_sequencing_runs(window.project_id),
+                    f"project_{window.project_id}_sequencing_runs.tsv",
+                ),
+            ),
+        ],
+    }
+
+
+def amplicon_types_section(window):
+    """Return the Amplicon Types section configuration."""
+    return {
+        "title": "Amplicon Types",
+        "count": get_project_amplicon_types_count(window.project_id),
+        "buttons": [
+            (
+                "View",
+                lambda: window.open_table(
+                    "Amplicon Types",
+                    get_project_amplicon_types(window.project_id),
+                    f"project_{window.project_id}_amplicon_types.tsv",
+                ),
+            ),
+        ],
+    }
+
+
 def samples_section(window):
     """Return the Samples section configuration."""
     return {
