@@ -20,6 +20,7 @@ SELECT DISTINCT
     au.analysis_dataset_id,
     lib.sample_id,
     s.sample_name,
+    p.project_id,
     p.label            AS project_label,
     tr.name            AS treatment_name,
     sc.name            AS compartment_name,
