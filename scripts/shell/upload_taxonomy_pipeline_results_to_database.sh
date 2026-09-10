@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source envs/database/env_database.sh
+source /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/envs/database/env_database.sh
 
 PIPELINE_RUN_ID=10
 REFERENCE="gtdb_r214"

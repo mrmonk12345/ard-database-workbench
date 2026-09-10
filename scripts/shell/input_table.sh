@@ -2,7 +2,7 @@
 
 ## Upload input data (TSV) to a specified table in the database 
 
-source envs/database/env_database.sh
+source /home/ARO.local/collaboration/michalm_collab/ARD/Projects_DB/envs/database/env_database.sh
 
 python -m scripts.python.input_table \
 --table analysis_units \
