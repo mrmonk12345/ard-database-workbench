@@ -141,7 +141,7 @@ After analysis, export the results into simple, readable data formats. Common ex
 
 These exports make the results easier to inspect, compare, and share.
 
-## Step 14: (Optional) Upload results to the database
+## Step 14: Upload results to the database
 
 Use this step only if you want to save the pipeline results in the SQLite database. It is not required for the main workflow.
 
@@ -153,7 +153,7 @@ This uploads the ASV FASTA, feature counts, and taxonomy files to the database a
 
 The database file will become significantly larger after this step.
 
-## Step 15: (Optional) Export selected samples
+## Step 15: Export selected samples
 
 Use this step when you want count, metadata, and taxonomy tables for selected samples.
 

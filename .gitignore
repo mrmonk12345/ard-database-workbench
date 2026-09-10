@@ -8,6 +8,7 @@ pipeline_runs/**
 raw_reads_projects/**
 exported_results/**
 database_backups/**
+envs/**
 
 # Allow placeholder files so the directories can be visible in GitHub
 !analysis_datasets/.gitkeep
@@ -15,6 +16,8 @@ database_backups/**
 !articles/.gitkeep
 !input_staging/.gitkeep
 !pipeline_runs/.gitkeep
+!pipeline_runs/example_pipeline/.gitkeep
+!pipeline_runs/classifiers/.gitkeep
 !raw_reads_projects/.gitkeep
 
 # Python artifacts

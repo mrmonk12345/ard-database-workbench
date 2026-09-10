@@ -7,4 +7,4 @@ paths:
   pipeline_runs: ./pipeline_runs/
   exported_results: ./exported_results/
   python_scripts: ./scripts/python/
-  conda_envs: /home/ARO.local/collaboration/michalm_collab/envs/
+  conda_envs: ./envs/
