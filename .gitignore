@@ -15,7 +15,9 @@ envs/**
 !analysis_files/.gitkeep
 !articles/.gitkeep
 !input_staging/.gitkeep
-!pipeline_runs/.gitkeep
+!pipeline_runs/
+!pipeline_runs/example_pipeline/
+!pipeline_runs/classifiers/
 !pipeline_runs/example_pipeline/.gitkeep
 !pipeline_runs/classifiers/.gitkeep
 !raw_reads_projects/.gitkeep
