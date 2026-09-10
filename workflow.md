@@ -12,6 +12,20 @@ If the `.db` file is located on a server and you are using Windows, consider usi
 
 The project also includes a `config.yml` file with the usual environment settings. It normally does not need to be changed.
 
+Conda Environments:
+
+Before starting, make sure the required Conda environments exist. The environment definition files are located in the envs/ directory:
+
+envs/database_environment.yml
+envs/sqlitebrowser_environment.yml
+
+Check whether the environments already exist:
+conda env list
+
+If they are missing, create them using:
+conda env create -f envs/database_environment.yml
+conda env create -f envs/sqlitebrowser_environment.yml
+
 ## Step 2: Choose the project
 
 Pick the project you want to work on. If the project already exists, fill in any missing information. If it is new, create the project record first.

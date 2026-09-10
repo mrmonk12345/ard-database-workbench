@@ -10,4 +10,4 @@ dependencies:
   - pyyaml
   - biopython
   - cutadapt
-prefix: /home/ARO.local/michaelr/.conda/envs/database
+prefix: ./envs/database

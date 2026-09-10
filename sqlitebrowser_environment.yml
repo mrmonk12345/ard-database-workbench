@@ -1,0 +1,9 @@
+name: sqlitebrowser
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - sqlitebrowser
+  - qt=4
+prefix: ./envs/sqlitebrowser
