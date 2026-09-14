@@ -14,17 +14,19 @@ The project also includes a `config.yml` file with the usual environment setting
 
 Conda Environments:
 
-Before starting, make sure the required Conda environments exist. The environment definition files are located in the envs/ directory:
+Before starting, make sure the required Conda environments exist. The environment definition files are located in the main directory:
 
-envs/database_environment.yml
-envs/sqlitebrowser_environment.yml
+database_environment.yml
+sqlitebrowser_environment.yml
 
 Check whether the environments already exist:
 conda env list
 
 If they are missing, create them using:
-conda env create -f envs/database_environment.yml
-conda env create -f envs/sqlitebrowser_environment.yml
+conda env create -f database_environment.yml
+conda env create -f sqlitebrowser_environment.yml
+
+the environemnts should be located in the envs/ directory.
 
 ## Step 2: Choose the project
 
