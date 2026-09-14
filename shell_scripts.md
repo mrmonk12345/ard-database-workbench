@@ -74,4 +74,32 @@ This document lists the convenience shell scripts in `scripts/shell/`, a short d
 - Calls: [scripts/python/upload_taxonomy_to_database.py](scripts/python/upload_taxonomy_to_database.py)
 - Invoked as: `python scripts/python/upload_taxonomy_to_database.py --pipeline-run-id <id> --reference <reference> --taxonomy <file> --db-path <database>`
 
+## Pipeline-run shell scripts
+
+The example pipeline scripts are stored in
+[pipeline_runs/example_pipeline](pipeline_runs/example_pipeline). They are run from the
+pipeline-run directory and use the HPC QIIME 2 and Snakemake environments.
+
+- `hpc.sh` is the HPC launcher and calls `snakemake_qiime.sh`.
+- `snakemake_qiime.sh` loads the QIIME 2 and Snakemake environments, defines the run parameters,
+  and contains the workflow commands.
+- `fastqc.sh`, `multiqc.sh`, and `run_all_qc.sh` run quality-control steps.
+- `qiime_export_needed.sh` and `biom_export_needed.sh` export selected results.
+- `run_gtdb_pipeline.sh`, `run_silva_pipeline.sh`, and
+	`run_gtdb_classification_pretrained.sh` run taxonomy-related pipeline steps.
+
+Read [the example pipeline README](pipeline_runs/example_pipeline/README.md) before adapting
+these scripts for a new pipeline run. They contain project-specific parameters and should be
+reviewed before execution.
+
+## Classifier shell scripts
+
+The reference-data scripts are stored in
+[pipeline_runs/classifiers](pipeline_runs/classifiers). `rescript_silva.sh` prepares SILVA
+reference files, while `rescript_gtdb.sh` prepares GTDB reference files. Both require the HPC
+QIIME 2 environment and create `.qza` files used by taxonomy workflows.
+
+See [the classifiers README](pipeline_runs/classifiers/README.md) for the inputs, outputs, and
+version settings to review before running them.
+
 
