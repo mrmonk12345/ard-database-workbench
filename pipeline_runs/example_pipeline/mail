@@ -1,0 +1,17 @@
+Hi Asaf,
+
+I have updated the qiime_snakemake script to include a step that was borken during the update 
+of qiime from 2022 to 2024.
+This step is to find values for SAMPLING_DEPTH and MAX_DEPTH.
+This step is after "rule dada2_all" and before "rule core_metrics_all"
+
+you run the command:
+
+#qiime tools view "results/"$APLICON_TYPE"/qiime_dada2_denoise_paired/"$APLICON_TYPE"_table.qzv"
+and updated the variables in the strat of the script.
+
+I have updated
+16S_snakemake_qiime.sh and ITS_snakemake_qiime.sh and replaced workflow/Snakefile.
+Also fixed a typo in ITS_snakemake_qiime.sh, o to 0 (CONFIG_DADA).
+
+

@@ -1,0 +1,992 @@
+import pandas as pd
+
+wildcard_constraints:
+	P_LEVEL="\d"
+
+def get_aplication_type(wildcards):
+
+	return wildcards.APLICON_TYPE
+
+def get_minimum_value(filename):
+	#filename = rules.qiime_dada2_denoise_paired_feature_table_export.output.table_tsv
+	df = pd.read_csv(filename, header = 0, comment = "#")
+	print(filename)
+	print(int(df['0'].min()))
+	return int(df['0'].min())
+
+def get_maxsimum_value(filename):
+	#filename = rules.qiime_dada2_denoise_paired_feature_table_export.output.table_tsv
+	df = pd.read_csv(filename, header = 0, comment = "#")
+	print(filename)
+	return int(df['0'].max())
+
+#Ribosome 16S RNA 
+#The sequencing of a DNA fraction, begin in both ends. 
+#An example for suitable primers for V3-V4 region is: forward sequencing 341F, and reverse 806R. 
+#This gene is suitable for bacteria analysis because of sufficient variability among bacteria.
+# The diffrence between the Reverse and Forward primers set the minimal length of sequnce which need to be coverded by the merged read.
+# For example, min_length = 806 - 341 = 465
+
+#Import fastq – make an artifact 
+# import all acceptable files to a folder on the HPC server. Forward and reverse together. 
+#use a file metadata i.e., Manifest (qiime term)
+# making one file from all the files. an artifact .qza suitable for QIIME2.
+
+"qiime tools import \
+--type 'SampleData[PairedEndSequencesWithQuality]' \
+--input-path file_metadata.tsv \
+--input-format PairedEndFastqManifestPhred33V2 \
+--output-path demux-paired-end.qza"
+
+# view the results
+
+#qiime demux summarize \
+#  --i-data demux-paired-end.qza \
+#  --o-visualization demux.qzv
+# drag any .qzv file to the website https://view.qiime2.org/  and see the results.
+
+APLICON_TYPE = config["aplicon_type"]
+
+TREATMENT = config["treatment"]
+
+IN_COLUMNS = config["con_in_columns"]
+
+P_WHERE_COLUMNS = config["con_p_where_columns"]
+
+TREATMENT_IN_COLUMNS = expand("{treatment}_{in_columns}", treatment = TREATMENT, in_columns = IN_COLUMNS)
+
+P_WHERE = expand("\"[{treatment}] IN ({in_columns})\"", treatment = TREATMENT, in_columns = P_WHERE_COLUMNS)
+
+P_LEVEL = config["p_level"]
+
+#dada2 parametrs 
+
+TRIM_LEFT_F = config["trim_left_f"]
+TRIM_LEFT_R = config["trim_left_r"]
+TRUNC_LEN_F = config["trunc_len_f"]
+TRUNC_LEN_R =  config["trunc_len_r"]
+
+#--p-max-ee-f NUMBER     Forward reads with number of expected errors higher
+#than this value will be discarded.    [default: 2.0]
+#--p-max-ee-r NUMBER     Reverse reads with number of expected errors higher
+#than this value will be discarded.    [default: 2.0]
+#--p-min-overlap INTEGER The minimum length of the overlap required for
+#Range(4, None)        merging the forward and reverse reads. [default: 12]
+
+P_MAX_EE_F = config["p_max_ee_f"]
+
+P_MAX_EE_R = config["p_max_ee_r"]
+
+P_MIN_OVERLAP = config["p_min_overlap"]
+
+CORES =  config["cores"]
+
+#NEW
+SAMPLING_DEPTH = config["sampling_depth"]
+
+MAX_DEPTH =  config["max_depth"]
+
+#NEW
+#
+rule all_ITS:
+	input:
+		"results/ITS/qiime_ancom/ITS_treatment_karkom_ancom.qzv",
+		"results/ITS/qiime_diversity/core_metrics_phylogenetic/ITS_unweighted_unifrac.qzv",
+		"results/ITS/qiime_diversity/core_metrics_phylogenetic/ITS_alpha_rarefaction.qzv",
+		"results/ITS/qiime_diversity/core_metrics_phylogenetic/ITS_faith_pd_group_significance.qzv"
+
+rule all_16s:
+	input:
+		"results/16s/qiime_diversity/16s_taxonomy.qzv", 
+		"results/16s/qiime_diversity/16s_taxa_bar_plots.qzv",
+		"results/16s/qiime_ancom/16s_treatment_karkom_ancom.qzv",
+		"16s_alpha_rarefaction.qzv",
+		"results/16s/qiime_diversity/core_metrics_phylogenetic",
+		"16s_faith_pd_group_significance.qzv",
+		"16s_unweighted_unifrac.qzv"
+
+
+
+rule manuel_import_qc:
+	input:
+		"results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_per-sample-fastq-counts.tsv"
+
+rule dada2_all:
+	input:
+		denoising_stats = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_denoising_stats.tsv",
+
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.fasta",
+
+		table  = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.tsv"
+
+rule core_metrics_all:
+	input:
+		"results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/{APLICON_TYPE}_unweighted_unifrac.qzv",
+
+		"results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/{APLICON_TYPE}_alpha_rarefaction.qzv",
+
+		"results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/{APLICON_TYPE}_faith_pd_group_significance.qzv"
+
+rule taxonomy_all:
+	input:
+		taxonomy = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxonomy.qzv",
+
+		taxa_bar_plot = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxa_bar_plots.qzv",
+
+rule qiime_import:
+	input:
+		"data/{APLICON_TYPE}_file_metadata.tsv"
+	output:
+		"results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_demux-paired-end.qza"
+	log:
+		"logs/qiime_import/{APLICON_TYPE}_import.log"
+	shell:
+		"qiime tools import \
+		--type 'SampleData[PairedEndSequencesWithQuality]' \
+		--input-path {input} \
+		--input-format PairedEndFastqManifestPhred33V2 \
+		--output-path {output}"
+
+# view the results
+
+rule qiime_import_view_res:
+	input:
+		"results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_demux-paired-end.qza"
+	output:
+		"results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_demux-paired-end.qzv"
+	log:
+		"logs/qiime_import/{APLICON_TYPE}_import_view.log"
+	shell:
+		"qiime demux summarize \
+		--i-data {input} \
+		--o-visualization {output}"
+
+# export the results
+
+rule qiime_import_exprot_res:
+	input:
+		"results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_demux-paired-end.qzv"
+	output:
+		"results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_per-sample-fastq-counts.tsv"
+	log:
+		"logs/qiime_import/{APLICON_TYPE}_import_view.log"
+	shell:
+		"unzip -p {input} */data/per-sample-fastq-counts.tsv > {output}"
+
+#results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_per-sample-fastq-counts.tsv
+
+#manuel work
+# 1. open demux-paired-end.qzv on chrominum-browser on hpc
+#https://view.qiime2.org/
+# 2. download per-sample per-sample-fastq-counts.tsv
+# 3. mv to results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_per-sample-fastq-counts.tsv
+# 4. inspect interactive quality plots to  determine parametres for dada2 denosie-pared.
+# for 16s amplicon sequncing, min length of merged read is 465.
+# choose location on forward (--p-trunc-len-f) and reservse (--p-trunc-len-r) read, starting from the end of the read, such that the quality of solid bars are at most 20. 
+# that is the quality from selected locations to the end of the read are less than 20 (are poor quality).
+# the required sum of positions needs to be at least 465 (the diffrence between revese and forward primers).
+# the forward and reverse primers are trimmed using
+#--p-trim-left-f, --p-trim-left-r dada2 parameters respectivly 
+# parmeters dada2 
+# quality check
+# remove primers. in this case f primer is 17, and r primer is 20 bp long.
+# connecting forward and reverse files
+# makes a table, representative sequences, and statistics.
+ 
+#qiime dada2 denoise-paired \
+#  --i-demultiplexed-seqs demux-paired-end.qza \
+#  --p-trim-left-f 17 \
+#  --p-trim-left-r 20 \
+#  --p-trunc-len-f 286 \
+#  --p-trunc-len-r 223 \
+#  --o-table table.qza \
+#  --o-representative-sequences rep-seqs.qza \
+#  --o-denoising-stats denoising-stats.qza
+
+#qiime_dada2_denoise-paired
+
+
+rule qiime_dada2_denoise_paired:
+	input:
+		"results/{APLICON_TYPE}/qiime_import/{APLICON_TYPE}_demux-paired-end.qza"
+	output:
+		table = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.qza",
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.qza",
+		denoising_stats = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_denoising_stats.qza"
+	params:
+		trim_left_f = TRIM_LEFT_F,
+		trim_left_r = TRIM_LEFT_R,
+		trunc_len_f = TRUNC_LEN_F,
+		trunc_len_r = TRUNC_LEN_R,
+		p_max_ee_f = P_MAX_EE_F,
+		p_max_ee_r =  P_MAX_EE_R,
+		p_min_overlap = P_MIN_OVERLAP,
+		#NEW
+
+	threads:
+		CORES
+
+	log:
+		"logs/qiime_dada2_denoise_paired/{APLICON_TYPE}_qiime_dada2_denoise-paired.log" 
+	shell:
+		"qiime dada2 denoise-paired \
+		--i-demultiplexed-seqs {input} \
+		--p-trim-left-f {params.trim_left_f} \
+		--p-trim-left-r {params.trim_left_r} \
+		--p-trunc-len-f {params.trunc_len_f} \
+		--p-trunc-len-r {params.trunc_len_r} \
+		--p-max-ee-f {params.p_max_ee_f} \
+		--p-max-ee-r {params.p_max_ee_r} \
+		--p-min-overlap {params.p_min_overlap} \
+	  	--p-n-threads {threads} \
+		--o-table {output.table} \
+		--o-representative-sequences {output.representative_sequences} \
+		--o-denoising-stats {output.denoising_stats} > {log}"
+
+
+#rep-seqs.qzv  
+#one representative sequence for every group of similar sequences.
+
+rule qiime_dada2_denoise_paired_feature_table:
+	input:
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.qza"
+	output:
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.qzv"
+	log:
+		"logs/qiime_dada2_denoise_paired/{APLICON_TYPE}_qiime_dada2_denoise-paired_feature_table.log" 
+	shell:
+		"qiime feature-table tabulate-seqs \
+		--i-data {input.representative_sequences} \
+		--o-visualization {output.representative_sequences} > {log}"
+
+rule qiime_dada2_denoise_paired_stats:
+	input:
+		denoising_stats = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_denoising_stats.qza"
+	output:
+		denoising_stats = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_denoising_stats.qzv"
+	log:
+		"logs/qiime_dada2_denoise_paired/{APLICON_TYPE}_qiime_dada2_denoise-paired_denoising_stats.log" 
+	shell:
+		"qiime metadata tabulate \
+		--m-input-file {input.denoising_stats} \
+		--o-visualization {output.denoising_stats} > {log}"
+
+rule qiime_dada2_denoise_paired_feature_table_summarize:
+	input:
+		table  = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.qza",
+
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv"
+
+	output:
+		table  = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.qzv"
+	log:
+		"logs/qiime_dada2_denoise_paired/{APLICON_TYPE}_qiime_dada2_denoise-paired_feature_table_summarize.log" 
+	shell:
+		"qiime feature-table summarize \
+		--i-table {input.table} \
+		--o-visualization {output.table} \
+		--m-sample-metadata-file {input.metadata}"
+
+
+rule qiime_dada2_denoise_paired_stats_unzip:
+	input:
+		denoising_stats = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_denoising_stats.qzv"
+	output:
+		denoising_stats = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_denoising_stats.tsv"
+	log:
+		"logs/qiime_dada2_denoise_paired/{APLICON_TYPE}_qiime_dada2_denoise-paired_feature_table_summarize.log" 
+	shell:
+		"unzip -p {input.denoising_stats} */data/metadata.tsv > {output.denoising_stats}"
+
+
+rule qiime_dada2_denoise_paired_rep_seqs:
+	input:
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.qzv"
+	output:
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.fasta"
+	log:
+		"logs/qiime_dada2_denoise_paired/{APLICON_TYPE}_qiime_dada2_denoise-paired_feature_table.log" 
+	shell:
+		"unzip -p {input.representative_sequences} */data/sequences.fasta > {output.representative_sequences}"
+
+
+#Creating a tree for later analysis
+
+#qiime phylogeny align-to-tree-mafft-fasttree \
+#  --i-sequences rep-seqs.qza \
+#  --o-alignment aligned-rep-seqs.qza \
+#  --o-masked-alignment masked-aligned-rep-seqs.qza \
+#  --o-tree unrooted-tree.qza \
+#  --o-rooted-tree rooted-tree.qza
+
+rule qiime_phylogeny_align_to_tree_mafft_fasttree:
+	input:
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.qza"
+	
+	output:
+		aligned_rep_seqs = "results/{APLICON_TYPE}/qiime_phylogeny/{APLICON_TYPE}_aligned_rep_seqs.qza",
+
+		masked_aligned_rep_seqs = "results/{APLICON_TYPE}/qiime_phylogeny/{APLICON_TYPE}_masked_aligned_rep_seqs.qza",
+
+		unrooted_tree = "results/{APLICON_TYPE}/qiime_phylogeny/{APLICON_TYPE}_unrooted_tree.qza",
+
+		rooted_tree = "results/{APLICON_TYPE}/qiime_phylogeny/{APLICON_TYPE}_rooted_tree.qza"
+	log:
+		"logs/qiime_phylogeny/{APLICON_TYPE}_qiime_phylogeny.log" 
+	threads:
+		CORES
+
+	shell:
+		"qiime phylogeny align-to-tree-mafft-fasttree \
+		  --i-sequences {input.representative_sequences} \
+	  	  --p-n-threads {threads} \
+		  --o-alignment {output.aligned_rep_seqs} \
+		  --o-masked-alignment {output.masked_aligned_rep_seqs} \
+		  --o-tree {output.unrooted_tree} \
+		  --o-rooted-tree {output.rooted_tree} > {log}"
+
+#alpha rarefaction (figures)
+
+# qiime diversity alpha-rarefaction \
+#  --i-table table.qza \
+#  --i-phylogeny rooted-tree.qza \
+#  --p-max-depth 6000 \
+#  --m-metadata-file DiuronMF.txt \
+#  --o-visualization alpha-rarefaction.qzv
+
+
+rule qiime_diversity_alpha_rarefaction:
+	input:
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv",
+
+		table  = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.qza",
+
+		rooted_tree = "results/{APLICON_TYPE}/qiime_phylogeny/{APLICON_TYPE}_rooted_tree.qza",
+
+	output:
+		alpha_rarefaction = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/{APLICON_TYPE}_alpha_rarefaction.qzv",
+
+
+	params:
+		#max_depth = get_maxsimum_value(rules)
+	log:
+		"logs/qiime_diversity/{APLICON_TYPE}_alpha_rarefaction.log" 
+	run:
+		max_depth = MAX_DEPTH
+
+		shell("qiime diversity alpha-rarefaction \
+		  --i-table {input.table} \
+		  --i-phylogeny {input.rooted_tree} \
+		  --p-max-depth {max_depth} \
+		  --m-metadata-file {input.metadata} \
+		  --o-visualization {output.alpha_rarefaction} > {log}")
+
+
+#core-metrics – samples comparisons 
+#Creates  pairwise samples comparison matrix tables, PCO data, and alpha diversity data.
+
+#diversity core-metrics-phylogenetic
+#95 sampling depth parameter is the minimal non-chimeric from denosing stats
+
+#qiime diversity core-metrics-phylogenetic \
+#  --i-phylogeny rooted-tree.qza \
+#  --i-table table.qza \
+#  --p-sampling-depth 2320 \
+#  --m-metadata-file metadata.txt \
+#  --output-dir core-metrics-results
+
+rule qiime_diversity_core_metrics_phylogenetic:
+	input:
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv",
+
+		table  = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.qza",
+
+		rooted_tree = "results/{APLICON_TYPE}/qiime_phylogeny/{APLICON_TYPE}_rooted_tree.qza"
+
+	output:
+		rarefied_table = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/rarefied_table.qza",
+
+		faith_pd_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/faith_pd_vector.qza",
+
+		observed_features_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/observed_features_vector.qza",
+
+		shannon_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/shannon_vector.qza",
+
+		evenness_vector =  "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/evenness_vector.qza",
+
+		unweighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_distance_matrix.qza",
+
+		weighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_distance_matrix.qza",
+
+		jaccard_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_distance_matrix.qza",
+
+		bray_curtis_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_distance_matrix.qza",
+
+		unweighted_unifrac_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_pcoa_results.qza",
+
+		weighted_unifrac_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_pcoa_results.qza",
+
+		jaccard_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_pcoa_results.qza",
+
+		bray_curtis_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_pcoa_results.qza",
+
+		unweighted_unifrac_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_emperor.qzv",
+
+		weighted_unifrac_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_emperor.qzv",
+
+		jaccard_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_emperor.qzv",
+
+		bray_curtis_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_emperor.qzv"
+	threads:
+		CORES
+
+	log:
+		"logs/qiime_diversity/{APLICON_TYPE}_core_metrics_phylogenetic.log" 
+	run:
+		sampling_depth = SAMPLING_DEPTH
+
+		if sampling_depth == 0 : sampling_depth = 1
+
+		shell("qiime diversity core-metrics-phylogenetic \
+		--i-phylogeny {input.rooted_tree} \
+		--i-table {input.table} \
+		--p-sampling-depth {sampling_depth} \
+		--m-metadata-file {input.metadata} \
+		--p-n-jobs-or-threads {threads} \
+		--o-rarefied-table {output.rarefied_table} \
+		--o-faith-pd-vector {output.faith_pd_vector} \
+		--o-observed-features-vector {output.observed_features_vector} \
+		--o-shannon-vector {output.shannon_vector} \
+		--o-evenness-vector {output.evenness_vector} \
+		--o-unweighted-unifrac-distance-matrix {output.unweighted_unifrac_distance_matrix} \
+		--o-weighted-unifrac-distance-matrix {output.weighted_unifrac_distance_matrix} \
+		--o-jaccard-distance-matrix {output.jaccard_distance_matrix} \
+		--o-bray-curtis-distance-matrix {output.bray_curtis_distance_matrix} \
+		--o-unweighted-unifrac-pcoa-results {output.unweighted_unifrac_pcoa_results} \
+		--o-weighted-unifrac-pcoa-results {output.weighted_unifrac_pcoa_results} \
+		--o-jaccard-pcoa-results {output.jaccard_pcoa_results} \
+		--o-bray-curtis-pcoa-results {output.bray_curtis_pcoa_results} \
+		--o-unweighted-unifrac-emperor {output.unweighted_unifrac_emperor} \
+		--o-weighted-unifrac-emperor {output.weighted_unifrac_emperor} \
+		--o-jaccard-emperor {output.jaccard_emperor} \
+		--o-bray-curtis-emperor {output.bray_curtis_emperor} > {log}")
+
+
+rule qiime_diversity_core_metrics_phylogenetic_merge:
+	input:
+		rarefied_table = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/rarefied_table.qza",
+
+		faith_pd_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/faith_pd_vector.qza",
+
+		observed_features_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/observed_features_vector.qza",
+
+		shannon_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/shannon_vector.qza",
+
+		evenness_vector =  "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/evenness_vector.qza",
+
+		unweighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_distance_matrix.qza",
+
+		weighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_distance_matrix.qza",
+
+		jaccard_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_distance_matrix.qza",
+
+		bray_curtis_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_distance_matrix.qza",
+
+		unweighted_unifrac_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_pcoa_results.qza",
+
+		weighted_unifrac_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_pcoa_results.qza",
+
+		jaccard_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_pcoa_results.qza",
+
+		bray_curtis_pcoa_results = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_pcoa_results.qza",
+
+		unweighted_unifrac_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_emperor.qzv",
+
+		weighted_unifrac_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_emperor.qzv",
+
+		jaccard_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_emperor.qzv",
+
+		bray_curtis_emperor = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_emperor.qzv"
+	output:
+		"results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/merged_out"
+
+	shell:
+		"echo \
+		 {input.rarefied_table} \
+		 {input.faith_pd_vector} \
+		 {input.observed_features_vector} \
+		 {input.shannon_vector} \
+		 {input.evenness_vector} \
+		 {input.unweighted_unifrac_distance_matrix} \
+		 {input.weighted_unifrac_distance_matrix} \
+		 {input.jaccard_distance_matrix} \
+		 {input.bray_curtis_distance_matrix} \
+		 {input.unweighted_unifrac_pcoa_results} \
+		 {input.weighted_unifrac_pcoa_results} \
+		 {input.jaccard_pcoa_results} \
+		 {input.bray_curtis_pcoa_results} \
+		 {input.unweighted_unifrac_emperor} \
+		 {input.weighted_unifrac_emperor} \
+		 {input.jaccard_emperor} \
+		 {input.bray_curtis_emperor} > {output}"
+
+#alpha-diversity - comparison alpha-diversity indexes among tratments.
+
+#qiime diversity alpha-group-significance \
+#  --i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+#  --m-metadata-file MF.ATZ.txt \
+#  --o-visualization core-metrics-results/faith-pd-group-significance.qzv
+
+rule diversity_alpha_group_significance:
+	input:
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv",
+
+		merged = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/merged_out",
+
+		faith_pd_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/faith_pd_vector.qza",
+
+		observed_features_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/observed_features_vector.qza",
+
+		evenness_vector =  "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/evenness_vector.qza",
+
+		shannon_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/shannon_vector.qza",
+
+	output:
+		faith_pd_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/faith_pd_group_significance.qzv",
+
+		observed_features_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/observed_features_vector_group_significance.qzv",
+
+		evenness_vector =  "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/evenness_vector_group_significance.qzv",
+
+		shannon_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/shannon_vector_group_significance.qzv",
+
+	run:
+		shell("touch {output.faith_pd_vector}")
+
+		shell(
+		"qiime diversity alpha-group-significance \
+		--i-alpha-diversity {input.faith_pd_vector} \
+		--m-metadata-file {input.metadata} \
+		--o-visualization {output.faith_pd_vector} || true")
+
+		shell("touch {output.observed_features_vector}")
+
+		shell(
+		"qiime diversity alpha-group-significance \
+		--i-alpha-diversity {input.observed_features_vector} \
+		--m-metadata-file {input.metadata} \
+		--o-visualization {output.observed_features_vector} || true")
+
+		shell("touch {output.evenness_vector}")
+
+		shell(
+		"qiime diversity alpha-group-significance \
+		--i-alpha-diversity {input.evenness_vector} \
+		--m-metadata-file {input.metadata} \
+		--o-visualization {output.evenness_vector} || true")
+
+		shell("touch {output.shannon_vector}")
+
+		shell(
+		"qiime diversity alpha-group-significance \
+		--i-alpha-diversity {input.shannon_vector} \
+		--m-metadata-file {input.metadata} \
+		--o-visualization {output.shannon_vector} || true")
+
+rule diversity_alpha_group_significance_merege:
+	input:
+		faith_pd_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/faith_pd_group_significance.qzv",
+
+		observed_features_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/observed_features_vector_group_significance.qzv",
+
+		evenness_vector =  "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/evenness_vector_group_significance.qzv",
+
+		shannon_vector = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/shannon_vector_group_significance.qzv",
+
+	output:
+		merge = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/{APLICON_TYPE}_diversity_alpha_group_significance_merege.txt"
+
+	run:
+		shell("echo {input.faith_pd_vector} {input.observed_features_vector} {input.evenness_vector} {input.shannon_vector} > {output.merge}")
+
+
+
+
+#beta diversity - difference between each pair of samples. and than between treatments. 
+
+#qiime diversity beta-group-significance \
+#  --i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \
+#  --m-metadata-file MF.ATZ.txt \
+#  --m-metadata-column Soil_Treatment_time \
+#  --o-visualization core-metrics-results/unweighted-unifrac.qzv \
+#  --p-pairwise
+
+METADATA_COLUMN = config["treatment"]
+
+rule qiime_diversity_beta_group_significance:
+	input:
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv",
+
+		merged = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/merged_out",
+
+		unweighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_distance_matrix.qza",
+
+		weighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_distance_matrix.qza",
+
+		jaccard_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_distance_matrix.qza",
+
+		bray_curtis_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_distance_matrix.qza",
+
+	output:
+		unweighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_beta_group_significance.qzv",
+
+		weighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_beta_group_significance.qzv",
+
+		jaccard_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_beta_group_significance.qzv",
+
+		bray_curtis_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_beta_group_significance.qzv",
+
+	params:
+		metadata_column =  {METADATA_COLUMN},
+	log:
+		"logs/qiime_diversity/{APLICON_TYPE}_beta_diversity.log" 
+	run:
+		shell("touch {output.unweighted_unifrac_distance_matrix}")
+
+		shell("qiime diversity beta-group-significance \
+		  --i-distance-matrix {input.unweighted_unifrac_distance_matrix} \
+		  --m-metadata-file {input.metadata} \
+		  --m-metadata-column {params.metadata_column} \
+		  --o-visualization {output.unweighted_unifrac_distance_matrix} \
+		  --p-pairwise  > {log} || true")
+
+		shell("touch {output.weighted_unifrac_distance_matrix}")
+
+		shell("qiime diversity beta-group-significance \
+		  --i-distance-matrix {input.weighted_unifrac_distance_matrix} \
+		  --m-metadata-file {input.metadata} \
+		  --m-metadata-column {params.metadata_column} \
+		  --o-visualization {output.weighted_unifrac_distance_matrix} \
+		  --p-pairwise  > {log} || true")
+
+		shell("touch {output.jaccard_distance_matrix}")
+
+		shell("qiime diversity beta-group-significance \
+		  --i-distance-matrix {input.jaccard_distance_matrix} \
+		  --m-metadata-file {input.metadata} \
+		  --m-metadata-column {params.metadata_column} \
+		  --o-visualization {output.jaccard_distance_matrix} \
+		  --p-pairwise  > {log} || true")
+
+		shell("touch {output.bray_curtis_distance_matrix}")
+
+		shell("qiime diversity beta-group-significance \
+		  --i-distance-matrix {input.bray_curtis_distance_matrix} \
+		  --m-metadata-file {input.metadata} \
+		  --m-metadata-column {params.metadata_column} \
+		  --o-visualization {output.bray_curtis_distance_matrix} \
+		  --p-pairwise  > {log} || true")
+
+rule qiime_diversity_beta_group_significance_merege:
+	input:
+		unweighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/unweighted_unifrac_beta_group_significance.qzv",
+
+		weighted_unifrac_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/weighted_unifrac_beta_group_significance.qzv",
+
+		jaccard_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/jaccard_beta_group_significance.qzv",
+
+		bray_curtis_distance_matrix = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/bray_curtis_beta_group_significance.qzv",
+	output:
+		merge = "results/{APLICON_TYPE}/qiime_diversity/core_metrics_phylogenetic/{APLICON_TYPE}_diversity_beta_group_significance_merege.txt"
+
+	run:
+		shell("echo {input.unweighted_unifrac_distance_matrix} {input.weighted_unifrac_distance_matrix} {input.jaccard_distance_matrix} {input.bray_curtis_distance_matrix} > {output.merge}")
+
+#Permutational multivariate analysis of variance (PERMANOVA)
+ 
+#Classifier – adjusted database of sequences and Taxa
+
+#make a classifier according your primers
+#for F-341 R-806, for  V3+V4
+#according the site: 
+#https://docs.qiime2.org/2019.10/data-resources/
+
+#taxonomy-classifiers-for-use-with-q2-feature-classifier
+
+#Taxonomy - find taxonomy for every representative sequence.
+
+#qiime feature-classifier classify-sklearn \
+#  --i-classifier ../classifiers/greengenes/gg.classifier.qza \
+#  --i-reads rep-seqs.qza \
+#   --p-n-jobs
+#  --o-classification taxonomy.qza
+
+#qiime metadata tabulate \
+#  --m-input-file taxonomy.qza \
+#  --o-visualization taxonomy.qzv
+
+
+rule qiime_feature_classifier_classify_sklearn:
+	input:
+		classifier = "data/{APLICON_TYPE}_classifier.qza",
+
+		representative_sequences = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_rep_seqs.qza"
+	output:
+		 taxonomy = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxonomy.qza"
+	threads:
+		CORES
+	log:
+		"logs/qiime_diversity/{APLICON_TYPE}_taxonomy.log" 
+	shell:
+		"qiime feature-classifier classify-sklearn \
+		--i-classifier {input.classifier} \
+		--i-reads {input.representative_sequences} \
+		--p-n-jobs {threads} \
+		--o-classification {output.taxonomy} > {log}"
+
+rule qiime_metadata_tabulate_taxonomy:
+	input:
+		 taxonomy = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxonomy.qza"
+	output:
+		 taxonomy = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxonomy.qzv"
+
+	log:
+		"logs/qiime_diversity/{APLICON_TYPE}_taxonomy_table.log" 
+	shell:
+		"qiime metadata tabulate \
+		--m-input-file {input.taxonomy} \
+		--o-visualization {output.taxonomy} > {log}"
+
+#BarPlot
+
+rule qiime_taxa_barplot:
+	input:
+		table  = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.qza",
+
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv",
+
+		taxonomy = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxonomy.qza"
+	output:
+		 taxa_bar_plot = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxa_bar_plots.qzv"
+
+	log:
+		"logs/qiime_diversity/{APLICON_TYPE}_taxa_bar_plot.log" 
+	shell:
+		"qiime taxa barplot \
+		--i-table {input.table} \
+		--i-taxonomy {input.taxonomy} \
+		--m-metadata-file {input.metadata} \
+		--o-visualization {output.taxa_bar_plot} > {log}"
+
+#ANCOM - compare each bacterium in 2 treatments, for every bacteria species.
+
+## collapse taxa to specifed level
+
+#qiime taxa collapse --i-table table_Arc.qza --i-taxonomy taxonomy_Arc.qza --p-level 6 --o-collapsed-table Arc-table-L6.qza        
+
+#add 1 to every value in order to do log in the ANCOM:
+
+#qiime composition add-pseudocount --i-table Arc-table-L6.qza --o-composition-table comp-Arc-table-L6.qza
+
+#Filter table based on --where
+
+#qiime feature-table filter-samples --i-table comp-Arc-table-L6.qza --m-metadata-file MF_Arc.txt --p-where "[treatment]IN('MEC1 10-May-21', 'MEC2 10-May-21')" --o-filtered-table MEC1_MEC2_10-May-table.qza
+
+#Ancom comparison
+
+#qiime composition ancom --i-table MEC1_MEC2_10-May-table.qza --m-metadata-file MF_Arc.txt --m-metadata-column treatment --o-visualization L6-ancom-MEC1_MEC2_10-May.qzv
+
+rule qiime_taxa_collapse:
+	input:
+		table  = "results/{APLICON_TYPE}/qiime_dada2_denoise_paired/{APLICON_TYPE}_table.qza",
+
+		taxonomy = "results/{APLICON_TYPE}/qiime_diversity/{APLICON_TYPE}_taxonomy.qza"
+	output:
+		table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_collapsed_{P_LEVEL}_table.qza"
+	log:
+		"logs/qiime_ancom/{APLICON_TYPE}_level_{P_LEVEL}_table.log"
+	params:
+		 p_level = P_LEVEL
+	shell:
+		"qiime taxa collapse --i-table {input.table} --i-taxonomy {input.taxonomy} --p-level {params.p_level} --o-collapsed-table {output.table} > {log}"
+
+rule qiime_feature_table_filter_samples:
+	input:
+		table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_collapsed_{P_LEVEL}_table.qza",
+
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv"
+	output:
+		filtered_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_filter_table_{P_LEVEL}_{IN_COLUMNS}.qza",
+	params:
+		p_where = P_WHERE
+	log:
+		"logs/qiime_ancom/{APLICON_TYPE}_filter_table_{P_LEVEL}_{IN_COLUMNS}.log"
+	shell:
+		"qiime feature-table filter-samples \
+		--i-table {input.table} \
+		--m-metadata-file {input.metadata}\
+		--p-where {params.p_where} \
+		--o-filtered-table {output.filtered_table} > {log}"
+
+rule qiime_feature_table_filter_samples_summarize:
+	input:
+		filtered_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_filter_table_{P_LEVEL}_{IN_COLUMNS}.qza",
+
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv"
+
+	output:
+		filtered_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_filter_table_{P_LEVEL}_{IN_COLUMNS}.qzv",
+	log:
+		"logs/qiime_ancom/{APLICON_TYPE}_filter_table_{P_LEVEL}_{IN_COLUMNS}_summrize.log"
+	shell:
+		"qiime feature-table summarize \
+		--i-table {input.filtered_table} \
+		--o-visualization {output.filtered_table} \
+		--m-sample-metadata-file {input.metadata}"
+
+# direct connect, i.e., first prefrom filtering and summry and then start the ancom
+#1. add pesdo counts
+#2. filter compsition
+#3. ancom
+
+rule qiime_composition_add_pseudocount:
+	input:
+		table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_collapsed_{P_LEVEL}_table.qza",
+
+		filtered_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_filter_table_{P_LEVEL}_{IN_COLUMNS}.qzv"
+
+	output:
+		comp_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_composition_{P_LEVEL}_table_{IN_COLUMNS}.qza"
+	log:
+		"logs/qiime_ancom/{APLICON_TYPE}_composition_{P_LEVEL}_table_{IN_COLUMNS}.log"
+	shell:
+		"qiime composition add-pseudocount \
+		--i-table {input.table} \
+		--o-composition-table {output.comp_table} > {log}"
+
+rule qiime_feature_table_filter_samples_composition:
+	input:
+		comp_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_composition_{P_LEVEL}_table_{IN_COLUMNS}.qza",
+
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv"
+
+	output:
+		filtered_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_filter_table_composition_{P_LEVEL}_{IN_COLUMNS}.qza"
+	params:
+		p_where = P_WHERE
+	log:
+		"logs/qiime_ancom/{APLICON_TYPE}_filter_table_composition_{P_LEVEL}_{IN_COLUMNS}.log"
+
+	shell:
+		"qiime feature-table filter-samples \
+		--i-table {input.comp_table} \
+		--m-metadata-file {input.metadata}\
+		--p-where {params.p_where} \
+		--o-filtered-table {output.filtered_table} > {log}"
+
+#the comparison:
+ 
+#qiime composition ancom \
+#  --i-table comp-T3-table.qza \
+#  --m-metadata-file metadata.txt \
+#  --m-metadata-column Treatment_T \
+#  --o-visualization ancom-T3.Treatment.qzv
+
+#here filter table is after add-pesudocount
+
+rule qiime_composition_ancom:
+	input:
+		filtered_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_filter_table_composition_{P_LEVEL}_{IN_COLUMNS}.qza",
+
+		metadata = "data/{APLICON_TYPE}_sample_metadata_file.tsv"
+
+	output:
+		ancom_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}.qzv"
+	params: 
+		metadata_column = TREATMENT
+
+	log:
+		"logs/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}.log"
+
+	shell:
+		"qiime composition ancom \
+		--i-table {input.filtered_table} \
+		--m-metadata-file {input.metadata} \
+		--m-metadata-column {params.metadata_column} \
+		--o-visualization {output.ancom_table} > {log}"
+
+
+
+#Filter table for 2 treatments:
+
+#working example
+#pwd is /home/ARO.local/gonc/Projects/Shiri/Hod/anaylsis/results/16s/qiime_ancom
+
+#qiime feature-table filter-samples  --i-table ../../qiime_dada2_denoise_paired/16s_table.qza --m-metadata-file ../../../data/16s_sample_metadata_file.tsv --o-filtered-table 16s_filter_table.qza --p-where "treatment IN ('KARKOM_BSFF', 'KARKOM_NO_BSFF')" 
+
+#Saved FeatureTable[Frequency] to: 16s_filter_table.qza
+
+
+#qiime feature-table summarize  --i-table 16s_filter_table.qza --m-sample-metadata-file ../../../data/16s_sample_metadata_file.tsv --o-visualization 16s_filter_table.qzv
+
+#qiime composition add-pseudocount --i-table 16s_filter_table.qza --o-composition-table 16s_composition_table.qza
+#Saved FeatureTable[Composition] to: 16s_composition_table.qza
+
+#qiime composition ancom --i-table 16s_composition_table.qza --m-metadata-file ../../../data/16s_sample_metadata_file.tsv --m-metadata-column treatment --o-visualization 16s_ancom_treatment_karkom.qzv
+
+
+rule qiime_composition_ancom_unzip:
+	input:
+		ancom_table = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}.qzv",
+	output:
+		unziped = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_dummy",
+
+		ancom = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_ancom.tsv",
+
+		data = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_data.tsv",
+
+		abundances = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_abundance.tsv"
+
+	params:
+		ancom_dir = "results/{APLICON_TYPE}/qiime_ancom/temp"
+	run:
+		shell("unzip -jqo {input.ancom_table} -d {params.ancom_dir}")
+
+		shell("mv {params.ancom_dir}/ancom.tsv {output.ancom}")
+
+		shell("mv {params.ancom_dir}/data.tsv {output.data}")
+
+		shell("mv {params.ancom_dir}/percent-abundances.tsv {output.abundances}")
+
+		shell("echo {output.abundances} {output.ancom} {output.data} > {output.unziped}")
+
+		shell("rm -rf {params.ancom_dir}")
+
+rule qiime_composition_ancom_merge:
+	input:
+		unziped = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_dummy",
+
+		ancom = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_ancom.tsv",
+
+		data = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_data.tsv"
+	output:
+		out_combined = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_{P_LEVEL}_{IN_COLUMNS}_combined.tsv"
+
+	script:
+		'scripts/combine_ancom_res.py'
+
+rule venn_diagram_down_up_table:
+	input:
+		karkom = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_karkom_level_{P_LEVEL}_combined.tsv",
+
+		tsur_moshe = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_tsur_moshe_level_{P_LEVEL}_combined.tsv",
+
+		hodaya = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_hodaya_level_{P_LEVEL}_combined.tsv",
+
+		beit_itschak = "results/{APLICON_TYPE}/qiime_ancom/{APLICON_TYPE}_ancom_beit_itschak_level_{P_LEVEL}_combined.tsv"
+	output:
+		out_venn_up = "results/{APLICON_TYPE}/venn_tables/{APLICON_TYPE}_up_level_{P_LEVEL}.tsv",
+
+		out_venn_down = "results/{APLICON_TYPE}/venn_tables/{APLICON_TYPE}_down_level_{P_LEVEL}.tsv"
+	script:
+		'scripts/create_venn_table.py'

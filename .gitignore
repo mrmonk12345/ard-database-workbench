@@ -20,6 +20,8 @@ envs/**
 !pipeline_runs/classifiers/
 !pipeline_runs/example_pipeline/.gitkeep
 !pipeline_runs/classifiers/.gitkeep
+!pipeline_runs/classifiers/*.sh
+!pipeline_runs/example_pipeline/**
 !raw_reads_projects/.gitkeep
 
 # Python artifacts
