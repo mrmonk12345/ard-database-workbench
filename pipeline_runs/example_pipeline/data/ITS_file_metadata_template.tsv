@@ -1,3 +1,0 @@
-sample-id	forward-absolute-filepath	reverse-absolute-filepath
-1390-01-HC-16-K6a	$PWD/samples/ITS/1390-01-HC-16-K6a_1.fastq.gz	$PWD/samples/ITS/1390-01-HC-16-K6a_2.fastq.gz
-1390-02-HC-16-K6b	$PWD/samples/ITS/1390-02-HC-16-K6b_1.fastq.gz	$PWD/samples/ITS/1390-02-HC-16-K6b_2.fastq.gz
