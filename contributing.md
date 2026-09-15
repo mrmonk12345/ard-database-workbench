@@ -11,7 +11,7 @@ tested in this HPC copy before they are added to `main`.
 For development, clone the GitHub repository to your working computer and create a new branch:
 
 ```bash
-git clone <github-repository-url>
+git clone git@github.com:mrmonk12345/ard-database-workbench.git
 cd ard-database-workbench
 git checkout -b <branch-name>
 ```
@@ -64,9 +64,8 @@ Use the official documentation for tools used by the project:
 3. Test the changes locally when possible.
 4. Commit the changes with a clear message.
 5. Push the branch to GitHub.
-6. On the HPC, pull the branch and check it out in the existing project directory.
-7. Activate the existing HPC environment and test the changes there.
-8. After the HPC test succeeds, merge the branch into `main` and push `main` to GitHub.
+6. On the HPC, pull the branch and check it out in the existing project directory, test the changes there.
+7. After the HPC test succeeds, merge the branch into `main` and push `main` to GitHub.
 
 The branch should be tested on the HPC before it is merged into `main`. Do not make changes
 directly on `main` unless there is a specific reason to do so.
@@ -74,7 +73,7 @@ directly on `main` unless there is a specific reason to do so.
 ## Before submitting
 
 - [ ] The script or documentation has a clear purpose.
-- [ ] Paths and commands work in the intended environment.
+- [ ] Paths and commands work.
 - [ ] Related documentation is updated.
 - [ ] No private data or unnecessary generated files are included.
 
