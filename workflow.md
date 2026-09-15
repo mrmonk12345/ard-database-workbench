@@ -60,7 +60,9 @@ This gives the project a physical location for its incoming files.
 
 Open the GUI and review the project before adding more data. This is a useful sanity check to make sure the database state looks right before importing new records.
 
-The GUI can be launched from the shell scripts in the project, for example by running:
+The GUI can be launched from the shell scripts in the project.
+
+Scripts for this step:
 
 - scripts/shell/run_gui_main.sh
 
@@ -76,7 +78,7 @@ Use the sample import workflow to add rows to the database:
 4. Fill in the TSV in Excel or another spreadsheet tool
 5. Save or place the file under 'input_staging/' and import it using the input table script
 
-The relevant script is:
+Scripts for this step:
 
 - scripts/shell/input_table.sh
 
@@ -86,11 +88,13 @@ A useful note is to close DB Browser before using the import script so that the 
 
 Repeat the same general process for sequencing outputs. This step links the raw files to the relevant sequencing run and sample records.
 
-As with samples, the workflow uses the same import route through:
+As with samples, the workflow uses the same import route.
+
+Scripts for this step:
 
 - scripts/shell/input_table.sh
   
-If the raw files are from NCBI (you have SRR accessions), download the Runs metadata table from the SRA Run Selector, convert to TSV, place it in input_staging/, and import into ref_SRA_run_info with: scripts/shell/input_table.sh. this will help with getting information and labels from ncbi.
+If the raw files are from NCBI (you have SRR accessions), download the Runs metadata table from the SRA Run Selector, convert to TSV, place it in input_staging/, and import into ref_SRA_run_info with the script listed above. This will help with getting information and labels from NCBI.
 
 The data should be prepared carefully because these records connect raw files to the correct sample, project, and sequencing run.
 
@@ -98,7 +102,9 @@ The data should be prepared carefully because these records connect raw files to
 
 For libraries, choose which amplicon types were used for each sample. Then download the TSV template and import the records using the same general process.
 
-This step is important because libraries connect the sample to the sequencing target. The import is again handled through:
+This step is important because libraries connect the sample to the sequencing target.
+
+Scripts for this step:
 
 - scripts/shell/input_table.sh
 
@@ -106,7 +112,7 @@ This step is important because libraries connect the sample to the sequencing ta
 
 Repeat the process for analysis units, usually with the sequencing run information included for each library. In many cases, analysis units can be associated with datasets automatically after they are added to the database.
 
-The project also includes scripts for creating analysis inputs, for example:
+Scripts for this step:
 
 - scripts/shell/dataset_base_write_inputs.sh
 
@@ -114,7 +120,9 @@ This is used to assign datasets automatically after the relevant rows are insert
 
 ## Step 10: Clean up names and labels
 
-Once the main data has been imported, clean up the names and labels. Useful scripts include:
+Once the main data has been imported, clean up the names and labels.
+
+Scripts for this step:
 
 - scripts/shell/update_null_au_names.sh
 - scripts/shell/refresh_all_labels.sh
@@ -123,7 +131,9 @@ Input the project you want to update to these scripts.
 
 ## Step 11: Prepare the pipeline folder
 
-To make the pipeline folder, adjust the parameters in the pipeline input script and run it. The relevant script is:
+To make the pipeline folder, adjust the parameters in the pipeline input script and run it.
+
+Scripts for this step:
 
 - scripts/shell/database_to_pipeline_input.sh
 
@@ -144,7 +154,9 @@ After the pipeline folder has been prepared, the analysis can begin. Typical ste
 
 In this project, the pipeline work is strongly tied to the generated folder structure and the input files produced by the database export scripts.
 
-make sure to update the pipeline run info in the database:
+Make sure to update the pipeline run info in the database.
+
+Scripts for this step:
 
 - scripts/shell/update_pipeline_run_from_snakemake.sh
 
@@ -161,7 +173,7 @@ These exports make the results easier to inspect, compare, and share.
 
 Use this step only if you want to save the pipeline results in the SQLite database. It is not required for the main workflow.
 
-Run:
+Scripts for this step:
 
 - scripts/shell/upload_pipeline_run_results_to_database.sh
 
@@ -174,7 +186,7 @@ The database file will become significantly larger after this step.
 Use this step when you want count, metadata, and taxonomy tables for selected samples.
 
 1. Edit the SQL queries in `export_tables.py` to select the samples and data you need.
-2. Run:
+2. Runs script for this step:
 
 - scripts/shell/export_tables.sh
 
