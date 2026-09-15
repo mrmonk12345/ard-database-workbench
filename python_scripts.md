@@ -7,6 +7,31 @@ This document lists the main Python scripts (regular scripts and GUI modules). E
 - `Calls:` list of Python script filenames this script calls
 - `Imports:` list of Python script filenames this script imports
 
+## Python scripts outside scripts/python/
+
+### config.py
+- Description: Load settings from `config.yml` and provide shared paths for the database, raw reads, analysis files, datasets, exports, pipeline runs, and Python scripts.
+- Called by: Python scripts and GUI-related database helpers
+- Imported by: multiple scripts throughout the project
+- Calls: none
+- Imports: none
+
+### export_tables.py
+- Description: Export selected analysis-unit metadata, sample metadata, taxonomy, and feature counts as aligned TSV files.
+- Called by: `scripts/shell/export_tables.sh`
+- Imported by: none
+- Calls: none
+- Imports: `config.py`
+
+### pipeline_runs/example_pipeline/extract_amplicon_reads.py
+- Description: Extract amplicon-specific reads from a QIIME 2 reference sequence artifact using primer information and expected amplicon lengths from a metadata TSV.
+- Called by: `pipeline_runs/example_pipeline/run_gtdb_pipeline.sh`, `pipeline_runs/example_pipeline/run_silva_pipeline.sh`
+- Imported by: none
+- Calls: QIIME 2 `feature-classifier extract-reads`
+- Imports: none
+
+## Python scripts in scripts/python/
+
 ### scripts/python/database_to_pipeline_input.py
 - Description: Assemble dataset inputs and create a pipeline run directory for a dataset.
 - Called by: `scripts/shell/database_to_pipeline_input.sh`
@@ -141,7 +166,7 @@ This document lists the main Python scripts (regular scripts and GUI modules). E
 - `5_dataset_symlink_files.py`
 - `6_dataset_directory_to_pipeline_run_directory.py`
 
-## GUI modules (gui/)
+## Python scripts in gui/ (GUI modules)
 
 Each GUI entry keeps the same structure for consistency.
 
