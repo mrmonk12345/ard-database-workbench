@@ -17,7 +17,7 @@ This document lists the main Python scripts (regular scripts and GUI modules). E
 - Imports: none
 
 ### export_tables.py
-- Description: Export selected analysis-unit metadata, sample metadata, taxonomy, and feature counts as aligned TSV files.
+- Description: Export selected analysis-unit metadata, sample metadata, taxonomy, and feature counts as aligned TSV files. This file is edited per use case.
 - Called by: `scripts/shell/export_tables.sh`
 - Imported by: none
 - Calls: none
