@@ -5,7 +5,7 @@ The database is organized around a clear and practical flow of information. It b
 ## The main stages
 
 1. **Project and sample metadata**
-   Information about the study, samples, treatments, soil_locations, and experimental setup is stored first.
+   Information about the study, samples, treatments, and experimental setup is stored first.
 
 2. **Sequencing runs and raw files**
    The database records sequencing events and links them to the relevant files, such as FASTQ outputs.
@@ -16,19 +16,23 @@ The database is organized around a clear and practical flow of information. It b
 4. **Pipeline runs and result tables**
    Once the data is prepared, the pipeline and its outputs are tracked in a structured way.
 
-## Main table groups
+## Data organization layers
 
-- **Project metadata**: projects, treatments, soil_locations, rootstocks, sampling compartments
-- **Sample and library data**: samples, libraries, amplicon types
-- **Sequencing data**: sequencing runs, sequencing outputs
-- **Analysis data**: analysis datasets, analysis units, pipeline runs
-- **Results**: features (ASVs), feature counts, taxonomy
+The schema is organized into several conceptual layers:
+
+- **Biological and experimental metadata**: tables such as projects, samples, libraries, rootstocks, soil_locations, treatments, and sampling_compartments
+- **Sequencing and ingestion metadata**: tables such as amplicon_types, project_amplicon_types, sequencing_runs, and sequencing_outputs. The amplicon tables define the biological targets used by each project.
+- **Analysis and pipeline metadata**: tables such as analysis_units, analysis_datasets, and pipeline_runs
+- **Result metadata**: tables such as feature_counts, features, and taxonomy
+- **Reference and legacy tables**: tables such as ref_SRA_run_info, zzz_stg_samples_to_be_filled, and other zzz_* helper tables
 
 ## Design philosophy
 
-The database separates raw data from processed analysis data so the same sequencing files can be reused in multiple workflows. This separation is important because raw sequencing files often arrive in a form that is not yet ready for analysis, while analysis units are defined in a more structured and consistent way.
+The database keeps biological, experimental, technical, and analytical information connected so that results can be interpreted in the context in which the samples were collected and processed.
 
-The project also emphasizes metadata organization. A useful way to think about the metadata is by asking four questions:
+## Organizing sample metadata
+
+A useful way to think about the metadata is by asking four questions:
 
 - **When?** Temporal information such as dates, time since planting, or growth stage
 - **What?** Experimental and biological context such as treatments, health status, or methods
@@ -37,20 +41,9 @@ The project also emphasizes metadata organization. A useful way to think about t
 
 This allows the database to store not only what was measured, but also the context in which the sample was collected and processed.
 
-## Data organization layers
+## From raw files to analysis units
 
-The schema is organized into several conceptual layers:
-
-- **Biological metadata**: tables such as projects, samples, libraries, rootstocks, soil_locations, treatments, and sampling_compartments
-- **Technical and ingestion metadata**: tables such as sequencing_runs
-- **System axes**: tables such as amplicon_types and project_amplicon_types that define the biological target and support scientific consistency
-- **Operational and pipeline metadata**: tables such as analysis_units, analysis_datasets, and pipeline_runs
-- **Result metadata**: tables such as feature_counts, features, and taxonomy
-- **Reference and legacy support**: tables such as ref_SRA_run_info, zzz_stg_samples_to_be_filled, and other zzz_* helper tables
-
-## Core parallel architecture
-
-One of the central ideas in the schema is the difference between sequencing outputs and analysis units.
+The database separates raw data from processed analysis data so the same sequencing files can be reused in multiple workflows. This separation is important because raw sequencing files often arrive in a form that is not yet ready for analysis, while analysis units are defined in a more structured and consistent way. Sequencing outputs can therefore be recorded as they arrive before they are organized into analysis units for downstream processing.
 
 ### Sequencing outputs
 
