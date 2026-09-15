@@ -137,7 +137,9 @@ Scripts for this step:
 
 - scripts/shell/database_to_pipeline_input.sh
 
-The first step of the pipeline often includes gzipping FASTQ files, which can be resource intensive. In some setups, this part may need to be run from a main directory or via a script that calls the relevant workflow.
+The first step of the pipeline sometimes includes gzipping FASTQ files, which can be resource intensive. In some setups, this part may need to be run from the main directory using multiple hpc cpus.
+
+- hpc database_to_pipeline_input.sh
 
 pipelines will be under the directory:
 
