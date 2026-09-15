@@ -41,6 +41,7 @@ The existing documentation was split into several files so that each topic could
 - [database.md](database.md) - database architecture, schema design, metadata philosophy, and rationale behind the data model
 - [tables.md](tables.md) - descriptions of the database tables
 - [workflow.md](workflow.md) - the operational workflow for adding projects, importing data, generating pipeline inputs, running analyses, and exporting results
+- [contributing.md](contributing.md) - guidance for contributing to the project and maintaining the documentation
 
 ## Project structure
 
